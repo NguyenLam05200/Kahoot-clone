@@ -1,5 +1,5 @@
 import { Navigate, useOutlet } from "react-router-dom";
-import { AppBar } from "./AppBar";
+import ResponsiveAppBar from "./AppBar";
 
 export const HomeLayout = () => {
   const user = null
@@ -11,7 +11,7 @@ export const HomeLayout = () => {
 
   return (
     <div>
-      <AppBar
+      <ResponsiveAppBar
         pages={[
           { label: "Home", path: "/" },
           { label: "Login", path: "/login" }

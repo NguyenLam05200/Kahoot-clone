@@ -1,6 +1,6 @@
 import React from 'react';
 import { Counter } from '../../features/counter/Counter';
-import './App.css';
+// import './App.css';
 import { HomeLayout } from '../../components/HomeLayout';
 import { ProtectedLayout } from '../../components/ProtectedLayout';
 import { HomePage } from '../homepage/HomePage';

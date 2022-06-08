@@ -1,5 +1,5 @@
 import { Navigate, useOutlet } from "react-router-dom";
-import { AppBar } from "./AppBar";
+import ResponsiveAppBar from "./AppBar";
 
 export const ProtectedLayout = () => {
   const user = true
@@ -11,7 +11,7 @@ export const ProtectedLayout = () => {
 
   return (
     <div>
-      <AppBar
+      <ResponsiveAppBar
         pages={[
           { label: "Settings", path: "settings" },
           { label: "Profile", path: "profile" }
