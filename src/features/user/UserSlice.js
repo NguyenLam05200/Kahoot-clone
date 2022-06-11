@@ -1,5 +1,7 @@
+import { useRadioGroup } from '@mui/material';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { instance, parseJwt } from '../../utils/axios';
+import { handleLoginApi } from './userAPI';
 
 export const signupUser = createAsyncThunk(
   'users/signupUser',
@@ -38,18 +40,34 @@ export const signupUser = createAsyncThunk(
 
 export const loginUser = createAsyncThunk(
   'users/login',
-  async (_data, thunkAPI) => {
+  async ({ username, password }, thunkAPI) => {
     try {
-      const response = await instance.post('/auth', { 'username': _data.email, 'password': _data.password });
-      let data = response.data;
-      if (data.authenticated) {
-        localStorage.kahut_app_accessToken = response.data.accessToken;
-        const obj = parseJwt(response.data.accessToken);
-        localStorage.kahut_app_userId = obj.userId;
-        return data;
-      } else {
+      let res = await handleLoginApi(username, password);
+      const data = res.data;
+      if (data && data.errCode !== 0) {
+        console.log('Error 1');
+
         return thunkAPI.rejectWithValue(data);
+      } else if (data && data.errCode === 0) {
+        // console.log(data.user)
+        return data.user;
       }
+      // console.log(_data)
+      // console.log('Herew');
+      // const response = await instance.post('/auth', _data);
+      // console.log('res: ', response);
+      // let data = await response.data;
+      // console.log("data: ", data)
+      // if (data.authenticated) {
+      //   localStorage.kahut_app_accessToken = response.data.accessToken;
+      //   const obj = parseJwt(response.data.accessToken);
+      //   localStorage.kahut_app_userId = obj.userId;
+      //   return data;
+      // } else {
+      //   console.log('Error 1');
+
+      //   return thunkAPI.rejectWithValue(data);
+      // }
 
 
       // const response = await fetch(
@@ -75,8 +93,8 @@ export const loginUser = createAsyncThunk(
       //   return thunkAPI.rejectWithValue(data);
       // }
     } catch (e) {
-      console.log('Error', e.response.data);
-      thunkAPI.rejectWithValue(e.response.data);
+      console.log('Error 2', e);
+      return thunkAPI.rejectWithValue(e.response.data);
     }
   }
 );
@@ -147,6 +165,7 @@ export const userSlice = createSlice({
       state.errorMessage = payload.message;
     },
     [loginUser.fulfilled]: (state, { payload }) => {
+      console.log(payload)
       state.email = payload.email;
       state.username = payload.name;
       state.isFetching = false;
@@ -154,7 +173,7 @@ export const userSlice = createSlice({
       return state;
     },
     [loginUser.rejected]: (state, { payload }) => {
-      console.log('payload', payload);
+      console.log('payload', payload.message);
       state.isFetching = false;
       state.isError = true;
       state.errorMessage = payload.message;

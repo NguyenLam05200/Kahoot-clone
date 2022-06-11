@@ -3,13 +3,16 @@ import { Link as RouterLink } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
 import { loginUser, userSelector, clearState } from './UserSlice';
-import { Box, Grid, Container, Avatar, Button, TextField, Link, Typography } from '@mui/material';
+import { Snackbar, Alert, Backdrop, CircularProgress, Box, Grid, Container, Avatar, Button, TextField, Link, Typography } from '@mui/material';
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useNavigate } from 'react-router-dom';
+import { useState, forwardRef } from 'react'
 
 
 const Login = ({ }) => {
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false)
+
 
   const dispatch = useDispatch();
   const { register, errors, handleSubmit } = useForm();
@@ -28,7 +31,9 @@ const Login = ({ }) => {
 
   useEffect(() => {
     if (isError) {
-      // toast.error(errorMessage);
+      console.log('eror msg: ', errorMessage);
+      console.log('// toast.error(errorMessage);');
+      setOpen(true)
       dispatch(clearState());
     }
 
@@ -37,6 +42,10 @@ const Login = ({ }) => {
       navigate('/');
     }
   }, [isError, isSuccess]);
+
+  const handleClose = () => {
+    setOpen(false)
+  }
 
   return (
     <Fragment>
@@ -55,6 +64,14 @@ const Login = ({ }) => {
           <Typography component="h1" variant="h5">
             Log In
           </Typography>
+          {open ? <Alert severity="error">{errorMessage}</Alert> : null}
+          <Snackbar
+            open={open}
+            autoHideDuration={3000}
+            message={errorMessage}
+            onClose={handleClose}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+          />
           <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
@@ -62,10 +79,10 @@ const Login = ({ }) => {
               fullWidth
               id="email"
               label="Email Address"
-              name="email"
+              name="username"
               autoComplete="email"
               autoFocus
-              {...register('email', { required: true })}
+              {...register('username', { required: true })}
             />
             <TextField
               margin="normal"
@@ -86,6 +103,13 @@ const Login = ({ }) => {
             >
               Login In
             </Button>
+            <Backdrop
+              sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+              open={isFetching}
+            // onClick={handleClose}
+            >
+              <CircularProgress color="inherit" />
+            </Backdrop>
             <Grid container>
               <Grid item>
                 <RouterLink to="/register">
