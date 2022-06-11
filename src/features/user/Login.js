@@ -1,14 +1,17 @@
 import React, { Fragment, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
 import { loginUser, userSelector, clearState } from './UserSlice';
-import toast from 'react-hot-toast';
-import { useHistory } from 'react-router-dom';
+import { Box, Grid, Container, Avatar, Button, TextField, Link, Typography } from '@mui/material';
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import { useNavigate } from 'react-router-dom';
 
-const Login = ({}) => {
+
+const Login = ({ }) => {
+  const navigate = useNavigate();
+
   const dispatch = useDispatch();
-  const history = useHistory();
   const { register, errors, handleSubmit } = useForm();
   const { isFetching, isSuccess, isError, errorMessage } = useSelector(
     userSelector
@@ -25,19 +28,77 @@ const Login = ({}) => {
 
   useEffect(() => {
     if (isError) {
-      toast.error(errorMessage);
+      // toast.error(errorMessage);
       dispatch(clearState());
     }
 
     if (isSuccess) {
       dispatch(clearState());
-      history.push('/');
+      navigate('/');
     }
   }, [isError, isSuccess]);
 
   return (
     <Fragment>
-      <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+      <Container component="main" maxWidth="xs">
+        <Box
+          sx={{
+            marginTop: 8,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center"
+          }}
+        >
+          <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Log In
+          </Typography>
+          <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1 }}>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              autoFocus
+              {...register('email', { required: true })}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              {...register('password', { required: true })}
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Login In
+            </Button>
+            <Grid container>
+              <Grid item>
+                <RouterLink to="/register">
+                  <Link href="#" variant="body2">
+                    {"Don't have an account? Sign Up"}
+                  </Link>
+                </RouterLink>
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+      </Container>
+      {/* <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div class="sm:mx-auto sm:w-full sm:max-w-md">
           <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
             Sign in to your account
@@ -134,7 +195,7 @@ const Login = ({}) => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </Fragment>
   );
 };

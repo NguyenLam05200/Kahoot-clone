@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { instance, parseJwt } from '../../utils/axios';
 
 export const signupUser = createAsyncThunk(
   'users/signupUser',
@@ -37,30 +38,42 @@ export const signupUser = createAsyncThunk(
 
 export const loginUser = createAsyncThunk(
   'users/login',
-  async ({ email, password }, thunkAPI) => {
+  async (_data, thunkAPI) => {
     try {
-      const response = await fetch(
-        'https://mock-user-auth-server.herokuapp.com/api/v1/auth',
-        {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            email,
-            password,
-          }),
-        }
-      );
-      let data = await response.json();
-      console.log('response', data);
-      if (response.status === 200) {
-        localStorage.setItem('token', data.token);
+      const response = await instance.post('/auth', { 'username': _data.email, 'password': _data.password });
+      let data = response.data;
+      if (data.authenticated) {
+        localStorage.kahut_app_accessToken = response.data.accessToken;
+        const obj = parseJwt(response.data.accessToken);
+        localStorage.kahut_app_userId = obj.userId;
         return data;
       } else {
         return thunkAPI.rejectWithValue(data);
       }
+
+
+      // const response = await fetch(
+      //   'https://mock-user-auth-server.herokuapp.com/api/v1/auth',
+      //   {
+      //     method: 'POST',
+      //     headers: {
+      //       Accept: 'application/json',
+      //       'Content-Type': 'application/json',
+      //     },
+      //     body: JSON.stringify({
+      //       email,
+      //       password,
+      //     }),
+      //   }
+      // );
+      // let data = await response.json();
+      // console.log('response', data);
+      // if (response.status === 200) {
+      //   localStorage.setItem('token', data.token);
+      //   return data;
+      // } else {
+      //   return thunkAPI.rejectWithValue(data);
+      // }
     } catch (e) {
       console.log('Error', e.response.data);
       thunkAPI.rejectWithValue(e.response.data);

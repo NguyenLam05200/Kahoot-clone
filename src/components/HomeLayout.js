@@ -1,5 +1,6 @@
 import { Navigate, useOutlet } from "react-router-dom";
 import ResponsiveAppBar from "./AppBar";
+import Footer from "./Footer";
 
 export const HomeLayout = () => {
   const user = null
@@ -18,6 +19,7 @@ export const HomeLayout = () => {
         ]}
       />
       {outlet}
+      {/* <Footer /> */}
     </div>
   );
 };

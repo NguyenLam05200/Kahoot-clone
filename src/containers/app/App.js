@@ -5,8 +5,9 @@ import { HomeLayout } from '../../components/HomeLayout';
 import { ProtectedLayout } from '../../components/ProtectedLayout';
 import { HomePage } from '../homepage/HomePage';
 import { ProfilePage, SettingsPage } from '../dashboard/Dashboard';
-import { LoginPage } from '../auth/login/Login';
-
+// import { LoginPage } from '../auth/login/Login';
+import Login from '../../features/user/Login';
+import { SignUpPage } from '../auth/register/Register';
 import {
   Routes,
   Route,
@@ -22,7 +23,8 @@ function App() {
         <Routes>
           <Route element={<HomeLayout />}>
             <Route path="/" element={<HomePage />} />
-            <Route path="/login" element={<LoginPage />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<SignUpPage />} />
           </Route>
 
           <Route path="/dashboard" element={<ProtectedLayout />}>

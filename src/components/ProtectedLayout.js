@@ -2,7 +2,7 @@ import { Navigate, useOutlet } from "react-router-dom";
 import ResponsiveAppBar from "./AppBar";
 
 export const ProtectedLayout = () => {
-  const user = true
+  const user = false
   const outlet = useOutlet();
 
   if (!user) {

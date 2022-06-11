@@ -71,7 +71,7 @@ export const LoginPage = () => {
                     <Grid container>
                         <Grid item>
                             <RouterLink to="/register">
-                                <Link href="#" variant="body2">
+                                <Link href="/register" variant="body2">
                                     {"Don't have an account? Sign Up"}
                                 </Link>
                             </RouterLink>
