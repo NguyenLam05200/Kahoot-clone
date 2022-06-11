@@ -50,6 +50,7 @@ export const loginUser = createAsyncThunk(
         return thunkAPI.rejectWithValue(data);
       } else if (data && data.errCode === 0) {
         // console.log(data.user)
+        localStorage.kahut_app_accessToken = true;
         return data.user;
       }
       // console.log(_data)

@@ -3,7 +3,7 @@ import ResponsiveAppBar from "./AppBar";
 import Footer from "./Footer";
 
 export const HomeLayout = () => {
-  const user = null
+  const user = localStorage.kahut_app_accessToken
   const outlet = useOutlet();
 
   if (user) {

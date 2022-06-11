@@ -5,3 +5,6 @@ export function handleLoginApi(email, password) {
   return instance.post('login', { email, password });
 }
 
+export function handleRegisterApi(data) {
+  return instance.post('create-new-user', data);
+}

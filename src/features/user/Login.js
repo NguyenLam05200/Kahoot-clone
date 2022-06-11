@@ -1,12 +1,11 @@
-import React, { Fragment, useEffect } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
 import { loginUser, userSelector, clearState } from './UserSlice';
 import { Snackbar, Alert, Backdrop, CircularProgress, Box, Grid, Container, Avatar, Button, TextField, Link, Typography } from '@mui/material';
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useNavigate } from 'react-router-dom';
-import { useState, forwardRef } from 'react'
+import { useState } from 'react'
 
 
 const Login = ({ }) => {
@@ -39,7 +38,7 @@ const Login = ({ }) => {
 
     if (isSuccess) {
       dispatch(clearState());
-      navigate('/');
+      navigate(-1);
     }
   }, [isError, isSuccess]);
 
@@ -48,179 +47,79 @@ const Login = ({ }) => {
   }
 
   return (
-    <Fragment>
-      <Container component="main" maxWidth="xs">
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center"
-          }}
+    <Container component="main" maxWidth="xs">
+      <Box
+        sx={{
+          marginTop: 8,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center"
+        }}
+      >
+        <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Log In
+        </Typography>
+        {open ? <Alert severity="error">{errorMessage}</Alert> : null}
+        <Snackbar
+          open={open}
+          autoHideDuration={2000}
+          message={errorMessage}
+          onClose={handleClose}
+        // anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Log In
-          </Typography>
-          {open ? <Alert severity="error">{errorMessage}</Alert> : null}
-          <Snackbar
-            open={open}
-            autoHideDuration={3000}
-            message={errorMessage}
-            onClose={handleClose}
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+          <Alert severity="error">{errorMessage}</Alert>
+        </Snackbar>
+        <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1 }}>
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="email"
+            label="Email Address"
+            name="username"
+            autoComplete="email"
+            autoFocus
+            {...register('username', { required: true })}
           />
-          <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="username"
-              autoComplete="email"
-              autoFocus
-              {...register('username', { required: true })}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              {...register('password', { required: true })}
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Login In
-            </Button>
-            <Backdrop
-              sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-              open={isFetching}
-            // onClick={handleClose}
-            >
-              <CircularProgress color="inherit" />
-            </Backdrop>
-            <Grid container>
-              <Grid item>
-                <RouterLink to="/register">
-                  <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
-                </RouterLink>
-              </Grid>
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+            {...register('password', { required: true })}
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Login In
+          </Button>
+          <Backdrop
+            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open={isFetching}
+          // onClick={handleClose}
+          >
+            <CircularProgress color="inherit" />
+          </Backdrop>
+          <Grid container justifyContent='right'>
+            <Grid item>
+              <Link href="/register" variant="body2" underline="hover">
+                {"Don't have an account? Sign Up"}
+              </Link>
             </Grid>
-          </Box>
+          </Grid>
         </Box>
-      </Container>
-      {/* <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-        <div class="sm:mx-auto sm:w-full sm:max-w-md">
-          <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Sign in to your account
-          </h2>
-        </div>
-        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-          <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-            <form
-              className="space-y-6"
-              onSubmit={handleSubmit(onSubmit)}
-              method="POST"
-            >
-              <div>
-                <label
-                  for="email"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Email address
-                </label>
-                <div className="mt-1">
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    autoComplete="email"
-                    ref={register({
-                      pattern: /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/i,
-                    })}
-                    required
-                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label
-                  for="password"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Password
-                </label>
-                <div className="mt-1">
-                  <input
-                    id="password"
-                    name="password"
-                    type="password"
-                    ref={register({ required: true })}
-                    autoComplete="current-password"
-                    required
-                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <button
-                  type="submit"
-                  className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                  {isFetching ? (
-                    <svg
-                      class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <circle
-                        class="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        stroke-width="4"
-                      ></circle>
-                      <path
-                        class="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                      ></path>
-                    </svg>
-                  ) : null}
-                  Sign in
-                </button>
-              </div>
-            </form>
-            <div class="mt-6">
-              <div class="relative">
-                <div class="relative flex justify-center text-sm">
-                  <span class="px-2 bg-white text-gray-500">
-                    Or <Link to="signup"> Signup</Link>
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> */}
-    </Fragment>
+      </Box>
+    </Container>
   );
 };
 

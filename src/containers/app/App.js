@@ -7,7 +7,8 @@ import { HomePage } from '../homepage/HomePage';
 import { ProfilePage, SettingsPage } from '../dashboard/Dashboard';
 // import { LoginPage } from '../auth/login/Login';
 import Login from '../../features/user/Login';
-import { SignUpPage } from '../auth/register/Register';
+import Signup from '../../features/user/Signup';
+// import { SignUpPage } from '../auth/register/Register';
 import {
   Routes,
   Route,
@@ -24,7 +25,7 @@ function App() {
           <Route element={<HomeLayout />}>
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<SignUpPage />} />
+            <Route path="/register" element={<Signup />} />
           </Route>
 
           <Route path="/dashboard" element={<ProtectedLayout />}>
