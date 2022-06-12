@@ -31,11 +31,13 @@ const Signup = () => {
   useEffect(() => {
     if (isSuccess) {
       dispatch(clearState());
+      navigate('/dashboard');
       // history.push('/');
     }
 
     if (isError) {
       // toast.error(errorMessage);
+      setOpen(true)
       dispatch(clearState());
     }
   }, [isSuccess, isError]);

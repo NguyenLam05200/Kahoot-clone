@@ -1,36 +1,30 @@
 import { useRadioGroup } from '@mui/material';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { instance, parseJwt } from '../../utils/axios';
-import { handleLoginApi } from './userAPI';
+import { handleLoginApi, handleRegisterApi } from './userAPI';
 
 export const signupUser = createAsyncThunk(
   'users/signupUser',
-  async ({ name, email, password }, thunkAPI) => {
+  async (_data, thunkAPI) => {
     try {
-      const response = await fetch(
-        'https://mock-user-auth-server.herokuapp.com/api/v1/users',
-        {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            name,
-            email,
-            password,
-          }),
-        }
-      );
-      let data = await response.json();
+      let response = await handleRegisterApi(_data);
+      const data = response.data;
       console.log('data', data);
-
-      if (response.status === 200) {
-        localStorage.setItem('token', data.token);
-        return { ...data, username: name, email: email };
-      } else {
+      if (data && data.errCode !== 0) {
+        console.log('Error 1');
         return thunkAPI.rejectWithValue(data);
+      } else if (data && data.errCode === 0) {
+        // console.log(data.user)
+        localStorage.kahut_app_accessToken = true;
+        return data;
       }
+
+      // if (response.status === 200) {
+      //   // localStorage.setItem('token', data.token);
+      //   // return { ...data, username: name, email: email };
+      // } else {
+      //   return thunkAPI.rejectWithValue(data);
+      // }
     } catch (e) {
       console.log('Error', e.response.data);
       return thunkAPI.rejectWithValue(e.response.data);
@@ -163,7 +157,7 @@ export const userSlice = createSlice({
     [signupUser.rejected]: (state, { payload }) => {
       state.isFetching = false;
       state.isError = true;
-      state.errorMessage = payload.message;
+      state.errorMessage = payload.errMessage;
     },
     [loginUser.fulfilled]: (state, { payload }) => {
       console.log(payload)
