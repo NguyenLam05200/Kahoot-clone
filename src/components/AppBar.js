@@ -61,7 +61,7 @@ const ResponsiveAppBar = () => {
               fontSize: 28
             }}
           >
-            KAHOOT
+            KAHUT
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -134,7 +134,8 @@ const ResponsiveAppBar = () => {
             {pagesRight.map((page) => (
               page == 'Sign up' ?
                 <Button
-                  variant="contained"
+                  variant="variant"
+                  href={'/' + page.toLowerCase().replace(/\s/g, "")}
                   key={page}
                   onClick={handleCloseNavMenu}
                   sx={{ my: 2, color: 'black', display: 'block', backgroundColor: 'yellow' }}
@@ -143,6 +144,7 @@ const ResponsiveAppBar = () => {
                 </Button> :
                 <Button
                   key={page}
+                  href={'/' + page.toLowerCase().replace(/\s/g, "")}
                   onClick={handleCloseNavMenu}
                   sx={{ my: 2, color: 'white', display: 'block' }}
                 >

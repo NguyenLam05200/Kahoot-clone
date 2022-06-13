@@ -13,8 +13,8 @@ export const ProtectedLayout = () => {
     <div>
       <ResponsiveAppBar
         pages={[
-          { label: "Settings", path: "settings" },
-          { label: "Profile", path: "profile" }
+          // { label: "Settings", path: "settings" },
+          // { label: "Profile", path: "profile" }
         ]}
       />
       {outlet}

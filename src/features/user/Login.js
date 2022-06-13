@@ -112,7 +112,7 @@ const Login = ({ }) => {
           </Backdrop>
           <Grid container justifyContent='right'>
             <Grid item>
-              <Link href="/register" variant="body2" underline="hover">
+              <Link href="/signup" variant="body2" underline="hover">
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>

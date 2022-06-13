@@ -1,41 +1,44 @@
 import React from 'react';
 import { Counter } from '../../features/counter/Counter';
-// import './App.css';
 import { HomeLayout } from '../../components/HomeLayout';
 import { ProtectedLayout } from '../../components/ProtectedLayout';
 import { HomePage } from '../homepage/HomePage';
-import { ProfilePage, SettingsPage } from '../dashboard/Dashboard';
-// import { LoginPage } from '../auth/login/Login';
 import Login from '../../features/user/Login';
 import Signup from '../../features/user/Signup';
-// import { SignUpPage } from '../auth/register/Register';
+import { PlayerPage } from '../../features/player/Player';
+
 import {
   Routes,
   Route,
 } from 'react-router-dom';
+import { Container, Paper } from '@mui/material';
 
 
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        {/* <Counter /> */}
-        <Routes>
-          <Route element={<HomeLayout />}>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Signup />} />
-          </Route>
+    <Paper elevation={0}>
+      {/* <div className="App"> */}
+      {/* <header className="App-header"> */}
+      {/* <Counter /> */}
+      <Routes>
+        <Route element={<HomeLayout />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+        </Route>
 
-          <Route path="/dashboard" element={<ProtectedLayout />}>
-            {/* vi du: localhost:3000/dashboard/profile -> isLoggedIn ? render(ProfilePag) : Navigate '/login' */}
-            <Route path="profile" element={<ProfilePage />} />
-            <Route path="settings" element={<SettingsPage />} />
-          </Route>
-        </Routes>
-      </header>
-    </div>
+        <Route path="/play" element={<PlayerPage />} />
+
+        <Route path="/dashboard" element={<ProtectedLayout />}>
+          {/* vi du: localhost:3000/dashboard/profile -> isLoggedIn ? render(ProfilePag) : Navigate '/login' */}
+          {/* <Route path="profile" element={<ProfilePage />} />
+            <Route path="settings" element={<SettingsPage />} /> */}
+        </Route>
+      </Routes>
+      {/* </header> */}
+      {/* </div> */}
+    </Paper>
   );
 }
 
