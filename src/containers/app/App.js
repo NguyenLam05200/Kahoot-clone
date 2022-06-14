@@ -2,7 +2,7 @@ import React from 'react';
 import { Counter } from '../../features/counter/Counter';
 import { HomeLayout } from '../../components/HomeLayout';
 import { ProtectedLayout } from '../../components/ProtectedLayout';
-import { HomePage } from '../homepage/HomePage';
+import { HomePage } from '../landingPages/HomePage';
 import Login from '../../features/user/Login';
 import Signup from '../../features/user/Signup';
 import { PlayerPage } from '../../features/player/Player';
