@@ -17,25 +17,7 @@ import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import Home from "@mui/icons-material/Home";
-const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#000',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: 'white',
-}));
-const theme = createTheme({
-    palette: {
-        primary: {
-            // Purple and green play nicely together.
-            main: purple[500],
-        },
-        secondary: {
-            // This is green.A700 as hex.
-            main: '#0ff100',
-        },
-    },
-});
+
 
 const itemData = [
     {
@@ -89,14 +71,24 @@ const itemData = [
 ]
 
 export const HomePage = () => {
-    const theme = useTheme();
-    const numCard = [1, 2, 3, 4]
+    const theme = createTheme({
+        palette: {
+            primary: {
+                // Purple and green play nicely together.
+                main: purple[500],
+            },
+            secondary: {
+                // This is green.A700 as hex.
+                main: '#0ff100',
+            },
+        },
+    });
     return (
         <Container sx={{ width: '100%', marginTop: 2 }}>
             <Grid container rowSpacing={{ xs: 1, sm: 2, md: 3 }} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                 {/* {Array.from(Array(6)).map((_, index) => ( */}
-                {itemData.map(eachPhoto => (
-                    <Grid item xs={6}>
+                {itemData.map((eachPhoto, index) => (
+                    <Grid item xs={6} key={index}>
                         <Card
                             // sx={{ gridArea: 'sidebar', bgcolor: 'error.main' }}
                             sx={{ gridArea: 'footer', bgcolor: 'warning.dark', color: 'white' }}
@@ -108,24 +100,20 @@ export const HomePage = () => {
                                 alt='unsplash image'
                             />
                             <CardContent>
-                                <Typography gutterBottom variant='h5' component='div'>
+                                <Typography gutterBottom variant='h4' component='div'>
                                     React
                                 </Typography>
-                                <Typography variant='body2' color='text'>
+                                <Typography variant='body1' color='text'>
                                     React is a JavaScript library for building user interfaces. React
                                     can be used as a base in the development of single-page or mobile
                                     applications.
                                 </Typography>
                             </CardContent>
-                            <CardActions>
+                            <CardActions >
                                 <ThemeProvider theme={theme}>
-                                    <Button color="secondary">Share</Button>
-                                    <Button color="secondary">Learn More</Button>
+                                    <Button color="secondary" sx={{ fontSize: 18 }}>Share</Button>
+                                    <Button color="secondary" sx={{ fontSize: 18 }}>Learn More</Button>
                                 </ThemeProvider>
-                                {/* <Button size='large'
-                                // variant="text"
-                                color="white">Share</Button>
-                            <Button size='large'  >Learn More</Button> */}
                             </CardActions>
                         </Card>
                     </Grid>

@@ -1,27 +1,34 @@
 import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  IconButton,
+  Typography,
+  Menu,
+  Container,
+  Avatar,
+  Tooltip,
+  MenuItem,
+  Button,
+  ToggleButton,
+  ToggleButtonGroup
+} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import ViewInArIcon from '@mui/icons-material/ViewInAr';
 import { green } from '@mui/material/colors';
 
-const pagesLeft = ['News', 'School', 'Work', 'Home', 'Study', 'Academy', 'AccessPass'];
-const pagesRight = ['Explore content', 'Play', 'Sign up', 'Login', 'Lang'];
+const pagesLeft = ['Home', 'Discover', 'Library', 'Reports', 'Groups', 'Marketplace'];
+const pagesRight = ['Profile', 'Notification'];
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 
-const ResponsiveAppBar = () => {
+const Navbar = () => {
+  const tempURL = window.location.href.split('/');
+  const curPage = tempURL[tempURL.indexOf('user') + 1];
+
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -32,16 +39,15 @@ const ResponsiveAppBar = () => {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseNavMenu = () => {
+  const handleCloseNavMenu = (event, value) => {
     setAnchorElNav(null);
   };
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
   return (
-    <AppBar position="static" sx={{ backgroundColor: 'black' }}>
+    <AppBar position="static" sx={{ backgroundColor: 'white', color: 'black' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <ViewInArIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} fontSize="large" />
@@ -49,7 +55,7 @@ const ResponsiveAppBar = () => {
             variant="h6"
             noWrap
             component="a"
-            href="/"
+            href="/user/home"
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -105,7 +111,7 @@ const ResponsiveAppBar = () => {
             variant="h5"
             noWrap
             component="a"
-            href="/"
+            href="/dashboard"
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -124,68 +130,41 @@ const ResponsiveAppBar = () => {
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-                href={'/' + page.toLowerCase().replace(/\s/g, "")}
+                sx={{ my: 2, display: 'block' }}
+                href={'/user/' + page.toLowerCase().replace(/\s/g, "")}
+                // variant='text'
+                color={curPage.toUpperCase() == page.toUpperCase() ? 'secondary' : 'inherit'}
               >
                 {page}
               </Button>
             ))}
+
           </Box>
           <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
             {pagesRight.map((page) => (
               page == 'Sign up' ?
                 <Button
                   variant="variant"
-                  href={'/' + page.toLowerCase().replace(/\s/g, "")}
+                  href={'/user/' + page.toLowerCase().replace(/\s/g, "")}
                   key={page}
                   onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: 'black', display: 'block', backgroundColor: 'yellow' }}
+                  sx={{ my: 2, color: 'inherit', display: 'block', backgroundColor: 'yellow' }}
                 >
                   {page}
                 </Button> :
                 <Button
                   key={page}
-                  href={'/' + page.toLowerCase().replace(/\s/g, "")}
+                  href={'/user/' + page.toLowerCase().replace(/\s/g, "")}
                   onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
+                  sx={{ my: 2, color: 'inherit', display: 'block' }}
                 >
                   {page}
                 </Button>
             ))}
           </Box>
-
-          {/* <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box> */}
         </Toolbar>
       </Container>
-    </AppBar>
+    </AppBar >
   );
 };
-export default ResponsiveAppBar;
+export default Navbar;
