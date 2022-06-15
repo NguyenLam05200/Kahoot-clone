@@ -18,6 +18,7 @@ function App() {
       {/* <header className="App-header"> */}
       {/* <Counter /> */}
       <Routes>
+        <Route path='/user/home' element={<Dashboard />} />
         <Route element={<HomeLayout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<Login />} />
@@ -26,6 +27,8 @@ function App() {
 
         <Route path="/play" element={<PlayerPage />} />
         <Route path="/addKahut" element={<CreateKhutRoom />} />
+        <Route path="/kahut.it" element={<PlayerPage />} />
+
         <Route path="/dashboard" element={<ProtectedLayout />}>
           {/* vi du: localhost:3000/dashboard/profile -> isLoggedIn ? render(ProfilePag) : Navigate '/login' */}
           {/* <Route path="profile" element={<ProfilePage />} />
