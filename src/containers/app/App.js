@@ -1,19 +1,15 @@
-import React from 'react';
-import { Counter } from '../../features/counter/Counter';
-import { HomeLayout } from '../../components/HomeLayout';
-import { ProtectedLayout } from '../../components/ProtectedLayout';
-import { HomePage } from '../homepage/HomePage';
-import Login from '../../features/user/Login';
-import Signup from '../../features/user/Signup';
-import { PlayerPage } from '../../features/player/Player';
+import React from "react";
+import { Counter } from "../../features/counter/Counter";
+import { HomeLayout } from "../../components/HomeLayout";
+import { ProtectedLayout } from "../../components/ProtectedLayout";
+import { HomePage } from "../homepage/HomePage";
+import Login from "../../features/user/Login";
+import Signup from "../../features/user/Signup";
+import { PlayerPage } from "../../features/player/Player";
+import CreateKhutRoom from "../../features/create_kahoot/createKhut";
 
-import {
-  Routes,
-  Route,
-} from 'react-router-dom';
-import { Container, Paper } from '@mui/material';
-
-
+import { Routes, Route } from "react-router-dom";
+import { Container, Paper } from "@mui/material";
 
 function App() {
   return (
@@ -29,7 +25,7 @@ function App() {
         </Route>
 
         <Route path="/play" element={<PlayerPage />} />
-
+        <Route path="/addKahut" element={<CreateKhutRoom />} />
         <Route path="/dashboard" element={<ProtectedLayout />}>
           {/* vi du: localhost:3000/dashboard/profile -> isLoggedIn ? render(ProfilePag) : Navigate '/login' */}
           {/* <Route path="profile" element={<ProfilePage />} />
