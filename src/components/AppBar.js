@@ -56,9 +56,12 @@ const ResponsiveAppBar = () => {
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
-              color: 'inherit',
+              color: 'white',
               textDecoration: 'none',
-              fontSize: 28
+              fontSize: 28,
+              '&:hover': {
+                color: 'inherit',
+              }
             }}
           >
             KAHUT
@@ -95,7 +98,7 @@ const ResponsiveAppBar = () => {
             >
               {pagesLeft.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                  <Typography textAlign="center" >{page}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -124,7 +127,15 @@ const ResponsiveAppBar = () => {
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                sx={{
+                  my: 2,
+                  color: 'white',
+                  display: 'block',
+                  '&:hover': {
+                    color: 'yellow',
+                    fontWeight: 'bold',
+                  }
+                }}
                 href={'/' + page.toLowerCase().replace(/\s/g, "")}
               >
                 {page}

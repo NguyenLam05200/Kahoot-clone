@@ -91,11 +91,11 @@ export const HomePage = () => {
                     <Grid item xs={6} key={index}>
                         <Card
                             // sx={{ gridArea: 'sidebar', bgcolor: 'error.main' }}
-                            sx={{ gridArea: 'footer', bgcolor: 'warning.dark', color: 'white' }}
+                            sx={{ gridArea: 'footer', bgcolor: '#767676', color: 'white' }}
                         >
                             <CardMedia
                                 component='img'
-                                height='140'
+                                height='200'
                                 image={eachPhoto.img}
                                 alt='unsplash image'
                             />
