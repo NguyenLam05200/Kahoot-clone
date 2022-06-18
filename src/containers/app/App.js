@@ -2,11 +2,14 @@ import React from "react";
 import { Counter } from "../../features/counter/Counter";
 import { HomeLayout } from "../../components/HomeLayout";
 import { ProtectedLayout } from "../../components/ProtectedLayout";
-import { HomePage } from "../homepage/HomePage";
 import Login from "../../features/user/Login";
 import Signup from "../../features/user/Signup";
 import { PlayerPage } from "../../features/player/Player";
 import CreateKhutRoom from "../../features/create_kahoot/createKhut";
+
+import Dashboard from '../../features/user/Dashboard';
+import CreateKahut from '../../features/user/CreateKahut';
+import { HomePage } from '../landingPages/HomePage';
 
 import { Routes, Route } from "react-router-dom";
 import { Container, Paper } from "@mui/material";
@@ -18,7 +21,13 @@ function App() {
       {/* <header className="App-header"> */}
       {/* <Counter /> */}
       <Routes>
-        <Route path='/user/home' element={<Dashboard />} />
+        <Route path='/user'>
+          <Route path='home' element={<Dashboard />} /> {/** url: localhost:3000/user/home */}
+          <Route path='create'>
+            <Route path='kahut' element={<CreateKahut />} /> {/** url: localhost:3000/user/create/kahut */}
+          </Route>
+        </Route>
+
         <Route element={<HomeLayout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<Login />} />
@@ -37,7 +46,7 @@ function App() {
       </Routes>
       {/* </header> */}
       {/* </div> */}
-    </Paper>
+    </Paper >
   );
 }
 

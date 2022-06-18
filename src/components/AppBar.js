@@ -133,13 +133,22 @@ const ResponsiveAppBar = () => {
           </Box>
           <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
             {pagesRight.map((page) => (
-              page == 'Sign up' ?
+              page === 'Sign up' ?
                 <Button
-                  variant="variant"
+                  variant="contained"
                   href={'/' + page.toLowerCase().replace(/\s/g, "")}
                   key={page}
                   onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: 'black', display: 'block', backgroundColor: 'yellow' }}
+                  sx={{
+                    my: 2,
+                    color: 'black',
+                    display: 'block',
+                    backgroundColor: 'yellow',
+                    '&:hover': {
+                      backgroundColor: 'greenyellow',
+                      color: 'red',
+                    }
+                  }}
                 >
                   {page}
                 </Button> :

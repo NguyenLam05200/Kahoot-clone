@@ -7,23 +7,24 @@ import Typography from "@mui/material/Typography";
 import ViewInArIcon from "@mui/icons-material/ViewInAr";
 import { isTSEntityName } from "@babel/types";
 
-//const test = [{id:1, time:20, ques_title: "abc", ans1: "def", ans2:"def", ans3:"kd", ans4:"dj", img:"s" }];
-const [isDisplayPopup, setIsDisplayPopUp] = useState(false); 
-
-const [test, setTest] = useState([
-  {
-    id: 1,
-    time: 20,
-    ques_title: "abc",
-    ans1: "def",
-    ans2: "def",
-    ans3: "kd",
-    ans4: "dj",
-    img: "s",
-  },
-]);
 
 const CreateKhutRoom = () => {
+  //const test = [{id:1, time:20, ques_title: "abc", ans1: "def", ans2:"def", ans3:"kd", ans4:"dj", img:"s" }];
+  // const [isDisplayPopup, setIsDisplayPopUp] = useState(false);
+
+  const [test, setTest] = useState([
+    {
+      id: 1,
+      time: 20,
+      ques_title: "abc",
+      ans1: "def",
+      ans2: "def",
+      ans3: "kd",
+      ans4: "dj",
+      img: "s",
+    },
+  ]);
+
   const addNewQuestion = (
     id,
     time,

@@ -1,5 +1,8 @@
 import * as React from 'react';
 import {
+  Link,
+  Divider,
+  ListItemIcon,
   AppBar,
   Box,
   Toolbar,
@@ -16,9 +19,15 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import AdbIcon from '@mui/icons-material/Adb';
+import AddIcon from '@mui/icons-material/Add';
+import PersonAdd from '@mui/icons-material/PersonAdd';
+import Settings from '@mui/icons-material/Settings';
+import Logout from '@mui/icons-material/Logout';
 import ViewInArIcon from '@mui/icons-material/ViewInAr';
 import { green } from '@mui/material/colors';
 
+
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 const pagesLeft = ['Home', 'Discover', 'Library', 'Reports', 'Groups', 'Marketplace'];
 const pagesRight = ['Profile', 'Notification'];
 
@@ -32,6 +41,15 @@ const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
+  // hook for Create menu
+  const [anchorElCreate, setAnchorElCreate] = React.useState(null);
+  const openCreate = Boolean(anchorElCreate);
+  const handleClickCreateBtn = (event) => {
+    setAnchorElCreate(event.currentTarget);
+  };
+  const handleCloseCreateBtn = () => {
+    setAnchorElCreate(null);
+  };
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -46,6 +64,18 @@ const Navbar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const handleClickAccountSetting = (event, newValue) => {
+    console.log(event.target.id);
+    console.log(newValue);
+  }
   return (
     <AppBar position="static" sx={{ backgroundColor: 'white', color: 'black' }}>
       <Container maxWidth="xl">
@@ -141,26 +171,119 @@ const Navbar = () => {
 
           </Box>
           <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
-            {pagesRight.map((page) => (
-              page == 'Sign up' ?
-                <Button
-                  variant="variant"
-                  href={'/user/' + page.toLowerCase().replace(/\s/g, "")}
-                  key={page}
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: 'inherit', display: 'block', backgroundColor: 'yellow' }}
-                >
-                  {page}
-                </Button> :
-                <Button
-                  key={page}
-                  href={'/user/' + page.toLowerCase().replace(/\s/g, "")}
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: 'inherit', display: 'block' }}
-                >
-                  {page}
-                </Button>
-            ))}
+            {/* <Button
+              variant="variant"
+              href={'/user/' + page.toLowerCase().replace(/\s/g, "")}
+              key={page}
+              onClick={handleCloseNavMenu}
+              sx={{ my: 2, color: 'inherit', display: 'block', backgroundColor: 'yellow' }}
+            >
+              {page}
+            </Button> */}
+            <Button
+              variant="outlined"
+              startIcon={<AddIcon color='success' />}
+              sx={{ my: 2, color: 'inherit', display: 'inherit' }}
+              id='resources-button'
+              aria-controls={openCreate ? 'resources-menu' : undefined}
+              aria-haspopup='true'
+              aria-expanded={openCreate ? 'true' : undefined}
+              onClick={handleClickCreateBtn}
+            >
+              Create
+            </Button>
+            <Menu
+              id='resources-menu'
+              anchorEl={anchorElCreate}
+              open={openCreate}
+              onClose={handleCloseCreateBtn}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'right'
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right'
+              }}
+              MenuListProps={{
+                'aria-labelledby': 'resources-button'
+              }}>
+              <MenuItem component='button' href='/user/create/kahut'>Kahut</MenuItem>
+              <MenuItem component='button' href='/user/create/course'>Course</MenuItem>
+            </Menu>
+            <Tooltip title="Account settings">
+              <IconButton
+                onClick={handleClick}
+                sx={{ ml: 2 }}
+                aria-controls={open ? 'account-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? 'true' : undefined}
+                size="large"
+                color="primary">
+                <AccountCircleIcon fontSize="large" />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              anchorEl={anchorEl}
+              id="account-menu"
+              open={open}
+              onClose={handleClose}
+              onClick={handleClickAccountSetting}
+              PaperProps={{
+                elevation: 0,
+                sx: {
+                  overflow: 'visible',
+                  filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                  mt: 1.5,
+                  '& .MuiAvatar-root': {
+                    width: 32,
+                    height: 32,
+                    ml: -0.5,
+                    mr: 1,
+                  },
+                  '&:before': {
+                    content: '""',
+                    display: 'block',
+                    position: 'absolute',
+                    top: 0,
+                    right: 14,
+                    width: 10,
+                    height: 10,
+                    bgcolor: 'background.paper',
+                    transform: 'translateY(-50%) rotate(45deg)',
+                    zIndex: 0,
+                  },
+                },
+              }}
+              transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+              anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+            >
+              <MenuItem>
+                <Avatar /> Profile
+              </MenuItem>
+              <MenuItem>
+                <Avatar /> My account
+              </MenuItem>
+              <Divider />
+              <MenuItem>
+                <ListItemIcon>
+                  <PersonAdd fontSize="small" />
+                </ListItemIcon>
+                Add another account
+              </MenuItem>
+              <MenuItem>
+                <ListItemIcon>
+                  <Settings fontSize="small" />
+                </ListItemIcon>
+                Settings
+              </MenuItem>
+              <MenuItem>
+                <ListItemIcon>
+                  <Logout fontSize="small" />
+                </ListItemIcon>
+                Logout
+              </MenuItem>
+            </Menu>
           </Box>
         </Toolbar>
       </Container>
