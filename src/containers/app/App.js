@@ -8,7 +8,7 @@ import { PlayerPage } from "../../features/player/Player";
 import CreateKhutRoom from "../../features/create_kahoot/createKhut";
 
 import Dashboard from '../../features/user/Dashboard';
-import CreateKahut from '../../features/user/CreateKahut';
+import CreateKahut from '../../features/create_kahoot/CreateKahut';
 import { HomePage } from '../landingPages/HomePage';
 
 import { Routes, Route } from "react-router-dom";
