@@ -2,10 +2,6 @@ import React from "react";
 import { Counter } from "../../features/counter/Counter";
 import { HomeLayout } from "../../components/HomeLayout";
 import { ProtectedLayout } from "../../components/ProtectedLayout";
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 import Login from "../../features/user/Login";
 import Signup from "../../features/user/Signup";
 import { PlayerPage } from "../../features/player/Player";
@@ -26,7 +22,6 @@ function App() {
       {/* <header className="App-header"> */}
       {/* <Counter /> */}
       <Routes>
-<<<<<<< Updated upstream
         <Route path='/user'>
           <Route path='home' element={<Dashboard />} /> {/** url: localhost:3000/user/home */}
           <Route path='create'>
@@ -34,9 +29,6 @@ function App() {
           </Route>
         </Route>
 
-=======
-        <Route path="/user/home" element={<Dashboard />} />
->>>>>>> Stashed changes
         <Route element={<HomeLayout />}>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />

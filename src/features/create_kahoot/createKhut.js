@@ -8,30 +8,15 @@ import ViewInArIcon from "@mui/icons-material/ViewInAr";
 import { isTSEntityName } from "@babel/types";
 import ResponsiveAppBar from "../../components/AppBar";
 
-<<<<<<< Updated upstream
 
 const CreateKhutRoom = () => {
   //const test = [{id:1, time:20, ques_title: "abc", ans1: "def", ans2:"def", ans3:"kd", ans4:"dj", img:"s" }];
   // const [isDisplayPopup, setIsDisplayPopUp] = useState(false);
-=======
-//const test = [{id:1, time:20, ques_title: "abc", ans1: "def", ans2:"def", ans3:"kd", ans4:"dj", img:"s" }];
-
-const CreateKhutRoom = () => {
-  const [isDisplayPopup, setIsDisplayPopUp] = useState(false);
->>>>>>> Stashed changes
 
   const [test, setTest] = useState([
     {
       id: 1,
       time: 20,
-<<<<<<< Updated upstream
-      ques_title: "abc",
-      ans1: "def",
-      ans2: "def",
-      ans3: "kd",
-      ans4: "dj",
-      img: "s",
-=======
       ques_title: "Day la con gi",
       ans1: "Con meo",
       ans2: "Con khi",
@@ -42,7 +27,6 @@ const CreateKhutRoom = () => {
       ans2True: false,
       ans3True: true,
       ans4True: true,
->>>>>>> Stashed changes
     },
   ]);
 
