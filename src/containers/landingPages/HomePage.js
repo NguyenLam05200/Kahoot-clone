@@ -14,8 +14,10 @@ import {
     Divider,
     Typography,
     Container,
-    Button
+    Button,
 } from '@mui/material'
+import Masonry from '@mui/lab/Masonry';
+
 import { useTheme } from '@mui/material/styles';
 import { styled } from '@mui/material/styles';
 
@@ -30,52 +32,40 @@ import Home from "@mui/icons-material/Home";
 
 const itemData = [
     {
-        img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-        title: 'Breakfast'
+        img: 'https://images.unsplash.com/photo-1576267423445-b2e0074d68a4',
+        title: 'Make learning awesome!',
+        subTitle: 'Kahut! delivers engaging learing to billions.',
+        actionTitle: 'Sign up for free!'
     },
     {
-        img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
-        title: 'Burger'
+        img: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=871&q=80',
+        title: 'Make your team superstar presenters',
+        subTitle: 'Set your whole team up to deliver awesome presentations with Kahut! 360 Spirit, our best plan.',
+        actionTitle: 'Learn more >'
     },
     {
-        img: 'https://images.unsplash.com/photo-1522770179533-24471fcdba45',
-        title: 'Camera'
+        img: 'https://kahoot.com/files/2021/12/theming_mosaic_cropped_2.png',
+        title: 'NEW! Create a branded experience with Kahut! themes',
+        subTitle: 'Boost audience engagement by customizing your kahuts for your work setting.',
+        actionTitle: 'Choose Kahut! 360 Pro vjp'
     },
     {
-        img: 'https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c',
-        title: 'Coffee'
+        img: 'https://images.unsplash.com/photo-1484820540004-14229fe36ca4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80',
+        title: 'Meet Kahut! Kids!',
+        subTitle: "Spark your child's curiosity for learning with our new playful app experience..",
+        actionTitle: 'Get started today'
     },
     {
-        img: 'https://images.unsplash.com/photo-1533827432537-70133748f5c8',
-        title: 'Hats'
+        img: 'https://images.unsplash.com/photo-1610894065081-fce3e6833dcf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=465&q=80',
+        title: 'Support Ukraine',
+        subTitle: 'Join us in our efforts to support Ukainain educators and learners affedted by the current crisis.',
+        actionTitle: 'Donate today'
     },
     {
         img: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62',
-        title: 'Honey'
-    },
-    {
-        img: 'https://images.unsplash.com/photo-1516802273409-68526ee1bdd6',
-        title: 'Basketball'
-    },
-    {
-        img: 'https://images.unsplash.com/photo-1518756131217-31eb79b20e8f',
-        title: 'Fern'
-    },
-    {
-        img: 'https://images.unsplash.com/photo-1597645587822-e99fa5d45d25',
-        title: 'Mushrooms'
-    },
-    {
-        img: 'https://images.unsplash.com/photo-1567306301408-9b74779a11af',
-        title: 'Tomato basil'
-    },
-    {
-        img: 'https://images.unsplash.com/photo-1471357674240-e1a485acb3e1',
-        title: 'Sea star'
-    },
-    {
-        img: 'https://images.unsplash.com/photo-1589118949245-7d38baf380d6',
-        title: 'Bike'
+        title: "Who says studing can't be fun?",
+        subTitle: "Kahut!+ Study introduces a fast and flexible study tookit that makes learning more intersting, more engaging, and more enjoyable.",
+        actionTitle: 'Learn more >'
     }
 ]
 
@@ -93,41 +83,42 @@ export const HomePage = () => {
         },
     });
     return (
-        <Container sx={{ width: '100%', marginTop: 2 }}>
-            <Grid container rowSpacing={{ xs: 1, sm: 2, md: 3 }} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+        <Box sx={{ width: '100%', mx: 0, px: 10, justifyContent: 'center', display: "flex", backgroundColor: 'snow' }}>
+            <Masonry columns={2} spacing={2} sx={{ marginTop: 2 }} width='100%'>
                 {/* {Array.from(Array(6)).map((_, index) => ( */}
-                {itemData.map((eachPhoto, index) => (
-                    <Grid item xs={6} key={index}>
-                        <Card
-                            // sx={{ gridArea: 'sidebar', bgcolor: 'error.main' }}
-                            sx={{ gridArea: 'footer', bgcolor: '#767676', color: 'white' }}
-                        >
-                            <CardMedia
-                                component='img'
-                                height='200'
-                                image={eachPhoto.img}
-                                alt='unsplash image'
-                            />
-                            <CardContent>
-                                <Typography gutterBottom variant='h4' component='div'>
-                                    React
-                                </Typography>
-                                <Typography variant='body1' color='text'>
-                                    React is a JavaScript library for building user interfaces. React
-                                    can be used as a base in the development of single-page or mobile
-                                    applications.
-                                </Typography>
-                            </CardContent>
-                            <CardActions >
-                                <ThemeProvider theme={theme}>
-                                    <Button color="secondary" sx={{ fontSize: 18 }}>Share</Button>
-                                    <Button color="secondary" sx={{ fontSize: 18 }}>Learn More</Button>
-                                </ThemeProvider>
-                            </CardActions>
-                        </Card>
-                    </Grid>
+                {itemData.map((eachItem, index) => (
+                    <Card
+                        // sx={{ gridArea: 'sidebar', bgcolor: 'error.main' }}
+                        sx={{ bgcolor: '#767676', color: 'white', boxShadow: 15, border: 1, borderColor: 'ffca68', borderRadius: 3 }}
+                    >
+                        <CardMedia
+                            component='img'
+                            height='300'
+                            image={eachItem.img}
+                            alt='unsplash image'
+                        />
+                        <CardContent>
+                            <Typography gutterBottom variant='h4' component='div' fontWeight='bold'>
+                                {eachItem.title}
+                            </Typography>
+                            <Typography variant='body1' color='text'>
+                                {eachItem.subTitle}
+                            </Typography>
+                        </CardContent>
+                        <CardActions sx={{ marginBottom: 1 }}>
+                            <ThemeProvider theme={theme}>
+                                <Button
+                                    color="secondary"
+                                    variant='outlined'
+                                    sx={{ fontSize: 18, borderColor: 'white' }}
+                                >
+                                    {eachItem.actionTitle}
+                                </Button>
+                            </ThemeProvider>
+                        </CardActions>
+                    </Card>
                 ))}
-            </Grid>
-        </Container>
+            </Masonry>
+        </Box>
     );
 }; 

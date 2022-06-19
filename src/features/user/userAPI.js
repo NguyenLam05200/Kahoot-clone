@@ -8,3 +8,4 @@ export function handleLoginApi(email, password) {
 export function handleRegisterApi(data) {
   return instance.post('create-new-user', data);
 }
+
