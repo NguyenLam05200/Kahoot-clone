@@ -6,7 +6,6 @@ import Login from "../../features/user/Login";
 import Signup from "../../features/user/Signup";
 import { PlayerPage } from "../../features/player/Player";
 import CreateKhutRoom from "../../features/create_kahoot/createKhut";
-import Dashboard from "../../features/user/Dashboard";
 
 import Dashboard from '../../features/user/Dashboard';
 import CreateKahut from '../../features/create_kahoot/CreateKahut';
