@@ -4,7 +4,7 @@ function Question (props){
     
    
     return (
-        <div
+        <div 
             className="row mt-3 d-flex align-items-center"
             style={{
               backgroundColor: "#d8d3d3",
@@ -83,7 +83,7 @@ function Question (props){
                     }}
                   >
                     <i
-                      className="fa fa-superpowers fa-2x mr-4"
+                      className="fa fa-podcast fa-2x mr-4"
                       aria-hidden="true"
                     />
                     {props.item.ans2}{" "}
@@ -110,7 +110,7 @@ function Question (props){
                     }}
                   >
                     <i
-                      className="fa fa-superpowers fa-2x mr-4"
+                      className="fa fa-bandcamp fa-2x mr-4"
                       aria-hidden="true"
                     />
                     {props.item.ans3}{" "}
@@ -135,7 +135,7 @@ function Question (props){
                     }}
                   >
                     <i
-                      className="fa fa-superpowers fa-2x mr-4"
+                      className="fa fa-eercast fa-2x mr-4"
                       aria-hidden="true"
                     />
                     {props.item.ans4}{" "}
