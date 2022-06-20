@@ -19,11 +19,16 @@ const CreateListKahootQuestion = () => {
   const [listQuestion, setListQuestion] = useState([]);
 
   function onCickSave() {
-
-    if($("#txttime").val().length > 0 && $("#txtquestion").val().length > 0 && $("#txtans1").val().length > 0 && $("#txtans2").val().length > 0 && $("#txtans3").val().length > 0 && $("#txtans4").val().length> 0 )
-    {
-      console.log($("#txttime").val().length )
-      setInputState(true); 
+    if (
+      $("#txttime").val().length > 0 &&
+      $("#txtquestion").val().length > 0 &&
+      $("#txtans1").val().length > 0 &&
+      $("#txtans2").val().length > 0 &&
+      $("#txtans3").val().length > 0 &&
+      $("#txtans4").val().length > 0
+    ) {
+      console.log($("#txttime").val().length);
+      setInputState(true);
       const newQuestion = {
         id: id,
         time: $("#txttime").val(),
@@ -33,31 +38,33 @@ const CreateListKahootQuestion = () => {
         ans3: $("#txtans3").val(),
         ans4: $("#txtans4").val(),
         img: "https://img5.thuthuatphanmem.vn/uploads/2021/08/25/hinh-nen-3d-cho-may-tinh-4k_084701936.jpg",
-        ans1True: $('#correctans1').is(':checked'),
-        ans2True: $('#correctans2').is(':checked'),
-        ans3True: $('#correctans3').is(':checked'),
-        ans4True: $('#correctans4').is(':checked'),
+        ans1True: $("#correctans1").is(":checked"),
+        ans2True: $("#correctans2").is(":checked"),
+        ans3True: $("#correctans3").is(":checked"),
+        ans4True: $("#correctans4").is(":checked"),
       };
-      
+
       const newListQuestion = [...listQuestion, newQuestion];
-  
+
       setListQuestion(newListQuestion);
-  
+
       //update id
       setId(id + 1);
+    } else {
+      setInputState(false);
     }
-   else
-   {
-    setInputState(false);
-   }
   }
 
   return (
     <div>
       <ResponsiveAppBar />
       {/* menu luu danh sach cau hoi*/}
-      {listQuestion.length > 0 && (<h3 className="ml-2 mt-2">List Question</h3>)}
-      
+      {listQuestion.length > 0 && (
+        <h3 className="ml-3 mt-2" style={{ color: "#479fec" }}>
+          List Question
+        </h3>
+      )}
+
       <div className="container">
         {listQuestion.map((item) => {
           return <Question key={item.id} item={item} />;
@@ -130,31 +137,48 @@ const CreateListKahootQuestion = () => {
                     </div>
                   </div>
                   <div className="form-group">
-                    <div className="d-flex align-item-center" >
-                    <i class="fa fa-clock-o " aria-hidden="true" style={{color:"#20ee20"}}><label className="ml-2" htmlFor="txttime" >Time</label></i>
-                    
+                    <div className="d-flex align-item-center">
+                      <i
+                        class="fa fa-clock-o "
+                        aria-hidden="true"
+                        style={{ color: "#20ee20" }}
+                      >
+                        <label className="ml-2" htmlFor="txttime">
+                          Time
+                        </label>
+                      </i>
                     </div>
-                 
+
                     <input
                       type="text"
                       className="form-control"
                       id="txttime"
-                      placeholder="seconds" required
+                      placeholder="seconds"
+                      required
                     />
-                    {inputState!==true && <span style={{color:"red"}}>required</span>}
+                    {inputState !== true && (
+                      <span style={{ color: "red" }}>required</span>
+                    )}
                   </div>
                   <div className="form-group">
-                    <label htmlFor="txtquestion" style={{color:"#ee5914"}}><i class="fa fa-question" aria-hidden="true"></i> Question</label>
+                    <label htmlFor="txtquestion" style={{ color: "#ee5914" }}>
+                      <i class="fa fa-question" aria-hidden="true"></i> Question
+                    </label>
                     <input
                       type="text"
                       className="form-control"
                       id="txtquestion"
-                      placeholder="what is this?" required
+                      placeholder="what is this?"
+                      required
                     />
-                     {inputState!==true && <span style={{color:"red"}}>required</span>}
+                    {inputState !== true && (
+                      <span style={{ color: "red" }}>required</span>
+                    )}
                   </div>
                   <div className="form-group">
-                    <label htmlFor="txtans1" style={{color:"#573ee4"}}><i class="fa fa-ravelry" aria-hidden="true"></i> Answer 1</label>
+                    <label htmlFor="txtans1" style={{ color: "#573ee4" }}>
+                      <i class="fa fa-ravelry" aria-hidden="true"></i> Answer 1
+                    </label>
                     <input
                       type="text"
                       className="form-control"
@@ -163,53 +187,69 @@ const CreateListKahootQuestion = () => {
                     />
                   </div>
                   <div className="form-group">
-                    <label htmlFor="txtans2" style={{color:"#573ee4"}}><i class="fa fa-ravelry" aria-hidden="true"></i> Answer 2</label>
+                    <label htmlFor="txtans2" style={{ color: "#573ee4" }}>
+                      <i class="fa fa-ravelry" aria-hidden="true"></i> Answer 2
+                    </label>
                     <input
                       type="text"
                       className="form-control"
                       id="txtans2"
-                      placeholder="Pig" required
+                      placeholder="Pig"
+                      required
                     />
-                     {inputState!==true && <span style={{color:"red"}}>required</span>}
+                    {inputState !== true && (
+                      <span style={{ color: "red" }}>required</span>
+                    )}
                   </div>
 
                   <div className="form-group">
-                    <label htmlFor="txtans3" style={{color:"#573ee4"}}><i class="fa fa-ravelry" aria-hidden="true"></i> Answer 3</label>
+                    <label htmlFor="txtans3" style={{ color: "#573ee4" }}>
+                      <i class="fa fa-ravelry" aria-hidden="true"></i> Answer 3
+                    </label>
                     <input
                       type="text"
                       className="form-control"
                       id="txtans3"
-                      placeholder="Cat" required
+                      placeholder="Cat"
+                      required
                     />
-                     {inputState!==true && <span style={{color:"red"}}>required</span>}
+                    {inputState !== true && (
+                      <span style={{ color: "red" }}>required</span>
+                    )}
                   </div>
 
                   <div className="form-group">
-                    <label htmlFor="txtans4" style={{color:"#573ee4"}}><i class="fa fa-ravelry" aria-hidden="true"></i> Answer 4</label>
+                    <label htmlFor="txtans4" style={{ color: "#573ee4" }}>
+                      <i class="fa fa-ravelry" aria-hidden="true"></i> Answer 4
+                    </label>
                     <input
                       type="text"
                       className="form-control"
                       id="txtans4"
-                      placeholder="Dog" required
+                      placeholder="Dog"
+                      required
                     />
-                     {inputState!==true && <span style={{color:"red"}}>required</span>}
+                    {inputState !== true && (
+                      <span style={{ color: "red" }}>required</span>
+                    )}
                   </div>
 
                   <div className="form-group">
                     <div className="form-check row">
-                      <h5 style={{color:"#3dd5f0"}}>Correct answer?</h5>
+                      <h5 style={{ color: "#3dd5f0" }}>Correct answer?</h5>
                       <div className="d-flex justify-content-around">
                         <div>
                           <input
                             className="form-check-input"
                             type="checkbox"
-                            id="correctans1" 
+                            id="correctans1"
                           />
                           <label
                             className="form-check-label"
                             htmlFor="correctans1"
                           >
-                          <i class="fa fa-ravelry" aria-hidden="true"></i> Answer 1
+                            <i class="fa fa-ravelry" aria-hidden="true"></i>{" "}
+                            Answer 1
                           </label>
                         </div>
                         <div>
@@ -281,4 +321,4 @@ const CreateListKahootQuestion = () => {
   );
 };
 
-export default  CreateListKahootQuestion;
+export default CreateListKahootQuestion;
