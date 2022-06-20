@@ -1,5 +1,6 @@
 import { useState } from "react";
 import ResponsiveAppBar from "../../components/AppBar";
+import Navbar from "../user/Navbar";
 
 const ListKahootRoom = () => {
   const [listRoom, setListRoom] = useState([
@@ -12,14 +13,15 @@ const ListKahootRoom = () => {
 
   return (
     <div>
-      <ResponsiveAppBar />
+      {/* <ResponsiveAppBar /> */}
+      <Navbar />
       <div className="container">
         <h4 className="mt-2 ml-3 mb-5" style={{ color: "#479fec" }}>
           My Kahoot Room
         </h4>
-        {listRoom.map((item) => {
+        {listRoom.map((item, _index) => {
           return (
-            <div className="ml-5 mr-5 mb-3">
+            <div className="ml-5 mr-5 mb-3" key={_index}>
               <div className="card p-3" style={{ backgroundColor: "#8aecf3" }}>
                 <div
                   className="card-body"
@@ -32,7 +34,7 @@ const ListKahootRoom = () => {
                     >
                       <img
                         src={item.img}
-                        alt
+                        alt={item.room_title}
                         style={{ height: 100 }}
                       />
                     </div>

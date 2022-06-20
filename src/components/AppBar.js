@@ -156,8 +156,9 @@ const ResponsiveAppBar = () => {
                     display: 'block',
                     backgroundColor: 'yellow',
                     '&:hover': {
+                      fontWeight: 'bold',
                       backgroundColor: 'greenyellow',
-                      color: 'red',
+                      color: 'black',
                     }
                   }}
                 >
@@ -167,7 +168,13 @@ const ResponsiveAppBar = () => {
                   key={page}
                   href={'/' + page.toLowerCase().replace(/\s/g, "")}
                   onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
+                  sx={{
+                    my: 2, color: 'white', display: 'block',
+                    '&:hover': {
+                      color: 'yellow',
+                      fontWeight: 'bold',
+                    }
+                  }}
                 >
                   {page}
                 </Button>

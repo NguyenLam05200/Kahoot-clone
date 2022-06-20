@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import ViewInArIcon from "@mui/icons-material/ViewInAr";
 import { isTSEntityName } from "@babel/types";
 import ResponsiveAppBar from "../../components/AppBar";
+import Navbar from "../user/Navbar";
 import $ from "jquery";
 import { height } from "@mui/system";
 
@@ -57,7 +58,8 @@ const CreateListKahootQuestion = () => {
 
   return (
     <div>
-      <ResponsiveAppBar />
+      {/* <ResponsiveAppBar /> */}
+      <Navbar />
       {/* menu luu danh sach cau hoi*/}
       {listQuestion.length > 0 && (
         <h3 className="ml-3 mt-2" style={{ color: "#479fec" }}>
@@ -125,13 +127,13 @@ const CreateListKahootQuestion = () => {
                     />
                   </div>
                   <div className="form-group">
-                    <div class="custom-file">
+                    <div className="custom-file">
                       <input
                         type="file"
                         className="custom-file-input"
                         id="customFile"
                       />
-                      <label class="custom-file-label" for="customFile">
+                      <label className="custom-file-label" htmlFor="customFile">
                         Choose image of question
                       </label>
                     </div>
@@ -171,10 +173,12 @@ const CreateListKahootQuestion = () => {
                       placeholder="what is this?"
                       required
                     />
-                    {inputState !== true && (
-                      <span style={{ color: "red" }}>required</span>
-                    )}
-                  </div>
+                    {
+                      inputState !== true && (
+                        <span style={{ color: "red" }}>required</span>
+                      )
+                    }
+                  </div >
                   <div className="form-group">
                     <label htmlFor="txtans1" style={{ color: "#573ee4" }}>
                       <i class="fa fa-ravelry" aria-hidden="true"></i> Answer 1
@@ -197,10 +201,12 @@ const CreateListKahootQuestion = () => {
                       placeholder="Pig"
                       required
                     />
-                    {inputState !== true && (
-                      <span style={{ color: "red" }}>required</span>
-                    )}
-                  </div>
+                    {
+                      inputState !== true && (
+                        <span style={{ color: "red" }}>required</span>
+                      )
+                    }
+                  </div >
 
                   <div className="form-group">
                     <label htmlFor="txtans3" style={{ color: "#573ee4" }}>
@@ -213,10 +219,12 @@ const CreateListKahootQuestion = () => {
                       placeholder="Cat"
                       required
                     />
-                    {inputState !== true && (
-                      <span style={{ color: "red" }}>required</span>
-                    )}
-                  </div>
+                    {
+                      inputState !== true && (
+                        <span style={{ color: "red" }}>required</span>
+                      )
+                    }
+                  </div >
 
                   <div className="form-group">
                     <label htmlFor="txtans4" style={{ color: "#573ee4" }}>
@@ -229,10 +237,12 @@ const CreateListKahootQuestion = () => {
                       placeholder="Dog"
                       required
                     />
-                    {inputState !== true && (
-                      <span style={{ color: "red" }}>required</span>
-                    )}
-                  </div>
+                    {
+                      inputState !== true && (
+                        <span style={{ color: "red" }}>required</span>
+                      )
+                    }
+                  </div >
 
                   <div className="form-group">
                     <div className="form-check row">
@@ -250,8 +260,8 @@ const CreateListKahootQuestion = () => {
                           >
                             <i class="fa fa-ravelry" aria-hidden="true"></i>{" "}
                             Answer 1
-                          </label>
-                        </div>
+                          </label >
+                        </div >
                         <div>
                           <input
                             className="form-check-input"
@@ -292,11 +302,11 @@ const CreateListKahootQuestion = () => {
                             Answer 4
                           </label>
                         </div>
-                      </div>
-                    </div>
-                  </div>
-                </form>
-              </div>
+                      </div >
+                    </div >
+                  </div >
+                </form >
+              </div >
               <div className="modal-footer">
                 <button
                   type="button"
@@ -313,11 +323,11 @@ const CreateListKahootQuestion = () => {
                   Add
                 </button>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+            </div >
+          </div >
+        </div >
+      </div >
+    </div >
   );
 };
 

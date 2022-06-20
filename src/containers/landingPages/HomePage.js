@@ -35,7 +35,8 @@ const itemData = [
         img: 'https://images.unsplash.com/photo-1576267423445-b2e0074d68a4',
         title: 'Make learning awesome!',
         subTitle: 'Kahut! delivers engaging learing to billions.',
-        actionTitle: 'Sign up for free!'
+        actionTitle: 'Sign up for free!',
+        linkTo: '/signup'
     },
     {
         img: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=871&q=80',
@@ -84,24 +85,24 @@ export const HomePage = () => {
     });
     return (
         <Box sx={{ width: '100%', mx: 0, px: 10, justifyContent: 'center', display: "flex", backgroundColor: 'snow' }}>
-            <Masonry columns={2} spacing={2} sx={{ marginTop: 2 }} width='100%'>
+            <Masonry columns={2} spacing={4} sx={{ marginTop: 2 }} width='100%'>
                 {/* {Array.from(Array(6)).map((_, index) => ( */}
                 {itemData.map((eachItem, index) => (
                     <Card
                         // sx={{ gridArea: 'sidebar', bgcolor: 'error.main' }}
-                        sx={{ bgcolor: '#767676', color: 'white', boxShadow: 15, border: 1, borderColor: 'ffca68', borderRadius: 3 }}
+                        sx={{ bgcolor: '#767676', color: 'white', boxShadow: 15, border: 2, borderColor: 'purple', borderRadius: 3 }}
                     >
                         <CardMedia
                             component='img'
-                            height='300'
+                            height='200'
                             image={eachItem.img}
                             alt='unsplash image'
                         />
                         <CardContent>
-                            <Typography gutterBottom variant='h4' component='div' fontWeight='bold'>
+                            <Typography gutterBottom variant='h5' component='div' fontWeight='bold'>
                                 {eachItem.title}
                             </Typography>
-                            <Typography variant='body1' color='text'>
+                            <Typography variant='body2' color='text'>
                                 {eachItem.subTitle}
                             </Typography>
                         </CardContent>
@@ -110,7 +111,16 @@ export const HomePage = () => {
                                 <Button
                                     color="secondary"
                                     variant='outlined'
-                                    sx={{ fontSize: 18, borderColor: 'white' }}
+                                    sx={{
+                                        fontSize: 16,
+                                        borderColor: 'white',
+                                        textTransform: 'none',
+                                        '&:hover': {
+                                            color: 'white',
+                                            fontWeight: 'bold',
+                                        }
+                                    }}
+                                    href={eachItem.linkTo ? eachItem.linkTo : "#"}
                                 >
                                     {eachItem.actionTitle}
                                 </Button>

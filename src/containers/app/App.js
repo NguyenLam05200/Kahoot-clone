@@ -24,12 +24,14 @@ function App() {
       <Routes>
         <Route path='/user'>
           <Route path='home' element={<Dashboard />} /> {/** url: localhost:3000/user/home */}
+          <Route path='library' element={<ListKahootRoom />} />
           <Route path='create'>
-            <Route path='kahut' element={<CreateKahut />} /> {/** url: localhost:3000/user/create/kahut */}
+            <Route path='kahut' element={<CreateListKahootQuestion />} /> {/** url: localhost:3000/user/create/kahut */}
           </Route>
         </Route>
 
         <Route element={<HomeLayout />}>
+          <Route path='/' element={<HomePage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
         </Route>
@@ -37,7 +39,6 @@ function App() {
         <Route path="/play" element={<PlayerPage />} />
         <Route path="/addKahutRoom" element={<ListKahootRoom />} />
         <Route path="/addKahutQuestion" element={<CreateListKahootQuestion />} />
-        <Route path="/kahut.it" element={<PlayerPage />} />
 
         <Route path="/dashboard" element={<ProtectedLayout />}>
           {/* vi du: localhost:3000/dashboard/profile -> isLoggedIn ? render(ProfilePag) : Navigate '/login' */}
