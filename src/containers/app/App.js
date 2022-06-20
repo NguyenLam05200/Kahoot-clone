@@ -5,11 +5,12 @@ import { ProtectedLayout } from "../../components/ProtectedLayout";
 import Login from "../../features/user/Login";
 import Signup from "../../features/user/Signup";
 import { PlayerPage } from "../../features/player/Player";
-import CreateKhutRoom from "../../features/create_kahoot/createKhut";
+import CreateListKahootQuestion from "../../features/create_kahoot/createKhut";
 
 import Dashboard from '../../features/user/Dashboard';
 import CreateKahut from '../../features/create_kahoot/CreateKahut';
 import { HomePage } from '../landingPages/HomePage';
+import ListKahootRoom from "../../features/list kahoot room/ListKahootRoom"
 
 import { Routes, Route } from "react-router-dom";
 import { Container, Paper } from "@mui/material";
@@ -34,7 +35,8 @@ function App() {
         </Route>
 
         <Route path="/play" element={<PlayerPage />} />
-        <Route path="/addKahutQuestion:id" element={<CreateKhutRoom />} />
+        <Route path="/addKahutRoom" element={<ListKahootRoom />} />
+        <Route path="/addKahutQuestion" element={<CreateListKahootQuestion />} />
         <Route path="/kahut.it" element={<PlayerPage />} />
 
         <Route path="/dashboard" element={<ProtectedLayout />}>

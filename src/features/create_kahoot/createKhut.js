@@ -10,7 +10,7 @@ import ResponsiveAppBar from "../../components/AppBar";
 import $ from "jquery";
 import { height } from "@mui/system";
 
-const CreateKhutRoom = () => {
+const CreateListKahootQuestion = () => {
   //const test = [{id:1, time:20, ques_title: "abc", ans1: "def", ans2:"def", ans3:"kd", ans4:"dj", img:"s" }];
   // const [isDisplayPopup, setIsDisplayPopUp] = useState(false);
 
@@ -20,9 +20,9 @@ const CreateKhutRoom = () => {
 
   function onCickSave() {
 
-    if($("#txttime").val().length >= 0 && $("#txtquestion").val().length >= 0 && $("#txtans1").val().length >= 0 && $("#txtans2").val().length >= 0 && $("#txtans3").val().length >= 0 && $("#txtans4").val().length )
+    if($("#txttime").val().length > 0 && $("#txtquestion").val().length > 0 && $("#txtans1").val().length > 0 && $("#txtans2").val().length > 0 && $("#txtans3").val().length > 0 && $("#txtans4").val().length> 0 )
     {
-      
+      console.log($("#txttime").val().length )
       setInputState(true); 
       const newQuestion = {
         id: id,
@@ -281,4 +281,4 @@ const CreateKhutRoom = () => {
   );
 };
 
-export default CreateKhutRoom;
+export default  CreateListKahootQuestion;
