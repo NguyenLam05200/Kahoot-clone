@@ -169,7 +169,7 @@ const ResponsiveAppBar = () => {
                   href={'/' + page.toLowerCase().replace(/\s/g, "")}
                   onClick={handleCloseNavMenu}
                   sx={{
-                    my: 2, color: 'white', display: 'block',
+                    my: 2, color: 'white', display: 'flex',
                     '&:hover': {
                       color: 'yellow',
                       fontWeight: 'bold',

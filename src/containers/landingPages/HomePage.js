@@ -89,6 +89,7 @@ export const HomePage = () => {
                 {/* {Array.from(Array(6)).map((_, index) => ( */}
                 {itemData.map((eachItem, index) => (
                     <Card
+                        key={index}
                         // sx={{ gridArea: 'sidebar', bgcolor: 'error.main' }}
                         sx={{ bgcolor: '#767676', color: 'white', boxShadow: 15, border: 2, borderColor: 'purple', borderRadius: 3 }}
                     >

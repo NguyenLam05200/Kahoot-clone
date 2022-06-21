@@ -1,4 +1,3 @@
-import { useSelector, useDispatch } from 'react-redux';
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react'
@@ -8,14 +7,19 @@ import { purple } from '@mui/material/colors';
 import Idle from './Idle';
 import RightPin from './RightPin';
 
+import { useSelector } from "react-redux";
+import { playerSelector } from './playerSlice';
+
 const Join = ({ }) => {
-  const [isRightPin, setIsRightPin] = useState(false)
+  const { status } = useSelector(
+    playerSelector
+  );
   const colorBg = '#46178F';
-  const colorText = purple[0];
 
   return (
     <>
-      {isRightPin ? <RightPin /> : <Idle />}
+      {status === 'idle' && <Idle />}
+      {status === 'rightPin' && <RightPin />}
       <Box sx={{
         width: '100%',
         height: '10%',

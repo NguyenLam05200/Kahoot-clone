@@ -4,10 +4,23 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react'
 import { Tooltip, TextField, Box, Stack, Grid, Paper, Divider, Typography, Container, Button } from '@mui/material'
 import { purple } from '@mui/material/colors';
+import { enterPIN } from './playerSlice';
+import { handlePIN } from './playerAPI';
 
 const Idle = ({ }) => {
+
+  const [pin, setPin] = useState(null);
+  const dispatch = useDispatch();
+
   const colorBg = '#46178F';
   const colorText = purple[0];
+
+  const handleEnterPin = (e) => {
+    if (pin) {
+      alert(pin)
+      dispatch(enterPIN(pin));
+    }
+  }
 
   return (
     <Box sx={{
@@ -32,12 +45,17 @@ const Idle = ({ }) => {
               label='Game PIN'
               variant='outlined'
               color="secondary"
+              onChange={(e) => setPin(e.target.value)}
+              value={pin ? pin : ""}
               inputProps={{
                 style: { textAlign: 'center', fontWeight: 'bold', fontSize: 20 }
               }}
             />
           </Tooltip>
-          <Button variant="contained" color="success">
+          <Button
+            onClick={handleEnterPin}
+            variant="contained"
+            color="success">
             Enter
           </Button>
         </Stack>

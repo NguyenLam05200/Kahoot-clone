@@ -1,13 +1,13 @@
-import { useSelector, useDispatch } from 'react-redux';
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { useState } from 'react'
 import { Tooltip, TextField, Box, Stack, Grid, Paper, Divider, Typography, Container, Button } from '@mui/material'
-import { purple } from '@mui/material/colors';
+import { enterName } from './playerSlice';
 
 const RightPin = ({ }) => {
+  const [name, setName] = useState('');
+  const dispatch = useDispatch();
+
   const colorBg = '#46178F';
-  const colorText = purple[0];
 
   return (
     <Box sx={{
@@ -33,12 +33,20 @@ const RightPin = ({ }) => {
               label='Nickname'
               variant='outlined'
               color="secondary"
+              onChange={(e) => setName(e.target.value)}
+              value={name}
               inputProps={{
                 style: { textAlign: 'center', fontWeight: 'bold', fontSize: 20 }
               }}
             />
           </Tooltip>
-          <Button variant="contained" size='large' color="success" sx={{ textTransform: 'none', fontWeight: 'bold' }}>
+          <Button
+            onClick={() => dispatch(enterName(name))}
+            variant="contained"
+            size='large'
+            color="success"
+            sx={{ textTransform: 'none', fontWeight: 'bold' }}
+          >
             OK, go!
           </Button>
         </Stack>
