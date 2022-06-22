@@ -10,6 +10,7 @@ import ResponsiveAppBar from "../../components/AppBar";
 import Navbar from "../user/Navbar";
 import $ from "jquery";
 import { height } from "@mui/system";
+import AddImage from "../../features/create_kahoot/addImage";
 
 const CreateListKahootQuestion = () => {
   //const test = [{id:1, time:20, ques_title: "abc", ans1: "def", ans2:"def", ans3:"kd", ans4:"dj", img:"s" }];
@@ -127,7 +128,7 @@ const CreateListKahootQuestion = () => {
                     />
                   </div>
                   <div className="form-group">
-                    <div className="custom-file">
+                    {/* <div className="custom-file">
                       <input
                         type="file"
                         className="custom-file-input"
@@ -136,7 +137,8 @@ const CreateListKahootQuestion = () => {
                       <label className="custom-file-label" htmlFor="customFile">
                         Choose image of question
                       </label>
-                    </div>
+                    </div> */}
+                    <AddImage/>
                   </div>
                   <div className="form-group">
                     <div className="d-flex align-item-center">
