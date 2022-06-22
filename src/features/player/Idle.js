@@ -17,7 +17,6 @@ const Idle = ({ }) => {
 
   const handleEnterPin = (e) => {
     if (pin) {
-      alert(pin)
       dispatch(enterPIN(pin));
     }
   }

@@ -7,8 +7,8 @@ export const enterPIN = createAsyncThunk(
     try {
       console.log(inputPin);
       let res = await handlePIN(inputPin);
-      if (res) {
-        return inputPin;
+      if (res.isRightPin) {
+        return res.questions;
       } else {
         return thunkAPI.rejectWithValue("Your pin is incorrect!");
       }
@@ -38,6 +38,9 @@ export const playerSlice = createSlice({
   name: 'player',
   initialState: {
     name: '',
+    questions: [],
+    score: 0,
+    curQuestion: 0,
     status: 'idle',
     isFetching: false,
     isSuccess: false,
@@ -53,7 +56,8 @@ export const playerSlice = createSlice({
     },
   },
   extraReducers: {
-    [enterPIN.fulfilled]: (state) => {
+    [enterPIN.fulfilled]: (state, { payload }) => {
+      state.questions = payload;
       state.isFetching = false;
       state.isSuccess = true;
       state.status = 'rightPin';
