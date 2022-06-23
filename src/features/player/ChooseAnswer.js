@@ -22,17 +22,17 @@ const ChooseAnswer = ({ }) => {
 
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     dispatch(timeUp());
-  //   }, questions[curQuestion].timeLimit * 1000);
-  // }, []);
-
   useEffect(() => {
     setTimeout(() => {
-      dispatch(waitResult());
-    }, 1000);
+      dispatch(timeUp());
+    }, questions[curQuestion].timeLimit * 1000);
   }, []);
+
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     dispatch(waitResult());
+  //   }, 1000);
+  // }, []);
 
   const [curAns, setCurAns] = useState([]);
 
@@ -73,6 +73,7 @@ const ChooseAnswer = ({ }) => {
   ]
   const handleClickAns = (ans) => {
     setCurAns([...curAns, ans]);
+    dispatch(waitResult());
   }
 
   return (
