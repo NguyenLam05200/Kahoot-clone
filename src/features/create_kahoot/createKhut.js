@@ -121,7 +121,7 @@ const CreateListKahootQuestion = () => {
                 </button>
               </div>
               <div className="modal-body">
-                <form>
+               
                   <div className="form-group">
                     <label htmlFor="txtid">Id</label>
                     <input
@@ -305,7 +305,7 @@ const CreateListKahootQuestion = () => {
                       </div>
                     </div>
                   </div>
-                </form>
+              
               </div>
               <div className="modal-footer">
                 <button
