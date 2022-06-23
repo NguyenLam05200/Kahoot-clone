@@ -1,4 +1,4 @@
-import { Box, Stack, Grid, Paper, Divider, ButtonGroup, Button, ListItem, Checkbox } from '@mui/material'
+import { Chip, Badge, Avatar, Box, Stack, Grid, Paper, Divider, ButtonGroup, Button, ListItem, Checkbox, ListItemAvatar, ListSubheader, Typography } from '@mui/material'
 import Navbar from '../user/Navbar';
 import { useState } from 'react'
 import TableRowsIcon from '@mui/icons-material/TableRows';
@@ -38,7 +38,7 @@ const Library = () => {
     },
   ]);
   const [selectedIndex, setSelectedIndex] = useState(1);
-  const [checked, setChecked] = useState([0]);
+  const [checked, setChecked] = useState([]);
 
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
@@ -178,7 +178,31 @@ const Library = () => {
                           inputProps={{ 'aria-labelledby': labelId }}
                         />
                       </ListItemIcon>
-                      <ListItemText id={labelId} primary={room.room_title} />
+                      <ListItemAvatar sx={{
+                        width: '8rem',
+                        height: '8rem',
+                      }}>
+                        <Avatar sx={{ width: '100%', height: '100%', borderRadius: 2 }} alt="Image alt" src={room.img} variant="square" />
+                      </ListItemAvatar>
+                      {/* <ListSubheader>
+                        <Chip label={room.num_question + " questions"} variant='filled' color="success" sx={{ mx: 2, px: 1 }} />
+                      </ListSubheader> */}
+                      <ListItemText sx={{ px: 2, }} id={labelId}
+                        primary={
+                          <Typography
+                            sx={{ display: 'inline' }}
+                            component="span"
+                            variant="h5"
+                            color="text.primary"
+                            fontWeight='bold'
+                          >
+                            {room.room_title}
+                          </Typography>
+                        }
+                        secondary={
+                          <Chip label={room.num_question + " questions"} variant='outlined' color="info" sx={{ mt: 1, px: 1, fontWeight: 'bold', fontSize: 15 }} />
+                        }
+                      />
                     </ListItemButton>
                   </ListItem>
                 );
