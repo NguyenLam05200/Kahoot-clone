@@ -8,9 +8,9 @@ import ViewInArIcon from "@mui/icons-material/ViewInAr";
 import { isTSEntityName } from "@babel/types";
 import ResponsiveAppBar from "../../components/AppBar";
 import Navbar from "../user/Navbar";
-import $ from "jquery";
+import $, { data } from "jquery";
 import { height } from "@mui/system";
-import AddImage from "../../features/create_kahoot/addImage";
+import UploadImage from "../../features/create_kahoot/uploadImage";
 
 const CreateListKahootQuestion = () => {
   //const test = [{id:1, time:20, ques_title: "abc", ans1: "def", ans2:"def", ans3:"kd", ans4:"dj", img:"s" }];
@@ -19,6 +19,12 @@ const CreateListKahootQuestion = () => {
   const [inputState, setInputState] = useState(false);
   const [id, setId] = useState(0);
   const [listQuestion, setListQuestion] = useState([]);
+
+  const [url, setUrl] = useState();
+
+  const handleCallback = (childData) => {
+    setUrl(childData);
+  };
 
   function onCickSave() {
     if (
@@ -29,7 +35,6 @@ const CreateListKahootQuestion = () => {
       $("#txtans3").val().length > 0 &&
       $("#txtans4").val().length > 0
     ) {
-      console.log($("#txttime").val().length);
       setInputState(true);
       const newQuestion = {
         id: id,
@@ -39,7 +44,7 @@ const CreateListKahootQuestion = () => {
         ans2: $("#txtans2").val(),
         ans3: $("#txtans3").val(),
         ans4: $("#txtans4").val(),
-        img: "https://img5.thuthuatphanmem.vn/uploads/2021/08/25/hinh-nen-3d-cho-may-tinh-4k_084701936.jpg",
+        img: url,
         ans1True: $("#correctans1").is(":checked"),
         ans2True: $("#correctans2").is(":checked"),
         ans3True: $("#correctans3").is(":checked"),
@@ -55,6 +60,7 @@ const CreateListKahootQuestion = () => {
     } else {
       setInputState(false);
     }
+    setUrl(null);
   }
 
   return (
@@ -138,7 +144,7 @@ const CreateListKahootQuestion = () => {
                         Choose image of question
                       </label>
                     </div> */}
-                    <AddImage/>
+                    <UploadImage callback={handleCallback} />
                   </div>
                   <div className="form-group">
                     <div className="d-flex align-item-center">
@@ -175,12 +181,10 @@ const CreateListKahootQuestion = () => {
                       placeholder="what is this?"
                       required
                     />
-                    {
-                      inputState !== true && (
-                        <span style={{ color: "red" }}>required</span>
-                      )
-                    }
-                  </div >
+                    {inputState !== true && (
+                      <span style={{ color: "red" }}>required</span>
+                    )}
+                  </div>
                   <div className="form-group">
                     <label htmlFor="txtans1" style={{ color: "#573ee4" }}>
                       <i class="fa fa-ravelry" aria-hidden="true"></i> Answer 1
@@ -203,12 +207,10 @@ const CreateListKahootQuestion = () => {
                       placeholder="Pig"
                       required
                     />
-                    {
-                      inputState !== true && (
-                        <span style={{ color: "red" }}>required</span>
-                      )
-                    }
-                  </div >
+                    {inputState !== true && (
+                      <span style={{ color: "red" }}>required</span>
+                    )}
+                  </div>
 
                   <div className="form-group">
                     <label htmlFor="txtans3" style={{ color: "#573ee4" }}>
@@ -221,12 +223,10 @@ const CreateListKahootQuestion = () => {
                       placeholder="Cat"
                       required
                     />
-                    {
-                      inputState !== true && (
-                        <span style={{ color: "red" }}>required</span>
-                      )
-                    }
-                  </div >
+                    {inputState !== true && (
+                      <span style={{ color: "red" }}>required</span>
+                    )}
+                  </div>
 
                   <div className="form-group">
                     <label htmlFor="txtans4" style={{ color: "#573ee4" }}>
@@ -239,12 +239,10 @@ const CreateListKahootQuestion = () => {
                       placeholder="Dog"
                       required
                     />
-                    {
-                      inputState !== true && (
-                        <span style={{ color: "red" }}>required</span>
-                      )
-                    }
-                  </div >
+                    {inputState !== true && (
+                      <span style={{ color: "red" }}>required</span>
+                    )}
+                  </div>
 
                   <div className="form-group">
                     <div className="form-check row">
@@ -262,8 +260,8 @@ const CreateListKahootQuestion = () => {
                           >
                             <i class="fa fa-ravelry" aria-hidden="true"></i>{" "}
                             Answer 1
-                          </label >
-                        </div >
+                          </label>
+                        </div>
                         <div>
                           <input
                             className="form-check-input"
@@ -304,11 +302,11 @@ const CreateListKahootQuestion = () => {
                             Answer 4
                           </label>
                         </div>
-                      </div >
-                    </div >
-                  </div >
-                </form >
-              </div >
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
               <div className="modal-footer">
                 <button
                   type="button"
@@ -325,11 +323,11 @@ const CreateListKahootQuestion = () => {
                   Add
                 </button>
               </div>
-            </div >
-          </div >
-        </div >
-      </div >
-    </div >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
