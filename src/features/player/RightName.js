@@ -1,12 +1,20 @@
 import { Box, Stack } from '@mui/material'
-import { useSelector } from "react-redux";
-import { playerSelector } from './playerSlice';
+import { useSelector, useDispatch } from "react-redux";
+import { playerSelector, ready } from './playerSlice';
+import { useEffect } from 'react';
 
 const RightName = ({ }) => {
   const { name } = useSelector(
     playerSelector
   );
   const colorBg = '#46178F';
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    setTimeout(() => {
+      dispatch(ready());
+    }, 1000);
+  }, []);
 
   return (
     <Box sx={{

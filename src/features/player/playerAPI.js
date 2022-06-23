@@ -2,7 +2,7 @@ import { instance } from "../../utils/axios";
 
 export function handlePIN(pin) {
   // call api || websocket
-  return {
+  const QuestionFake = {
     isRightPin: true,
     questions: [
       {
@@ -13,7 +13,8 @@ export function handlePIN(pin) {
         timeLimit: 20
       },
     ],
-  };
+  }
+  return QuestionFake;
 }
 
 export function handleNAME(name) {

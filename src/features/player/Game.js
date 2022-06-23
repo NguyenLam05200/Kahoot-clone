@@ -7,7 +7,13 @@ import { purple } from '@mui/material/colors';
 import { useSelector } from "react-redux";
 import { playerSelector } from './playerSlice';
 import RightName from "./RightName";
-import StartGame from "./StartGame";
+import ChooseAnswer from "./ChooseAnswer";
+import GetReady from "./GetReady";
+import ReadQuestion from "./ReadQuestion";
+import TimeUp from "./TimeUp";
+import CorrectAns from "./CorrectAns";
+import IncorrectAns from "./IncorrectAns";
+import WaitResult from "./WaitResult";
 const Game = ({ }) => {
   const { status, name, questions, score } = useSelector(
     playerSelector
@@ -17,8 +23,14 @@ const Game = ({ }) => {
 
   return (
     <>
-      {status === 'rightName' && <StartGame />}
-      {status === 'startGame' && <StartGame />}
+      {status === 'rightName' && <RightName />}
+      {status === 'getReady' && <GetReady />}
+      {status === 'readQuestion' && <ReadQuestion />}
+      {status === 'chooseAnswer' && <ChooseAnswer />}
+      {status === 'waitResult' && <WaitResult />}
+      {status === 'timeUp' && <TimeUp />}
+      {status === 'correctAns' && <CorrectAns />}
+      {status === 'incorrectAns' && <IncorrectAns />}
     </>
   );
 };

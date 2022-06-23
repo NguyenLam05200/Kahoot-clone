@@ -8,7 +8,12 @@ const RightPin = ({ }) => {
   const dispatch = useDispatch();
 
   const colorBg = '#46178F';
-
+  const handleEnterName = (e) => {
+    e.preventDefault();
+    if (name !== '') {
+      dispatch(enterName(name));
+    }
+  }
   return (
     <Box sx={{
       width: '100%',
@@ -22,6 +27,8 @@ const RightPin = ({ }) => {
       <Box component='div' justifyContent='center' alignItems='center'>
         <h1 align='center'> Kahut!</h1>
         <Stack
+          component='form'
+          onSubmit={handleEnterName}
           marginTop={3}
           borderRadius={3}
           padding={4}
@@ -41,7 +48,8 @@ const RightPin = ({ }) => {
             />
           </Tooltip>
           <Button
-            onClick={() => dispatch(enterName(name))}
+            // onClick={() => dispatch(enterName(name))}
+            type='submit'
             variant="contained"
             size='large'
             color="success"

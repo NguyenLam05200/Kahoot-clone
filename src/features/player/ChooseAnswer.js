@@ -1,8 +1,8 @@
 import { Box, Stack, Paper, Grid, Typography, Button } from '@mui/material'
 import { experimentalStyled as styled } from '@mui/material/styles';
 
-import { useSelector } from "react-redux";
-import { playerSelector } from './playerSlice';
+import { useSelector, useDispatch } from "react-redux";
+import { playerSelector, timeUp, correctAns, incorrectAns, waitResult } from './playerSlice';
 
 import SquareIcon from '@mui/icons-material/Square';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -12,11 +12,30 @@ import ChurchIcon from '@mui/icons-material/Church';
 import CloudIcon from '@mui/icons-material/Cloud';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import DeviceHubIcon from '@mui/icons-material/DeviceHub';
+import { useEffect, useState } from 'react';
+import { current } from '@reduxjs/toolkit';
 
-const StartGame = ({ }) => {
+const ChooseAnswer = ({ }) => {
   const { name, questions, curQuestion, score } = useSelector(
     playerSelector
   );
+
+  const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     dispatch(timeUp());
+  //   }, questions[curQuestion].timeLimit * 1000);
+  // }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      dispatch(waitResult());
+    }, 1000);
+  }, []);
+
+  const [curAns, setCurAns] = useState([]);
+
   const fontSizeIcon = 40
   const answerUI = [
     {
@@ -52,6 +71,9 @@ const StartGame = ({ }) => {
       bgColor: '#e646cc'
     },
   ]
+  const handleClickAns = (ans) => {
+    setCurAns([...curAns, ans]);
+  }
 
   return (
     <Box sx={{
@@ -100,17 +122,24 @@ const StartGame = ({ }) => {
         }}
       >
         {Array.from(Array(questions[curQuestion].totalAns)).map((_, index) => (
-          <Box
+          <Button
+            key={index}
+            onClick={() => handleClickAns(index)}
             sx={{
-              backgroundColor: answerUI[index].bgColor,
+              backgroundColor: curAns.includes(index) ? '#5a5253' : answerUI[index].bgColor,
+              // backgroundColor: answerUI[index].bgColor,
               color: 'white',
               alignItems: "center",
               justifyContent: "center",
-              display: 'flex'
+              display: 'flex',
+              '&:hover': {
+                backgroundColor: '#5a5253',
+              }
+
             }}
           >
             {answerUI[index].icon}
-          </Box>
+          </Button>
         ))}
       </Box>
       <Box
@@ -131,7 +160,7 @@ const StartGame = ({ }) => {
         }}>
           {name}
         </Typography>
-        <Button variant="contained" component='typography'
+        <Button variant="contained"
           aria-disabled='true'
           sx={{
             m: 'auto',
@@ -152,4 +181,4 @@ const StartGame = ({ }) => {
   );
 };
 
-export default StartGame;
+export default ChooseAnswer;

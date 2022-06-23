@@ -2,20 +2,26 @@ import { useSelector, useDispatch } from 'react-redux';
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react'
-import { Tooltip, TextField, Box, Stack, Grid, Paper, Divider, Typography, Container, Button } from '@mui/material'
+import { Tooltip, TextField, Box, Stack, Backdrop, CircularProgress, Divider, Typography, Container, Button } from '@mui/material'
 import { purple } from '@mui/material/colors';
 import { enterPIN } from './playerSlice';
 import { handlePIN } from './playerAPI';
+import { Form } from 'formik';
+import { playerSelector } from './playerSlice';
 
 const Idle = ({ }) => {
 
   const [pin, setPin] = useState(null);
   const dispatch = useDispatch();
+  const { isFetching } = useSelector(
+    playerSelector
+  );
 
   const colorBg = '#46178F';
   const colorText = purple[0];
 
   const handleEnterPin = (e) => {
+    e.preventDefault();
     if (pin) {
       dispatch(enterPIN(pin));
     }
@@ -33,7 +39,15 @@ const Idle = ({ }) => {
     }}>
       <Box component='div' justifyContent='center' alignItems='center'>
         <h1 align='center'> Kahut!</h1>
+        <Backdrop
+          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={isFetching}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
         <Stack
+          component='form'
+          onSubmit={handleEnterPin}
           borderRadius={3}
           padding={4}
           spacing={2}
@@ -52,7 +66,8 @@ const Idle = ({ }) => {
             />
           </Tooltip>
           <Button
-            onClick={handleEnterPin}
+            // onClick={handleEnterPin}
+            type='submit'
             variant="contained"
             color="success">
             Enter
