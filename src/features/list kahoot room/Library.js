@@ -148,11 +148,18 @@ const Library = () => {
                         <Divider orientation="vertical" flexItem />
                         <Button
                           variant='contained'
+                          href={`/user/gameHost?kahutId=${index}`}
+                          target='_blank'
                           sx={{
                             color: 'white',
                             textTransform: 'none',
                             align: 'center',
-                            size: 'small'
+                            size: 'small',
+                            '&:hover': {
+                              color: 'black',
+                              bgcolor: 'yellow',
+                              fontWeight: 'bold',
+                            }
                           }}
                         >
                           Play
@@ -210,7 +217,7 @@ const Library = () => {
             </List>
           </Box>
         </Grid>
-      </Grid>
+      </Grid >
     </>
   );
 };

@@ -15,7 +15,7 @@ import ListKahootRoom from "../../features/list kahoot room/ListKahootRoom"
 import { Routes, Route } from "react-router-dom";
 import { Container, Paper } from "@mui/material";
 import Library from "../../features/list kahoot room/Library";
-
+import GameHost from "../../features/hostGame/GameHost";
 function App() {
   return (
     <Paper elevation={0} sx={{
@@ -32,6 +32,7 @@ function App() {
           <Route path='create'>
             <Route path='kahut' element={<CreateListKahootQuestion />} /> {/** url: localhost:3000/user/create/kahut */}
           </Route>
+          <Route path='gameHost' element={<GameHost />} /> {/** url: localhost:3000/user/home */}
         </Route>
 
         <Route element={<HomeLayout />}>
