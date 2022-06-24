@@ -77,7 +77,7 @@ const Navbar = () => {
     console.log(newValue);
   }
   return (
-    <AppBar position="flex" sx={{ backgroundColor: 'white', color: 'black' }}>
+    <AppBar position="static" sx={{ backgroundColor: 'white', color: 'black' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <ViewInArIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} fontSize="large" />

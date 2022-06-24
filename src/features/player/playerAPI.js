@@ -8,7 +8,7 @@ export function handlePIN(pin) {
       {
         type: 'True or false',
         point: 5,
-        totalAns: 2,
+        totalAns: 4,
         correctAns: [0],
         timeLimit: 20
       },
