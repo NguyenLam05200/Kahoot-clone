@@ -23,16 +23,11 @@ const ChooseAnswer = ({ }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setTimeout(() => {
+    const interval = setInterval(() => {
       dispatch(timeUp());
     }, questions[curQuestion].timeLimit * 1000);
+    return () => clearInterval(interval);
   }, []);
-
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     dispatch(waitResult());
-  //   }, 1000);
-  // }, []);
 
   const [curAns, setCurAns] = useState([]);
 
