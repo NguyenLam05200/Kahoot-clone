@@ -1,4 +1,5 @@
 import { Box } from '@mui/material'
+import ChooseAns from './ChooseAns';
 import GetReady from './GetReady';
 import Idle from './Idle';
 import LoadingPin from './LoadingPin';
@@ -10,7 +11,7 @@ const GameHost = () => {
             backgroundColor: '#1368CE',
         }}
         >
-            <ReadQuestion />
+            <ChooseAns />
         </Box>
     );
 };

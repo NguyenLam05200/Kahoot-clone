@@ -1,12 +1,10 @@
 import { Box, Typography, Stack, IconButton, LinearProgress, Button } from '@mui/material'
 import { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 
 import SquareIcon from '@mui/icons-material/Square';
 import HexagonIcon from '@mui/icons-material/Hexagon';
 import CircleIcon from '@mui/icons-material/Circle';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
-import ChangeHistoryIcon from '@mui/icons-material/ChangeHistory';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 
@@ -17,7 +15,7 @@ const answerUI = [
         bgColor: '#e21b3c'
     },
     {
-        icon: <ChangeHistoryIcon sx={{ fontSize: fontSizeIcon }} />,
+        icon: <DarkModeIcon sx={{ fontSize: fontSizeIcon }} />,
         bgColor: '#e646cc'
     },
     {
@@ -34,21 +32,35 @@ const answerUI = [
 const ReadQuestion = () => {
     const [isFullScreen, setIsFullScreen] = useState(false);
     const [progress, setProgress] = useState(0);
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setProgress((oldProgress) => {
-                if (oldProgress === 100) {
-                    return 0;
-                }
-                const diff = Math.random() * 10;
-                return Math.min(oldProgress + diff, 100);
-            });
-        }, 500);
 
-        return () => {
-            clearInterval(timer);
-        };
-    }, []);
+    useEffect(() => {
+        const interval = setInterval(() => {
+            progress > 1 ? setProgress(0) : setProgress((progress) => progress + 0.002);
+        }, 1);
+        return () => clearInterval(interval);
+    });
+
+    const requestFullScreen = () => {
+        setIsFullScreen(!isFullScreen)
+        if ((document.fullScreenElement && document.fullScreenElement !== null) ||
+            (!document.mozFullScreen && !document.webkitIsFullScreen)) {
+            if (document.documentElement.requestFullScreen) {
+                document.documentElement.requestFullScreen();
+            } else if (document.documentElement.mozRequestFullScreen) {
+                document.documentElement.mozRequestFullScreen();
+            } else if (document.documentElement.webkitRequestFullScreen) {
+                document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+            }
+        } else {
+            if (document.cancelFullScreen) {
+                document.cancelFullScreen();
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+            } else if (document.webkitCancelFullScreen) {
+                document.webkitCancelFullScreen();
+            }
+        }
+    }
 
     return (
         <Box sx={{
@@ -58,7 +70,7 @@ const ReadQuestion = () => {
             <Box
                 sx={{
                     height: 1 / 10,
-                    boxShadow: 5,
+
                     px: 2,
                     display: 'flex'
                 }}
@@ -80,7 +92,7 @@ const ReadQuestion = () => {
                         }}
                         aria-label="delete"
                         size="medium"
-                        onClick={() => setIsFullScreen(!isFullScreen)}
+                        onClick={requestFullScreen}
                     >
                         {isFullScreen ? <FullscreenExitIcon fontSize="inherit" /> : < FullscreenIcon fontSize="inherit" />}
                     </IconButton>
@@ -123,7 +135,7 @@ const ReadQuestion = () => {
                 <Stack spacing={15} alignItems="center">
                     <IconButton
                         style={{
-                            boxShadow: 5,
+
                             backgroundColor: '#0A3A72',
                             color: 'black',
                             fontWeight: 'bold',
@@ -141,8 +153,8 @@ const ReadQuestion = () => {
                             borderRight: 8,
                             borderLeft: 8,
                             backgroundColor: 'white',
-                            width: 'calc(8vh + 8vw)',
-                            height: 'calc(5vh + 5vw)',
+                            width: 165,
+                            height: 82,
                             p: 1,
                             display: 'grid',
                             gap: 1,
@@ -156,22 +168,22 @@ const ReadQuestion = () => {
                                     transform: "rotate(70deg)",
                                 },
                             },
-                        }}>
+                        }}
+                        >
                             {Array.from(Array(4)).map((_, index) => (
                                 <Button
                                     key={index}
                                     style={{
                                         backgroundColor: answerUI[index].bgColor,
                                         border: "none",
-                                        outline: "none"
+                                        outline: "none",
                                     }}
                                     sx={{
                                         color: 'white',
                                         alignItems: "center",
                                         justifyContent: "center",
                                         display: 'flex',
-                                        width: 'calc((8vh + 8vw)/2 - 2)',
-                                        height: 'calc((5vh + 5vw)/2 - 2)',
+                                        height: 24,
                                     }}
                                 >
                                     {answerUI[index].icon}
@@ -193,7 +205,7 @@ const ReadQuestion = () => {
             <Box
                 sx={{
                     height: 1 / 10,
-                    boxShadow: 5,
+
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'left',
@@ -203,7 +215,7 @@ const ReadQuestion = () => {
                     mx: 1,
                     p: 1,
                     borderRadius: 5,
-                    width: progress + '%',
+                    width: progress,
                     backgroundColor: 'white',
                 }} />
                 {/* <Box sx={{ width: '100%', color: '#fff' }}>
