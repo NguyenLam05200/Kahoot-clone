@@ -176,7 +176,7 @@ const WaitingPlayers = () => {
                             color: 'white',
                             textTransform: 'none',
                             fontWeight: 800,
-                            fontSize: 18,
+                            fontSize: 22,
                             pl: 1,
                             pr: 4 - count % 3,
                             mx: 2,
