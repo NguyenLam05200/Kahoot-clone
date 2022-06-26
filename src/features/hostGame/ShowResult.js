@@ -1,5 +1,5 @@
-import { Box, Typography, Stack, IconButton, LinearProgress, Button } from '@mui/material'
-import { useState, useEffect } from 'react';
+import { Box, Typography, Stack, IconButton, Dialog, Button, DialogContent, Slide } from '@mui/material'
+import { useState, useEffect, forwardRef } from 'react';
 
 import SquareIcon from '@mui/icons-material/Square';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -16,6 +16,13 @@ import ClearIcon from '@mui/icons-material/Clear';
 
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import VolumeOffIcon from '@mui/icons-material/VolumeOff';
+import { requestFullScreen } from '../../utils/utilities';
+
+
+const Transition = forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
+
 
 let fontSizeIcon = 40
 const answerUI = [
@@ -91,38 +98,14 @@ const answerUI2 = [
 const correctAns = 2;
 const playerAns = [0, 3, 2, 5]
 
-const ShowResult1 = () => {
+const ShowResult = () => {
     const [isFullScreen, setIsFullScreen] = useState(false);
     const [isVolumn, setIsVolumn] = useState(true);
-    const [progress, setProgress] = useState(0);
+    const [isShowMedia, setIsShowMedia] = useState(false);
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            progress > 1 ? setProgress(0) : setProgress((progress) => progress + 0.002);
-        }, 1);
-        return () => clearInterval(interval);
-    });
-
-    const requestFullScreen = () => {
+    const handleFullScreen = () => {
         setIsFullScreen(!isFullScreen)
-        if ((document.fullScreenElement && document.fullScreenElement !== null) ||
-            (!document.mozFullScreen && !document.webkitIsFullScreen)) {
-            if (document.documentElement.requestFullScreen) {
-                document.documentElement.requestFullScreen();
-            } else if (document.documentElement.mozRequestFullScreen) {
-                document.documentElement.mozRequestFullScreen();
-            } else if (document.documentElement.webkitRequestFullScreen) {
-                document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
-            }
-        } else {
-            if (document.cancelFullScreen) {
-                document.cancelFullScreen();
-            } else if (document.mozCancelFullScreen) {
-                document.mozCancelFullScreen();
-            } else if (document.webkitCancelFullScreen) {
-                document.webkitCancelFullScreen();
-            }
-        }
+        requestFullScreen();
     }
 
     return (
@@ -162,7 +145,7 @@ const ShowResult1 = () => {
                                     backgroundColor: 'pink',
                                 }
                             }}
-                            onClick={requestFullScreen}
+                            onClick={handleFullScreen}
                         >
                             {isFullScreen ? <FullscreenExitIcon fontSize="inherit" /> : < FullscreenIcon fontSize="inherit" />}
                         </IconButton>
@@ -213,7 +196,7 @@ const ShowResult1 = () => {
                     justifyContent: 'right',
                     display: 'grid',
                 }}>
-                    <Button variant='contained' sx={{ textTransform: 'none' }}>Skip</Button>
+                    <Button variant='contained' sx={{ textTransform: 'none' }}>Next</Button>
                 </Box>
             </Box>
             <Box
@@ -231,7 +214,8 @@ const ShowResult1 = () => {
                             sx={{
                                 width: '12vw',
                                 height: total / Math.max(...playerAns) * (92 / 100),
-                                minHeight: '8%',
+                                minHeight: 30,
+                                minWidth: 80,
                                 backgroundColor: answerUI2[index].bgColor,
                                 display: 'flex',
                                 justifyContent: 'center',
@@ -261,12 +245,35 @@ const ShowResult1 = () => {
                     justifyContent: 'center',
                 }}
             >
-                <Button variant='contained' sx={{
-                    backgroundColor: 'black',
-                    color: 'white',
-                    textTransform: 'none',
-                    fontWeight: 'bold'
-                }}>Show media</Button>
+                <Button
+                    onClick={() => setIsShowMedia(true)}
+                    variant='contained'
+                    sx={{
+                        backgroundColor: 'black',
+                        color: 'white',
+                        textTransform: 'none',
+                        fontWeight: 'bold'
+                    }}>Show media</Button>
+                <Dialog
+                    open={isShowMedia}
+                    TransitionComponent={Transition}
+                    keepMounted
+                    onClose={() => setIsShowMedia(false)}
+                >
+                    <DialogContent>
+                        <Box sx={{ backgroundColor: '#fff', p: 1, borderRadius: 2, boxShadow: 3 }}>
+                            <Box
+                                component="img"
+                                sx={{
+                                    height: '45vh',
+                                    width: '40vw',
+                                }}
+                                alt="Sesame seeds"
+                                src="https://images.unsplash.com/photo-1586343061001-b61e47c9b7cf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
+                            />
+                        </Box>
+                    </DialogContent>
+                </Dialog>
             </Box>
             <Box
                 sx={{
@@ -354,4 +361,4 @@ const ShowResult1 = () => {
     );
 };
 
-export default ShowResult1;
+export default ShowResult;
