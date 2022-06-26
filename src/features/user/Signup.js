@@ -31,8 +31,7 @@ const Signup = () => {
   useEffect(() => {
     if (isSuccess) {
       dispatch(clearState());
-      navigate('/dashboard');
-      // history.push('/');
+      navigate('/login');
     }
 
     if (isError) {

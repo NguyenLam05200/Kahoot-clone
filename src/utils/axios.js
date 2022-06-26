@@ -1,9 +1,14 @@
 import axios from 'axios';
 
-export const instance = axios.create({
-    baseURL: 'http://localhost:8080/api/',
+export const instanceAuth = axios.create({
+    baseURL: 'https://157.245.147.239:8080/v1/user/',
     timeout: 5000,
-    // headers: { 'X-Custom-Header': 'foobar' }
+});
+
+export const instance = axios.create({
+    baseURL: 'https://157.245.147.239:9090/v1/api/admin/',
+    timeout: 5000,
+    headers: { Authorization: `Bearer ${localStorage.kahut_app_accessToken}` }
 });
 
 export function parseJwt(token) {
