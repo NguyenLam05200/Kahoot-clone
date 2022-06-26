@@ -4,6 +4,7 @@ import GetReady from './GetReady';
 import Idle from './Idle';
 import LoadingPin from './LoadingPin';
 import ReadQuestion from './ReadQuestion';
+import ShowResult1 from './ShowResult1';
 import WaitingPlayers from './WaitingPlayers';
 const GameHost = () => {
     return (
@@ -11,7 +12,7 @@ const GameHost = () => {
             backgroundColor: '#1368CE',
         }}
         >
-            <ChooseAns />
+            <ShowResult1 />
         </Box>
     );
 };
