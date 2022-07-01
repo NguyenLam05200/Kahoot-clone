@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import Socket from '../../utils/socket';
 
 import { useSelector, useDispatch } from "react-redux";
-import { playerSelector, sendPinResult } from './playerSlice';
+import { playerSelector, sendPinResult, ready, readQuestion } from './playerSlice';
 
 import Join from './Join';
 import Game from './Game';
@@ -21,11 +21,18 @@ export const PlayerPage = () => {
         }, 1000);
     };
 
+    const startGame = () => {
+        dispatch(ready())
+    };
+
     useEffect(() => {
         Socket.emit('HAND_SHAKE')
         Socket.on('ENTER_PIN', handlePinResult)
+        Socket.on('START_GAME', startGame)
+        Socket.on('READ_QUESTION', (msg) => dispatch(readQuestion(msg)))
         return () => {
             Socket.off('ENTER_PIN', handlePinResult);
+            Socket.off('START_GAME', startGame)
         };
     }, []);
 

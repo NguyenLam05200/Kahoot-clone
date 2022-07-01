@@ -5,7 +5,7 @@ const initialState = {
   status: 'idle',
   listQuestions: [
     {
-      type: "Choose correct answers",
+      type: "Quiz",
       img: "https://img5.thuthuatphanmem.vn/uploads/2021/08/25/hinh-nen-3d-cho-may-tinh-4k_084701936.jpg",
       time: 15,
       ques_title: "Con gà có truớc hay trứng gà có truớc?",
@@ -13,7 +13,7 @@ const initialState = {
       correctAns: [3],
     },
     {
-      type: "Choose correct answers",
+      type: "Quiz",
       img: "https://img5.thuthuatphanmem.vn/uploads/2021/08/25/hinh-nen-3d-cho-may-tinh-4k_084701936.jpg",
       time: 20,
       ques_title: "Bao lâu bán đuợc 1 tỉ gói mè 😐?",
@@ -31,6 +31,8 @@ const initialState = {
   ],
   pin: null,
   listPlayers: [],
+  curQuestion: 0,
+  timeReadQuestion: 0,
   isBlockJoin: false,
   isFetching: false,
   isSuccess: false,
@@ -66,6 +68,16 @@ export const gameSlice = createSlice({
       socket.emit('BLOCK_JOIN');
       state.isBlockJoin = !state.isBlockJoin;
     },
+    startGame: (state) => {
+      socket.emit('START_GAME');
+      state.status = 'startGame';
+    },
+    readQuestion: (state, { payload }) => {
+      state.timeReadQuestion = payload.timeReadQuestion;
+      state.curQuestion = payload.indexQuestion;
+      state.status = 'readQuestion';
+      return state;
+    },
   },
 });
 
@@ -77,6 +89,8 @@ export const {
   joinPlayer,
   leavePlayer,
   setBlockJoin,
+  startGame,
+  readQuestion
 } = gameSlice.actions;
 
 export const gameSelector = (state) => state.game;

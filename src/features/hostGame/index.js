@@ -2,7 +2,14 @@ import { Box } from '@mui/material'
 import { useEffect, useCallback, useState } from 'react';
 
 import { useSelector, useDispatch } from "react-redux";
-import { gameSelector, setStateLoadingPin, getPinSuccess, joinPlayer, leavePlayer } from './gameSlice';
+import {
+    gameSelector,
+    setStateLoadingPin,
+    getPinSuccess,
+    joinPlayer,
+    leavePlayer,
+    readQuestion
+} from './gameSlice';
 import socket from '../../utils/socket';
 
 import ChooseAns from './ChooseAns';
@@ -15,13 +22,13 @@ import ShowResult from './ShowResult';
 import WaitingPlayers from './WaitingPlayers';
 
 const GameHost = () => {
-    const { status, listQuestions, isBlockJoin } = useSelector(
+    const { status, listQuestions } = useSelector(
         gameSelector
     );
     const dispatch = useDispatch();
 
 
-    const requestCreatePin = (message) => {
+    const requestCreatePin = () => {
         window.setTimeout(function () {
             dispatch(setStateLoadingPin())
             socket.emit("CREATE_PIN", listQuestions);
@@ -46,6 +53,7 @@ const GameHost = () => {
         socket.on('CREATE_PIN', setPin);
         socket.on('PLAYER_JOIN', playerJoin);
         socket.on('PLAYER_LEAVE', playerLeave);
+        socket.on('READ_QUESTION', (msg) => dispatch(readQuestion(msg)))
 
         return () => {
             socket.off('HAND_SHAKE', requestCreatePin);
@@ -63,6 +71,8 @@ const GameHost = () => {
             {status === 'idle' && <Idle />}
             {status === 'loadingPin' && <LoadingPin />}
             {status === 'waitPlayers' && <WaitingPlayers />}
+            {status === 'startGame' && <GetReady />}
+            {status === 'readQuestion' && <ReadQuestion />}
         </Box>
     );
 };

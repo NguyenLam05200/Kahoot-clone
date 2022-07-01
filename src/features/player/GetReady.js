@@ -1,12 +1,7 @@
 import { Box, Stack, CircularProgress, Typography } from '@mui/material'
 import { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from "react-redux";
-import { playerSelector, readQuestion } from './playerSlice';
 
 const GetReady = ({ }) => {
-  const { name } = useSelector(
-    playerSelector
-  );
   const [count, setCount] = useState(0);
   useEffect(() => {
     const interval = setInterval(() => {
@@ -15,12 +10,6 @@ const GetReady = ({ }) => {
     return () => clearInterval(interval);
   });
 
-  const dispatch = useDispatch();
-  useEffect(() => {
-    setTimeout(() => {
-      dispatch(readQuestion());
-    }, 3000);
-  }, []);
 
   const colorBg = '#46178F';
 

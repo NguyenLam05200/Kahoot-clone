@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import { gameSelector, setBlockJoin } from './gameSlice';
+import { gameSelector, setBlockJoin, startGame } from './gameSlice';
 import { useSelector, useDispatch } from "react-redux";
 
 import { Box, Typography, Stack, IconButton, Zoom, Button, Divider } from '@mui/material'
@@ -110,7 +110,9 @@ const WaitingPlayers = () => {
                                 {isBlockJoin ? <LockIcon fontSize="inherit" /> : <LockOpenIcon fontSize="inherit" />}
 
                             </IconButton>
-                            <Button variant='contained'
+                            <Button
+                                onClick={() => dispatch(startGame())}
+                                variant='contained'
                                 sx={{
                                     backgroundColor: 'white',
                                     color: 'black',

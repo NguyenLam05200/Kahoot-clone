@@ -47,6 +47,7 @@ export const playerSlice = createSlice({
     questions: [],
     score: 0,
     curQuestion: 0,
+    timeReadQuestion: 0,
     point: 0,
     status: 'idle',
     isFetching: false,
@@ -87,7 +88,9 @@ export const playerSlice = createSlice({
       state.status = 'getReady';
       return state;
     },
-    readQuestion: (state) => {
+    readQuestion: (state, { payload }) => {
+      state.timeReadQuestion = payload.timeReadQuestion;
+      state.curQuestion = payload.indexQuestion;
       state.status = 'readQuestion';
       return state;
     },
