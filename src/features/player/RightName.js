@@ -9,12 +9,13 @@ const RightName = ({ }) => {
   );
   const colorBg = '#46178F';
 
-  const dispatch = useDispatch();
-  useEffect(() => {
-    setTimeout(() => {
-      dispatch(ready());
-    }, 1000);
-  }, []);
+  // const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     dispatch(ready());
+  //   }, 1000);
+  // }, []);
 
   return (
     <Box sx={{

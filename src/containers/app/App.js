@@ -4,7 +4,7 @@ import { HomeLayout } from "../../components/HomeLayout";
 import { ProtectedLayout } from "../../components/ProtectedLayout";
 import Login from "../../features/user/Login";
 import Signup from "../../features/user/Signup";
-import { PlayerPage } from "../../features/player/Player";
+import { PlayerPage } from "../../features/player/index";
 import CreateListKahootQuestion from "../../features/create_kahoot/createKhut";
 
 import Dashboard from "../../features/user/Dashboard";
@@ -15,7 +15,7 @@ import ListKahootRoom from "../../features/list kahoot room/ListKahootRoom";
 import { Routes, Route } from "react-router-dom";
 import { Container, Paper } from "@mui/material";
 import Library from "../../features/list kahoot room/Library";
-import GameHost from "../../features/hostGame/GameHost";
+import GameHost from "../../features/hostGame/index";
 import KahootDetail from "../../features/kahoot detail/kahoot_detail";
 
 function App() {

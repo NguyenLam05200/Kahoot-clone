@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { handlePIN, handleNAME } from './playerAPI';
+import Socket from '../../utils/socket';
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -9,13 +10,14 @@ export const enterPIN = createAsyncThunk(
   'players/enterPIN',
   async (inputPin, thunkAPI) => {
     try {
-      await sleep(1000) //test loading progress ui
-      let res = await handlePIN(inputPin);
-      if (res.isRightPin) {
-        return res.questions;
-      } else {
-        return thunkAPI.rejectWithValue("Your pin is incorrect!");
-      }
+      Socket.emit('ENTER_PIN', inputPin)
+
+      Socket.on('ENTER_PIN', (msg) => {
+        if (msg) { return msg } else {
+          return thunkAPI.rejectWithValue("Your pin is incorrect!");
+        }
+      });
+
     } catch (e) {
       return thunkAPI.rejectWithValue("Connect to server failed!");
     }
@@ -41,7 +43,6 @@ export const enterName = createAsyncThunk(
 export const playerSlice = createSlice({
   name: 'player',
   initialState: {
-    socket: null,
     name: '',
     questions: [],
     score: 0,
@@ -60,9 +61,27 @@ export const playerSlice = createSlice({
       state.isFetching = false;
       return state;
     },
-    setSocket: (state, { payload }) => {
-      state.socket = payload;
-      return state;
+    sendPin: (state, { payload }) => {
+      Socket.emit('ENTER_PIN', payload)
+      state.isFetching = true;
+    },
+    sendPinResult: (state, { payload }) => {
+      console.log('send pin result: ', payload);
+      state.isFetching = false;
+      if (payload.isRightPin) {
+        state.questions = payload.listQuestions;
+        state.isSuccess = true;
+        state.status = 'rightPin';
+      } else {
+        state.isError = true;
+        state.errorMessage = payload.errMsg;
+      }
+    },
+    sendName: (state, { payload }) => {
+      Socket.emit('ENTER_NAME', payload)
+      state.score = 0;
+      state.name = payload;
+      state.status = 'rightName';
     },
     ready: (state) => {
       state.status = 'getReady';
@@ -97,6 +116,7 @@ export const playerSlice = createSlice({
   },
   extraReducers: {
     [enterPIN.fulfilled]: (state, { payload }) => {
+      console.log('payload: ', payload);
       state.questions = payload;
       state.isFetching = false;
       state.isSuccess = true;
@@ -127,7 +147,7 @@ export const playerSlice = createSlice({
   },
 });
 
-export const { clearState, setSocket, ready, readQuestion, chooseAnswer, waitResult, timeUp, incorrectAns, correctAns } = playerSlice.actions;
+export const { clearState, sendPin, sendPinResult, sendName, ready, readQuestion, chooseAnswer, waitResult, timeUp, incorrectAns, correctAns } = playerSlice.actions;
 
 export const playerSelector = (state) => state.player;
 

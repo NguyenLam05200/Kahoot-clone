@@ -1,59 +1,21 @@
-import { Box, Typography, Stack, IconButton, Zoom, Button, Divider } from '@mui/material'
 import { useState, useEffect } from 'react';
+
+import { gameSelector, setBlockJoin } from './gameSlice';
+import { useSelector, useDispatch } from "react-redux";
+
+import { Box, Typography, Stack, IconButton, Zoom, Button, Divider } from '@mui/material'
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import LockIcon from '@mui/icons-material/Lock';
 import PropTypes from 'prop-types';
 import PersonIcon from '@mui/icons-material/Person';
 import styled from '@emotion/styled';
 
-function Item(props) {
-    const { sx, ...other } = props;
-    return (
-        <Box
-            sx={{
-                p: 1,
-                m: 1,
-                bgcolor: (theme) => (theme.palette.mode === 'dark' ? '#101010' : 'grey.100'),
-                color: (theme) => (theme.palette.mode === 'dark' ? 'grey.300' : 'grey.800'),
-                border: '1px solid',
-                borderColor: (theme) =>
-                    theme.palette.mode === 'dark' ? 'grey.800' : 'grey.300',
-                borderRadius: 2,
-                fontSize: '0.875rem',
-                fontWeight: '700',
-                ...sx,
-            }}
-            {...other}
-        />
-    );
-}
-
-Item.propTypes = {
-    /**
-     * The system prop that allows defining system overrides as well as additional CSS styles.
-     */
-    sx: PropTypes.oneOfType([
-        PropTypes.arrayOf(
-            PropTypes.oneOfType([PropTypes.func, PropTypes.object, PropTypes.bool]),
-        ),
-        PropTypes.func,
-        PropTypes.object,
-    ]),
-};
-
-const useStyles = styled((theme) => ({
-    buttonRoot: {
-        fontSize: 'inherit', /* inherit from Typography */
-    },
-    myIconSizeMedium: {
-        "& > *:first-child": {
-            fontSize: 25,
-        }
-    }
-}));
-
 const WaitingPlayers = () => {
-    const [isLock, setIsLock] = useState(false);
+    const { pin, isBlockJoin, listPlayers } = useSelector(
+        gameSelector
+    );
+    const dispatch = useDispatch();
+
     const [count, setCount] = useState(0);
 
     useEffect(() => {
@@ -96,7 +58,7 @@ const WaitingPlayers = () => {
                             }}
                             startIcon={<PersonIcon />}
                         >
-                            0
+                            {listPlayers.length}
                         </Button>
                         <Box sx={{
                             borderRadius: 2,
@@ -132,20 +94,20 @@ const WaitingPlayers = () => {
                                         fontFamily: 'Roboto'
                                     }}
                                     variant="h6" align='left' fontWeight='bold'>
-                                    22378
+                                    {pin}
                                 </Typography>
                             </Box>
                         </Box>
                         <Stack direction='row' spacing={2}>
                             <IconButton
-                                onClick={() => setIsLock(!isLock)}
+                                onClick={() => dispatch(setBlockJoin())}
                                 style={{
                                     backgroundColor: 'white',
                                     border: "none",
                                     outline: "none"
                                 }}
                                 aria-label="delete" size="large"  >
-                                {isLock ? <LockIcon fontSize="inherit" /> : <LockOpenIcon fontSize="inherit" />}
+                                {isBlockJoin ? <LockIcon fontSize="inherit" /> : <LockOpenIcon fontSize="inherit" />}
 
                             </IconButton>
                             <Button variant='contained'
@@ -165,31 +127,61 @@ const WaitingPlayers = () => {
                         </Stack>
                     </Box>
                 </div>
-                <Stack spacing={7} alignItems="center">
-                    <Button
-                        style={{
-                            backgroundColor: 'black',
-                            border: "none",
-                            outline: "none"
-                        }}
-                        sx={{
-                            color: 'white',
-                            textTransform: 'none',
-                            fontWeight: 800,
-                            fontSize: 22,
-                            pl: 1,
-                            pr: 4 - count % 3,
-                            mx: 2,
-                            fontFamily: [
-                                'cursive',
-                            ].join(','),
-                        }}
-                    >
-                        Waiting for players
-                        {count % 3 === 0 && ' .'}
-                        {count % 3 === 1 && ' ..'}
-                        {count % 3 === 2 && ' ...'}
-                    </Button>
+                <Stack spacing={7} alignItems="center" direction='row'>
+                    {listPlayers.length === 0 ?
+                        <Button
+                            style={{
+                                backgroundColor: 'black',
+                                border: "none",
+                                outline: "none"
+                            }}
+                            sx={{
+                                color: 'white',
+                                textTransform: 'none',
+                                fontWeight: 800,
+                                fontSize: 22,
+                                pl: 1,
+                                pr: 4 - count % 3,
+                                mx: 2,
+                                fontFamily: [
+                                    'cursive',
+                                ].join(','),
+                            }}
+                        >
+
+                            Waiting for players
+                            {count % 3 === 0 && ' .'}
+                            {count % 3 === 1 && ' ..'}
+                            {count % 3 === 2 && ' ...'}
+                        </Button>
+                        :
+                        listPlayers.map(eachPlayer => {
+                            return (
+                                <Button
+                                    key={eachPlayer.id}
+                                    style={{
+                                        backgroundColor: 'black',
+                                        border: "none",
+                                        outline: "none"
+                                    }}
+                                    sx={{
+                                        color: 'white',
+                                        textTransform: 'none',
+                                        fontWeight: 800,
+                                        fontSize: 22,
+                                        pl: 1,
+                                        mx: 2,
+                                        fontFamily: [
+                                            'cursive',
+                                        ].join(','),
+                                    }}
+                                >
+                                    {eachPlayer.name}
+                                </Button>
+                            )
+                        })
+
+                    }
                 </Stack>
             </Stack>
         </Box>

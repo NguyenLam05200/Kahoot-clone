@@ -1,15 +1,18 @@
 import { Box, Typography, Stack, Slide, Zoom, Button, Divider } from '@mui/material'
 import { useState, useEffect } from 'react';
+
 import LoopIcon from '@mui/icons-material/Loop';
 
 const LoadingPin = () => {
     const [count, setCount] = useState(0);
+
     useEffect(() => {
         const interval = setInterval(() => {
             setCount((count) => count + 1);
         }, 1000);
         return () => clearInterval(interval);
     });
+
     return (
         <Box sx={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Stack spacing={7} alignItems="center">

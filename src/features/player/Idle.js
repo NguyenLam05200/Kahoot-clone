@@ -4,13 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react'
 import { Tooltip, TextField, Box, Stack, Backdrop, CircularProgress, Divider, Typography, Container, Button } from '@mui/material'
 import { purple } from '@mui/material/colors';
-import { enterPIN } from './playerSlice';
-import { handlePIN } from './playerAPI';
 import { Form } from 'formik';
-import { playerSelector } from './playerSlice';
-
+import { playerSelector, sendPin } from './playerSlice';
+import Socket from '../../utils/socket';
 const Idle = ({ }) => {
-
   const [pin, setPin] = useState(null);
   const dispatch = useDispatch();
   const { isFetching } = useSelector(
@@ -23,7 +20,7 @@ const Idle = ({ }) => {
   const handleEnterPin = (e) => {
     e.preventDefault();
     if (pin) {
-      dispatch(enterPIN(pin));
+      dispatch(sendPin(pin));
     }
   }
 

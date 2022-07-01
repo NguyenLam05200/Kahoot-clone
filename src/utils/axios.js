@@ -1,12 +1,12 @@
 import axios from 'axios';
 
 export const instanceAuth = axios.create({
-    baseURL: 'https://157.245.147.239:8080/v1/user/',
+    baseURL: process.env.BACK_END_AUTH,
     timeout: 5000,
 });
 
 export const instance = axios.create({
-    baseURL: 'https://157.245.147.239:9090/v1/api/admin/',
+    baseURL: process.env.BACK_END_OTHER,
     timeout: 5000,
     headers: { Authorization: `Bearer ${localStorage.kahut_app_accessToken}` }
 });

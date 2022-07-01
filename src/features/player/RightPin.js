@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { useState } from 'react'
 import { Tooltip, TextField, Box, Stack, Grid, Paper, Divider, Typography, Container, Button } from '@mui/material'
-import { enterName } from './playerSlice';
+import { sendName } from './playerSlice';
 
 const RightPin = ({ }) => {
   const [name, setName] = useState('');
@@ -11,7 +11,7 @@ const RightPin = ({ }) => {
   const handleEnterName = (e) => {
     e.preventDefault();
     if (name !== '') {
-      dispatch(enterName(name));
+      dispatch(sendName(name));
     }
   }
   return (
