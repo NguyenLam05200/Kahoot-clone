@@ -62,7 +62,7 @@ const answerUI = [
 
 const ChooseAns = () => {
     const dispatch = useDispatch();
-    const { isFullScreen, listQuestions, curQuestion, countAnswer } = useSelector(
+    const { isFullScreen, listQuestions, curQuestion, countAnswer, pin } = useSelector(
         gameSelector
     );
 
@@ -315,7 +315,7 @@ const ChooseAns = () => {
                     justifyContent: 'right',
                     display: 'flex',
                 }}>
-                    kahut.it Game PIN: 3477550
+                    kahut.it Game PIN: {pin}
                 </Typography>
             </Box>
         </Box >

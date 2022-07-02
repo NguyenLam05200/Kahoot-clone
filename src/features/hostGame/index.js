@@ -9,7 +9,8 @@ import {
     joinPlayer,
     leavePlayer,
     readQuestion,
-    sendAnswer
+    sendAnswer,
+    getScoreBoard
 } from './gameSlice';
 import socket from '../../utils/socket';
 
@@ -44,6 +45,7 @@ const GameHost = () => {
         socket.on('PLAYER_LEAVE', (id) => dispatch(leavePlayer(id)));
         socket.on('READ_QUESTION', (msg) => dispatch(readQuestion(msg)))
         socket.on('SEND_ANSWER', (ans) => dispatch(sendAnswer(ans)))
+        socket.on('SCORE_BOARD', (listScoreBoard) => dispatch(getScoreBoard(listScoreBoard)))
 
         return () => {
             socket.off('HAND_SHAKE', requestCreatePin);
@@ -62,6 +64,7 @@ const GameHost = () => {
             {status === 'readQuestion' && <ReadQuestion />}
             {status === 'chooseAnswer' && <ChooseAns />}
             {status === 'showResult' && <ShowResult />}
+            {status === 'scoreBoard' && <ScoreBoard />}
         </Box>
     );
 };

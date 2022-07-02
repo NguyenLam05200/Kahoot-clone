@@ -8,7 +8,7 @@ const initialState = {
     {
       type: "Quiz",
       img: "https://images.unsplash.com/photo-1569504275728-9350b4c55fee?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1027&q=80",
-      time: 50,
+      time: 10,
       ques_title: "Con gà có trước hay quả trứng có trước?",
       ans: ['Con gà trước', 'Quả trứng trước', 'Cả 2 cùng lúc', 'Bó tay .com'],
       correctAns: [1],
@@ -16,7 +16,7 @@ const initialState = {
     {
       type: "Quiz",
       img: "https://images.unsplash.com/photo-1586343061001-b61e47c9b7cf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-      time: 20,
+      time: 10,
       ques_title: "Bao lâu bán đuợc 1 tỉ gói mè 😐?",
       ans: ['1 tỉ năm', 'Mùa quýt năm sau', '2 triệu năm Đen Vâu', 'a thousand years - Christina Perri'],
       correctAns: [1],
@@ -24,7 +24,7 @@ const initialState = {
     {
       type: "Multi selections",
       img: "https://hocluat.vn/wp-content/uploads/2017/06/cac-nuoc-xa-hoi-chu-nghia.jpg",
-      time: 20,
+      time: 10,
       ques_title: "Những nước Xã hội chủ nghĩa là:",
       ans: ['Việt Nam', 'Anh', 'Lào', 'Trung Quốc', 'Cuba', 'Nga'],
       correctAns: [0, 2, 3, 4],
@@ -32,7 +32,7 @@ const initialState = {
     {
       type: "True or False",
       img: "https://images.unsplash.com/reserve/Af0sF2OS5S5gatqrKzVP_Silhoutte.jpg?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-      time: 20,
+      time: 10,
       ques_title: "Làm nguời yêu nhé em 💜🧡💚💛🤍",
       ans: ['Hong bé ơi', 'Friend zones forever 🍇🍉🍍🥭🍏🍐🍒🍓🍅'],
       correctAns: [0, 1],
@@ -52,6 +52,7 @@ const initialState = {
   timeReadQuestion: 0,
   countAnswer: 0,
   countEachAns: [],
+  scoreBoard: [],
   isBlockJoin: false,
   isFullScreen: false,
   isFetching: false,
@@ -98,6 +99,7 @@ export const gameSlice = createSlice({
       state.curQuestion = payload.indexQuestion;
       state.countAnswer = 0;
       state.countEachAns = new Array(state.listQuestions[state.curQuestion].ans.length).fill(0);
+      state.scoreBoard = [];
       state.status = 'readQuestion';
     },
     setFullScreen: (state) => {
@@ -112,7 +114,6 @@ export const gameSlice = createSlice({
       state.status = 'showResult';
     },
     sendAnswer: (state, { payload }) => {
-      console.log('ans: ', payload);
       state.countAnswer += 1;
       state.countEachAns = state.countEachAns.map((eachAns, index) => {
         if (payload.includes(index)) {
@@ -120,7 +121,10 @@ export const gameSlice = createSlice({
         }
         return eachAns;
       })
-      console.log('countEachAns: ', state.countEachAns);
+    },
+    getScoreBoard: (state, { payload }) => {
+      state.scoreBoard = payload;
+      state.status = 'scoreBoard';
     },
   },
 });
@@ -138,7 +142,8 @@ export const {
   setFullScreen,
   chooseAnswer,
   showResult,
-  sendAnswer
+  sendAnswer,
+  getScoreBoard
 } = gameSlice.actions;
 
 export const gameSelector = (state) => state.game;

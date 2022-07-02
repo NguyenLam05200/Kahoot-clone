@@ -1,6 +1,7 @@
 import { Box, Typography, Stack, IconButton, Dialog, Button, DialogContent, Slide } from '@mui/material'
 import { useState, useEffect, forwardRef } from 'react';
 
+import socket from '../../utils/socket';
 import { useSelector, useDispatch } from "react-redux";
 import {
     gameSelector,
@@ -101,12 +102,9 @@ const answerUI2 = [
     },
 ]
 
-const correctAns = 2;
-const playerAns = [0, 3, 2, 5]
-
 const ShowResult = () => {
     const dispatch = useDispatch();
-    const { isFullScreen, listQuestions } = useSelector(
+    const { isFullScreen, listQuestions, curQuestion, countEachAns, pin } = useSelector(
         gameSelector
     );
     const [isVolumn, setIsVolumn] = useState(true);
@@ -189,7 +187,7 @@ const ShowResult = () => {
                                 color: 'black',
                             }}
                             variant="h5" align='center' fontWeight='bold'>
-                            Bao lâu bán đuợc 1 tỉ gói mè 😐?
+                            {listQuestions[curQuestion].ques_title}
                         </Typography>
                     </Box>
                 </Box>
@@ -200,7 +198,10 @@ const ShowResult = () => {
                     justifyContent: 'right',
                     display: 'grid',
                 }}>
-                    <Button variant='contained' sx={{ textTransform: 'none' }}>Next</Button>
+                    <Button
+                        onClick={() => socket.emit('SCORE_BOARD')}
+                        variant='contained'
+                        sx={{ textTransform: 'none' }}>Next</Button>
                 </Box>
             </Box>
             <Box
@@ -213,11 +214,12 @@ const ShowResult = () => {
                 }}
             >
                 <Stack spacing={2} direction='row' sx={{ height: '100%', alignItems: 'end', py: 2 }}>
-                    {playerAns.map((total, index) => (
+                    {countEachAns.map((total, index) => (
                         <Box
+                            key={index}
                             sx={{
                                 width: '12vw',
-                                height: total / Math.max(...playerAns) * (92 / 100),
+                                height: total / Math.max(...countEachAns) * (92 / 100),
                                 minHeight: 30,
                                 minWidth: 80,
                                 backgroundColor: answerUI2[index].bgColor,
@@ -234,7 +236,7 @@ const ShowResult = () => {
                                 <Typography sx={{ fontWeight: 'bold' }} >
                                     {total}
                                 </Typography>
-                                {index === correctAns && <DoneIcon />}
+                                {listQuestions[curQuestion].correctAns.includes(index) && <DoneIcon />}
                             </Stack>
                         </Box>
                     ))}
@@ -273,7 +275,7 @@ const ShowResult = () => {
                                     width: '40vw',
                                 }}
                                 alt="Sesame seeds"
-                                src="https://images.unsplash.com/photo-1586343061001-b61e47c9b7cf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
+                                src={listQuestions[curQuestion].img}
                             />
                         </Box>
                     </DialogContent>
@@ -301,7 +303,7 @@ const ShowResult = () => {
                             display: 'flex',
                             borderRadius: 1,
                             px: 2,
-                            opacity: index === correctAns ? 2 : 0.3,
+                            opacity: listQuestions[curQuestion].correctAns.includes(index) ? 2 : 0.3,
                         }}
                     >
                         <Box sx={{
@@ -321,11 +323,11 @@ const ShowResult = () => {
                                     ].join(','),
                                 }}
                                 variant="h5" align='center' fontWeight='bold'>
-                                {index + 1 + ' tỉ năm'}
+                                {listQuestions[curQuestion].ans[index]}
                             </Typography>
                         </Box>
                         <Box sx={{ display: 'flex', width: 'auto', justifyContent: 'right' }}>
-                            {index === correctAns ? <DoneIcon fontSize='large' /> : <ClearIcon fontSize='large' />}
+                            {listQuestions[curQuestion].correctAns.includes(index) ? <DoneIcon fontSize='large' /> : <ClearIcon fontSize='large' />}
                         </Box>
                     </Box>
                 ))}
@@ -358,7 +360,7 @@ const ShowResult = () => {
                     justifyContent: 'right',
                     display: 'flex',
                 }}>
-                    kahut.it Game PIN: 3477550
+                    kahut.it Game PIN: {pin}
                 </Typography>
             </Box>
         </Box >
