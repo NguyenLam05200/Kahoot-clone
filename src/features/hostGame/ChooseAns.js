@@ -62,7 +62,7 @@ const answerUI = [
 
 const ChooseAns = () => {
     const dispatch = useDispatch();
-    const { isFullScreen, listQuestions, curQuestion } = useSelector(
+    const { isFullScreen, listQuestions, curQuestion, countAnswer } = useSelector(
         gameSelector
     );
 
@@ -71,9 +71,13 @@ const ChooseAns = () => {
 
     useEffect(() => {
         const interval = setInterval(() => {
-            countDown < 1 ? dispatch(showResult()) : setCountDown((old) => old - 1);
+            setCountDown((old) => old - 1);
         }, 1000);
         return () => clearInterval(interval);
+    }, []);
+
+    useEffect(() => {
+        countDown < 1 && dispatch(showResult())
     });
 
     return (
@@ -231,7 +235,7 @@ const ChooseAns = () => {
                                 color: 'black',
                             }}
                             variant="h5" align='center' fontWeight='bold'>
-                            0
+                            {countAnswer}
                         </Typography>
                         <Typography
                             sx={{

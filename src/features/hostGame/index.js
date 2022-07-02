@@ -8,7 +8,8 @@ import {
     getPinSuccess,
     joinPlayer,
     leavePlayer,
-    readQuestion
+    readQuestion,
+    sendAnswer
 } from './gameSlice';
 import socket from '../../utils/socket';
 
@@ -32,34 +33,20 @@ const GameHost = () => {
         window.setTimeout(function () {
             dispatch(setStateLoadingPin())
             socket.emit("CREATE_PIN", listQuestions);
-        }, 1000);
-    };
-    const setPin = (newPin) => {
-        window.setTimeout(function () {
-            dispatch(getPinSuccess(newPin))
-            socket.emit('TEST');
-        }, 1000);
-    };
-    const playerJoin = (msg) => {
-        dispatch(joinPlayer(msg))
-    };
-    const playerLeave = (id) => {
-        dispatch(leavePlayer(id))
+        }, 50);
     };
 
     useEffect(() => {
         socket.emit('HAND_SHAKE');
         socket.on('HAND_SHAKE', requestCreatePin);
-        socket.on('CREATE_PIN', setPin);
-        socket.on('PLAYER_JOIN', playerJoin);
-        socket.on('PLAYER_LEAVE', playerLeave);
+        socket.on('CREATE_PIN', (newPin) => dispatch(getPinSuccess(newPin)));
+        socket.on('PLAYER_JOIN', (msg) => dispatch(joinPlayer(msg)));
+        socket.on('PLAYER_LEAVE', (id) => dispatch(leavePlayer(id)));
         socket.on('READ_QUESTION', (msg) => dispatch(readQuestion(msg)))
+        socket.on('SEND_ANSWER', () => dispatch(sendAnswer()))
 
         return () => {
             socket.off('HAND_SHAKE', requestCreatePin);
-            socket.off('CREATE_PIN', setPin);
-            socket.off('PLAYER_JOIN', playerJoin);
-            socket.off('PLAYER_LEAVE', playerLeave);
         };
     }, []);
 

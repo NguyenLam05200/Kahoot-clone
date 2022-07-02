@@ -18,7 +18,7 @@ export const PlayerPage = () => {
     const handlePinResult = (message) => {
         window.setTimeout(function () {
             dispatch(sendPinResult(message))
-        }, 1000);
+        }, 500);
     };
 
     const startGame = () => {

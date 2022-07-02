@@ -43,13 +43,17 @@ export const enterName = createAsyncThunk(
 export const playerSlice = createSlice({
   name: 'player',
   initialState: {
-    name: '',
-    questions: [],
+    status: 'idle',
+    name: 'Lam',
+    questions: [{
+      type: "Multi selections",
+      timeLimit: 1000,
+      totalAns: 4,
+    }],
     score: 0,
     curQuestion: 0,
     timeReadQuestion: 0,
     point: 0,
-    status: 'idle',
     isFetching: false,
     isSuccess: false,
     isError: false,
@@ -98,7 +102,8 @@ export const playerSlice = createSlice({
       state.status = 'chooseAnswer';
       return state;
     },
-    waitResult: (state) => {
+    sendResult: (state, { payload }) => {
+      Socket.emit('SEND_ANSWER', payload)
       state.status = 'waitResult';
       return state;
     },
@@ -150,7 +155,7 @@ export const playerSlice = createSlice({
   },
 });
 
-export const { clearState, sendPin, sendPinResult, sendName, ready, readQuestion, chooseAnswer, waitResult, timeUp, incorrectAns, correctAns } = playerSlice.actions;
+export const { clearState, sendPin, sendPinResult, sendName, ready, readQuestion, chooseAnswer, sendResult, timeUp, incorrectAns, correctAns } = playerSlice.actions;
 
 export const playerSelector = (state) => state.player;
 

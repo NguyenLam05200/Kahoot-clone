@@ -9,16 +9,18 @@ const ReadQuestion = ({ }) => {
     playerSelector
   );
 
-  const [count, setCount] = useState(timeReadQuestion / 1000);
+  const [count, setCount] = useState(timeReadQuestion / 1000); //2
   const dispatch = useDispatch();
 
   useEffect(() => {
     const interval = setInterval(() => {
-      count === 0 ? dispatch(chooseAnswer()) : setCount((count) => count - 1);
-      // count === 0 ? setCount(10) : setCount((count) => count - 1);
+      setCount((count) => count - 1);
     }, 1000);
     return () => clearInterval(interval);
-  });
+  }, []);
+  useEffect(() => {
+    count < 0 && dispatch(chooseAnswer())
+  })
 
   return (
     <Box sx={{
@@ -70,7 +72,7 @@ const ReadQuestion = ({ }) => {
         <Box component='div' justifyContent='center' alignItems='center'  >
           <Stack spacing={5} alignItems="center">
             <Typography variant="h2" align='center' fontWeight='500' fontFamily='Segoe UI'>Question {curQuestion + 1}</Typography>
-            <Typography variant="h2" align='center' fontWeight='500' fontFamily='Segoe UI'>{count == 0 ? 'Start!' : count}</Typography>
+            <Typography variant="h2" align='center' fontWeight='500' fontFamily='Segoe UI'>{count < 0 ? 'Start!' : count}</Typography>
             <Typography variant="h4" align='center' fontWeight='bold'>
               Loading
               {count % 3 === 1 && ' .'}

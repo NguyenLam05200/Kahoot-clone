@@ -2,7 +2,7 @@ import { Box, Stack, Paper, Grid, Typography, Button } from '@mui/material'
 import { experimentalStyled as styled } from '@mui/material/styles';
 
 import { useSelector, useDispatch } from "react-redux";
-import { playerSelector, timeUp, correctAns, incorrectAns, waitResult } from './playerSlice';
+import { playerSelector, timeUp, correctAns, incorrectAns, sendResult } from './playerSlice';
 
 import SquareIcon from '@mui/icons-material/Square';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -14,6 +14,7 @@ import DarkModeIcon from '@mui/icons-material/DarkMode';
 import DeviceHubIcon from '@mui/icons-material/DeviceHub';
 import { useEffect, useState } from 'react';
 import { current } from '@reduxjs/toolkit';
+import { findAllInRenderedTree } from 'react-dom/test-utils';
 
 const ChooseAnswer = ({ }) => {
   const { name, questions, curQuestion, score } = useSelector(
@@ -22,12 +23,18 @@ const ChooseAnswer = ({ }) => {
 
   const dispatch = useDispatch();
 
+  const [countDown, setCountDown] = useState(questions[curQuestion].timeLimit);
+
   useEffect(() => {
     const interval = setInterval(() => {
-      dispatch(timeUp());
-    }, questions[curQuestion].timeLimit * 1000);
+      setCountDown((old) => old - 1);
+    }, 1000);
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    countDown < 1 && dispatch(timeUp())
+  });
 
   const [curAns, setCurAns] = useState([]);
 
@@ -67,8 +74,16 @@ const ChooseAnswer = ({ }) => {
     },
   ]
   const handleClickAns = (ans) => {
-    setCurAns([...curAns, ans]);
-    dispatch(waitResult());
+    if (!curAns.includes(ans)) {
+      setCurAns([...curAns, ans]);
+    }
+    if (questions[curQuestion].type !== 'Multi selections') {
+      dispatch(sendResult(ans));
+    }
+  }
+
+  const handleSubmitMultiSelections = () => {
+    dispatch(sendResult(curAns));
   }
 
   return (
@@ -131,7 +146,6 @@ const ChooseAnswer = ({ }) => {
               '&:hover': {
                 backgroundColor: '#5a5253',
               }
-
             }}
           >
             {answerUI[index].icon}
@@ -148,7 +162,7 @@ const ChooseAnswer = ({ }) => {
         <Typography sx={{
           marginLeft: 1,
           fontWeight: 'bold',
-          width: '90%',
+          width: '30%',
           height: '100%',
           alignItems: 'center',
           justifyContent: 'left',
@@ -156,22 +170,45 @@ const ChooseAnswer = ({ }) => {
         }}>
           {name}
         </Typography>
-        <Button variant="contained"
-          aria-disabled='true'
+        <Box
           sx={{
-            m: 'auto',
-            mx: 1,
-            width: '8%',
-            height: '60%',
-            fontSize: 20,
-            fontWeight: 'bold',
-            backgroundColor: 'black',
-            "&:hover": {
-              backgroundColor: "black"
-            },
-            cursor: 'text'
+            display: 'flex',
+            width: '40%',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}
-        >{score}</Button>
+        >
+          {questions[curQuestion].type === 'Multi selections' &&
+            <Button
+              variant='contained'
+              onClick={handleSubmitMultiSelections}
+            >Submit</Button>
+          }
+        </Box>
+        <Box
+          sx={{
+            display: 'flex',
+            width: '30%',
+            alignItems: 'center',
+            justifyContent: 'right',
+          }}
+        >
+          <Button variant="contained"
+            aria-disabled='true'
+            sx={{
+              m: 'auto',
+              mx: 1,
+              fontSize: 20,
+              fontWeight: 'bold',
+              backgroundColor: 'black',
+              "&:hover": {
+                backgroundColor: "black"
+              },
+              cursor: 'text'
+            }}
+          >{score}</Button>
+        </Box>
+
       </Box>
     </Box >
   );

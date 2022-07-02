@@ -8,10 +8,10 @@ const initialState = {
     {
       type: "Quiz",
       img: "https://images.unsplash.com/photo-1569504275728-9350b4c55fee?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1027&q=80",
-      time: 15,
-      ques_title: "Con gà có trước hay trứng gà có trước?",
+      time: 5,
+      ques_title: "Con gà có trước hay quả trứng có trước?",
       ans: ['Con gà trước', 'Quả trứng trước', 'Cả 2 cùng lúc', 'Bó tay .com'],
-      correctAns: [3],
+      correctAns: [1],
     },
     {
       type: "Quiz",
@@ -22,6 +22,14 @@ const initialState = {
       correctAns: [1],
     },
     {
+      type: "Multi selections",
+      img: "https://hocluat.vn/wp-content/uploads/2017/06/cac-nuoc-xa-hoi-chu-nghia.jpg",
+      time: 20,
+      ques_title: "Những nước Xã hội chủ nghĩa là:",
+      ans: ['Việt Nam', 'Anh', 'Lào', 'Trung Quốc', 'Cuba', 'Nga'],
+      correctAns: [0, 2, 3, 4],
+    },
+    {
       type: "True or False",
       img: "https://images.unsplash.com/reserve/Af0sF2OS5S5gatqrKzVP_Silhoutte.jpg?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
       time: 20,
@@ -29,11 +37,20 @@ const initialState = {
       ans: ['Hong bé ơi', 'Friend zones forever 🍇🍉🍍🥭🍏🍐🍒🍓🍅'],
       correctAns: [0, 1],
     },
+    {
+      type: "Quiz",
+      img: "https://images.unsplash.com/reserve/Af0sF2OS5S5gatqrKzVP_Silhoutte.jpg?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
+      time: 20,
+      ques_title: "Nên yêu bao nhiêu người một lúc 😏",
+      ans: ['1 🙎', '2 🙎🙎', '3 🙎🙎🙎', 'Bao nhiêu cũng được, miễn là thật lòng 👌'],
+      correctAns: [0],
+    },
   ],
   pin: null,
   listPlayers: [],
   curQuestion: 0,
   timeReadQuestion: 0,
+  countAnswer: 0,
   isBlockJoin: false,
   isFullScreen: false,
   isFetching: false,
@@ -72,11 +89,13 @@ export const gameSlice = createSlice({
     },
     startGame: (state) => {
       socket.emit('START_GAME');
+      state.listPlayers = [];
       state.status = 'startGame';
     },
     readQuestion: (state, { payload }) => {
       state.timeReadQuestion = payload.timeReadQuestion;
       state.curQuestion = payload.indexQuestion;
+      state.countAnswer = 0;
       state.status = 'readQuestion';
     },
     setFullScreen: (state) => {
@@ -88,6 +107,9 @@ export const gameSlice = createSlice({
     },
     showResult: (state) => {
       state.status = 'showResult';
+    },
+    sendAnswer: (state) => {
+      state.countAnswer += 1;
     },
   },
 });
@@ -104,7 +126,8 @@ export const {
   readQuestion,
   setFullScreen,
   chooseAnswer,
-  showResult
+  showResult,
+  sendAnswer
 } = gameSlice.actions;
 
 export const gameSelector = (state) => state.game;

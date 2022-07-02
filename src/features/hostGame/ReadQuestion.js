@@ -45,11 +45,24 @@ const ReadQuestion = () => {
     );
 
     useEffect(() => {
+        const interval1 = setInterval(() => {
+            setProgress((old) => old + 0.01);
+        }, (timeReadQuestion + 1000) / 100);
+
+        return () => clearInterval(interval1);
+    }, []);
+
+    const [count, setCount] = useState(timeReadQuestion / 1000);
+    useEffect(() => {
         const interval = setInterval(() => {
-            progress > 0.995 ? dispatch(chooseAnswer()) : setProgress((old) => old + 0.005);
-        }, timeReadQuestion / (1 / 0.005));
+            setCount((count) => count - 1);
+        }, 1000);
         return () => clearInterval(interval);
-    });
+    }, []);
+
+    useEffect(() => {
+        count < 0 && dispatch(chooseAnswer())
+    })
 
     return (
         <Box sx={{
