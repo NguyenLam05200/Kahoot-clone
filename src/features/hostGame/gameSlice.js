@@ -8,7 +8,7 @@ const initialState = {
     {
       type: "Quiz",
       img: "https://images.unsplash.com/photo-1569504275728-9350b4c55fee?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1027&q=80",
-      time: 5,
+      time: 50,
       ques_title: "Con gà có trước hay quả trứng có trước?",
       ans: ['Con gà trước', 'Quả trứng trước', 'Cả 2 cùng lúc', 'Bó tay .com'],
       correctAns: [1],
@@ -51,6 +51,7 @@ const initialState = {
   curQuestion: 0,
   timeReadQuestion: 0,
   countAnswer: 0,
+  countEachAns: [],
   isBlockJoin: false,
   isFullScreen: false,
   isFetching: false,
@@ -96,6 +97,7 @@ export const gameSlice = createSlice({
       state.timeReadQuestion = payload.timeReadQuestion;
       state.curQuestion = payload.indexQuestion;
       state.countAnswer = 0;
+      state.countEachAns = new Array(state.listQuestions[state.curQuestion].ans.length).fill(0);
       state.status = 'readQuestion';
     },
     setFullScreen: (state) => {
@@ -106,10 +108,19 @@ export const gameSlice = createSlice({
       state.status = 'chooseAnswer';
     },
     showResult: (state) => {
+      socket.emit('SHOW_RESULT');
       state.status = 'showResult';
     },
-    sendAnswer: (state) => {
+    sendAnswer: (state, { payload }) => {
+      console.log('ans: ', payload);
       state.countAnswer += 1;
+      state.countEachAns = state.countEachAns.map((eachAns, index) => {
+        if (payload.includes(index)) {
+          eachAns += 1;
+        }
+        return eachAns;
+      })
+      console.log('countEachAns: ', state.countEachAns);
     },
   },
 });

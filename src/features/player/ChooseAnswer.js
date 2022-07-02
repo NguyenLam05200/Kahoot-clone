@@ -78,7 +78,7 @@ const ChooseAnswer = ({ }) => {
       setCurAns([...curAns, ans]);
     }
     if (questions[curQuestion].type !== 'Multi selections') {
-      dispatch(sendResult(ans));
+      dispatch(sendResult([ans]));
     }
   }
 

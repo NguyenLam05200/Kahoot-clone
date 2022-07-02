@@ -136,6 +136,7 @@ const ReadQuestion = () => {
             >
                 <Stack spacing={15} alignItems="center">
                     <IconButton
+                        component='box'
                         style={{
 
                             backgroundColor: '#0A3A72',

@@ -100,26 +100,22 @@ export const playerSlice = createSlice({
     },
     chooseAnswer: (state) => {
       state.status = 'chooseAnswer';
-      return state;
     },
     sendResult: (state, { payload }) => {
       Socket.emit('SEND_ANSWER', payload)
       state.status = 'waitResult';
-      return state;
     },
     timeUp: (state) => {
       state.status = 'timeUp';
-      return state;
     },
     incorrectAns: (state) => {
       state.status = 'incorrectAns';
-      return state;
     },
     correctAns: (state, { payload }) => {
       state.status = 'correctAns';
       state.point = payload;
-      state.score += payload / 2;
-      return state;
+      // state.score += payload / 2;
+      state.score = state.score + payload;
     },
   },
   extraReducers: {

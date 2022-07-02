@@ -43,7 +43,7 @@ const GameHost = () => {
         socket.on('PLAYER_JOIN', (msg) => dispatch(joinPlayer(msg)));
         socket.on('PLAYER_LEAVE', (id) => dispatch(leavePlayer(id)));
         socket.on('READ_QUESTION', (msg) => dispatch(readQuestion(msg)))
-        socket.on('SEND_ANSWER', () => dispatch(sendAnswer()))
+        socket.on('SEND_ANSWER', (ans) => dispatch(sendAnswer(ans)))
 
         return () => {
             socket.off('HAND_SHAKE', requestCreatePin);
