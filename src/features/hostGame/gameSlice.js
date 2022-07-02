@@ -1,20 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit';
 import socket from '../../utils/socket';
+import { requestFullScreen } from '../../utils/utilities';
 
 const initialState = {
   status: 'idle',
   listQuestions: [
     {
       type: "Quiz",
-      img: "https://img5.thuthuatphanmem.vn/uploads/2021/08/25/hinh-nen-3d-cho-may-tinh-4k_084701936.jpg",
+      img: "https://images.unsplash.com/photo-1569504275728-9350b4c55fee?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1027&q=80",
       time: 15,
-      ques_title: "Con gà có truớc hay trứng gà có truớc?",
+      ques_title: "Con gà có trước hay trứng gà có trước?",
       ans: ['Con gà trước', 'Quả trứng trước', 'Cả 2 cùng lúc', 'Bó tay .com'],
       correctAns: [3],
     },
     {
       type: "Quiz",
-      img: "https://img5.thuthuatphanmem.vn/uploads/2021/08/25/hinh-nen-3d-cho-may-tinh-4k_084701936.jpg",
+      img: "https://images.unsplash.com/photo-1586343061001-b61e47c9b7cf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
       time: 20,
       ques_title: "Bao lâu bán đuợc 1 tỉ gói mè 😐?",
       ans: ['1 tỉ năm', 'Mùa quýt năm sau', '2 triệu năm Đen Vâu', 'a thousand years - Christina Perri'],
@@ -22,10 +23,10 @@ const initialState = {
     },
     {
       type: "True or False",
-      img: "https://img5.thuthuatphanmem.vn/uploads/2021/08/25/hinh-nen-3d-cho-may-tinh-4k_084701936.jpg",
+      img: "https://images.unsplash.com/reserve/Af0sF2OS5S5gatqrKzVP_Silhoutte.jpg?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
       time: 20,
       ques_title: "Làm nguời yêu nhé em 💜🧡💚💛🤍",
-      ans: ['Hong bé ơi', 'Friend zones forever'],
+      ans: ['Hong bé ơi', 'Friend zones forever 🍇🍉🍍🥭🍏🍐🍒🍓🍅'],
       correctAns: [0, 1],
     },
   ],
@@ -34,6 +35,7 @@ const initialState = {
   curQuestion: 0,
   timeReadQuestion: 0,
   isBlockJoin: false,
+  isFullScreen: false,
   isFetching: false,
   isSuccess: false,
   isError: false,
@@ -76,7 +78,16 @@ export const gameSlice = createSlice({
       state.timeReadQuestion = payload.timeReadQuestion;
       state.curQuestion = payload.indexQuestion;
       state.status = 'readQuestion';
-      return state;
+    },
+    setFullScreen: (state) => {
+      requestFullScreen();
+      state.isFullScreen = !state.isFullScreen
+    },
+    chooseAnswer: (state) => {
+      state.status = 'chooseAnswer';
+    },
+    showResult: (state) => {
+      state.status = 'showResult';
     },
   },
 });
@@ -90,7 +101,10 @@ export const {
   leavePlayer,
   setBlockJoin,
   startGame,
-  readQuestion
+  readQuestion,
+  setFullScreen,
+  chooseAnswer,
+  showResult
 } = gameSlice.actions;
 
 export const gameSelector = (state) => state.game;

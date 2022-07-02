@@ -1,6 +1,13 @@
 import { Box, Typography, Stack, IconButton, LinearProgress, Button } from '@mui/material'
 import { useState, useEffect } from 'react';
 
+import { useSelector, useDispatch } from "react-redux";
+import {
+    gameSelector,
+    setFullScreen,
+    chooseAnswer
+} from './gameSlice';
+
 import SquareIcon from '@mui/icons-material/Square';
 import HexagonIcon from '@mui/icons-material/Hexagon';
 import CircleIcon from '@mui/icons-material/Circle';
@@ -30,37 +37,19 @@ const answerUI = [
 
 
 const ReadQuestion = () => {
-    const [isFullScreen, setIsFullScreen] = useState(false);
     const [progress, setProgress] = useState(0);
+
+    const dispatch = useDispatch();
+    const { isFullScreen, timeReadQuestion, listQuestions, curQuestion } = useSelector(
+        gameSelector
+    );
 
     useEffect(() => {
         const interval = setInterval(() => {
-            progress > 1 ? setProgress(0) : setProgress((progress) => progress + 0.002);
-        }, 1);
+            progress > 0.995 ? dispatch(chooseAnswer()) : setProgress((old) => old + 0.005);
+        }, timeReadQuestion / (1 / 0.005));
         return () => clearInterval(interval);
     });
-
-    const requestFullScreen = () => {
-        setIsFullScreen(!isFullScreen)
-        if ((document.fullScreenElement && document.fullScreenElement !== null) ||
-            (!document.mozFullScreen && !document.webkitIsFullScreen)) {
-            if (document.documentElement.requestFullScreen) {
-                document.documentElement.requestFullScreen();
-            } else if (document.documentElement.mozRequestFullScreen) {
-                document.documentElement.mozRequestFullScreen();
-            } else if (document.documentElement.webkitRequestFullScreen) {
-                document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
-            }
-        } else {
-            if (document.cancelFullScreen) {
-                document.cancelFullScreen();
-            } else if (document.mozCancelFullScreen) {
-                document.mozCancelFullScreen();
-            } else if (document.webkitCancelFullScreen) {
-                document.webkitCancelFullScreen();
-            }
-        }
-    }
 
     return (
         <Box sx={{
@@ -92,7 +81,7 @@ const ReadQuestion = () => {
                         }}
                         aria-label="delete"
                         size="medium"
-                        onClick={requestFullScreen}
+                        onClick={() => dispatch(setFullScreen())}
                     >
                         {isFullScreen ? <FullscreenExitIcon fontSize="inherit" /> : < FullscreenIcon fontSize="inherit" />}
                     </IconButton>
@@ -197,7 +186,8 @@ const ReadQuestion = () => {
                                 color: 'black',
                             }}
                             variant="h5" align='center' fontWeight='bold'>
-                            Name of these fruits: 🍏🍌🍍 ?
+                            {/* Name of these fruits: 🍏🍌🍍 ? */}
+                            {listQuestions[curQuestion].ques_title}
                         </Typography>
                     </Box>
                 </Stack>

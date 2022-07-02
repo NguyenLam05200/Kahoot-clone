@@ -5,11 +5,11 @@ import { playerSelector, chooseAnswer } from './playerSlice';
 import { useState, useEffect } from 'react';
 
 const ReadQuestion = ({ }) => {
-  const { name, questions, curQuestion, score } = useSelector(
+  const { name, questions, curQuestion, score, timeReadQuestion } = useSelector(
     playerSelector
   );
 
-  const [count, setCount] = useState(3);
+  const [count, setCount] = useState(timeReadQuestion / 1000);
   const dispatch = useDispatch();
 
   useEffect(() => {

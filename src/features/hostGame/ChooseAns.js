@@ -1,6 +1,13 @@
 import { Box, Typography, Stack, IconButton, LinearProgress, Button } from '@mui/material'
 import { useState, useEffect } from 'react';
 
+import { useSelector, useDispatch } from "react-redux";
+import {
+    gameSelector,
+    setFullScreen,
+    showResult
+} from './gameSlice';
+
 import SquareIcon from '@mui/icons-material/Square';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import HexagonIcon from '@mui/icons-material/Hexagon';
@@ -54,21 +61,20 @@ const answerUI = [
 
 
 const ChooseAns = () => {
-    const [isFullScreen, setIsFullScreen] = useState(false);
+    const dispatch = useDispatch();
+    const { isFullScreen, listQuestions, curQuestion } = useSelector(
+        gameSelector
+    );
+
     const [isVolumn, setIsVolumn] = useState(true);
-    const [progress, setProgress] = useState(0);
+    const [countDown, setCountDown] = useState(listQuestions[curQuestion].time);
 
     useEffect(() => {
         const interval = setInterval(() => {
-            progress > 1 ? setProgress(0) : setProgress((progress) => progress + 0.002);
-        }, 1);
+            countDown < 1 ? dispatch(showResult()) : setCountDown((old) => old - 1);
+        }, 1000);
         return () => clearInterval(interval);
     });
-
-    const handleFullScreen = () => {
-        setIsFullScreen(!isFullScreen)
-        requestFullScreen();
-    }
 
     return (
         <Box sx={{
@@ -107,7 +113,7 @@ const ChooseAns = () => {
                                     backgroundColor: 'pink',
                                 }
                             }}
-                            onClick={handleFullScreen}
+                            onClick={() => dispatch(setFullScreen())}
                         >
                             {isFullScreen ? <FullscreenExitIcon fontSize="inherit" /> : < FullscreenIcon fontSize="inherit" />}
                         </IconButton>
@@ -147,7 +153,7 @@ const ChooseAns = () => {
                                 color: 'black',
                             }}
                             variant="h5" align='center' fontWeight='bold'>
-                            Bao lâu bán đuợc 1 tỉ gói mè 😐?
+                            {listQuestions[curQuestion].ques_title}
                         </Typography>
                     </Box>
                 </Box>
@@ -190,7 +196,7 @@ const ChooseAns = () => {
                         aria-label="countDown"
                         size="medium"
                     >
-                        11
+                        {countDown}
                     </IconButton>
                 </Box>
                 <Box sx={{
@@ -208,7 +214,7 @@ const ChooseAns = () => {
                                 width: '50vw',
                             }}
                             alt="Sesame seeds"
-                            src="https://images.unsplash.com/photo-1586343061001-b61e47c9b7cf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
+                            src={listQuestions[curQuestion].img}
                         />
                     </Box>
                 </Box>
@@ -248,7 +254,7 @@ const ChooseAns = () => {
                     gridTemplateColumns: 'repeat(2, 1fr)',
                 }}
             >
-                {Array.from(Array(4)).map((_, index) => (
+                {listQuestions[curQuestion].ans.map((content, index) => (
                     <Box
                         key={index}
                         sx={{
@@ -272,7 +278,7 @@ const ChooseAns = () => {
                                 ].join(','),
                             }}
                             variant="h5" align='center' fontWeight='bold'>
-                            {index + 1 + ' tỉ năm'}
+                            {content}
                         </Typography>
                     </Box>
                 ))}

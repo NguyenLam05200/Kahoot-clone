@@ -73,6 +73,8 @@ const GameHost = () => {
             {status === 'waitPlayers' && <WaitingPlayers />}
             {status === 'startGame' && <GetReady />}
             {status === 'readQuestion' && <ReadQuestion />}
+            {status === 'chooseAnswer' && <ChooseAns />}
+            {status === 'showResult' && <ShowResult />}
         </Box>
     );
 };

@@ -1,6 +1,12 @@
 import { Box, Typography, Stack, IconButton, Dialog, Button, DialogContent, Slide } from '@mui/material'
 import { useState, useEffect, forwardRef } from 'react';
 
+import { useSelector, useDispatch } from "react-redux";
+import {
+    gameSelector,
+    setFullScreen
+} from './gameSlice';
+
 import SquareIcon from '@mui/icons-material/Square';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import HexagonIcon from '@mui/icons-material/Hexagon';
@@ -99,14 +105,12 @@ const correctAns = 2;
 const playerAns = [0, 3, 2, 5]
 
 const ShowResult = () => {
-    const [isFullScreen, setIsFullScreen] = useState(false);
+    const dispatch = useDispatch();
+    const { isFullScreen, listQuestions } = useSelector(
+        gameSelector
+    );
     const [isVolumn, setIsVolumn] = useState(true);
     const [isShowMedia, setIsShowMedia] = useState(false);
-
-    const handleFullScreen = () => {
-        setIsFullScreen(!isFullScreen)
-        requestFullScreen();
-    }
 
     return (
         <Box sx={{
@@ -145,7 +149,7 @@ const ShowResult = () => {
                                     backgroundColor: 'pink',
                                 }
                             }}
-                            onClick={handleFullScreen}
+                            onClick={() => dispatch(setFullScreen())}
                         >
                             {isFullScreen ? <FullscreenExitIcon fontSize="inherit" /> : < FullscreenIcon fontSize="inherit" />}
                         </IconButton>
