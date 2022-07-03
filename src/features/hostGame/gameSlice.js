@@ -3,7 +3,7 @@ import socket from '../../utils/socket';
 import { requestFullScreen } from '../../utils/utilities';
 
 const initialState = {
-  status: 'idle',
+  status: 'waitPlayers',
   listQuestions: [
     {
       type: "Quiz",
@@ -35,7 +35,7 @@ const initialState = {
       time: 10,
       ques_title: "Làm nguời yêu nhé em 💜🧡💚💛🤍",
       ans: ['Hong bé ơi', 'Friend zones forever 🍇🍉🍍🥭🍏🍐🍒🍓🍅'],
-      correctAns: [0, 1],
+      correctAns: [0],
     },
     {
       type: "Quiz",
@@ -46,7 +46,7 @@ const initialState = {
       correctAns: [0],
     },
   ],
-  pin: null,
+  pin: 123456,
   listPlayers: [],
   curQuestion: 0,
   timeReadQuestion: 0,
@@ -76,7 +76,8 @@ export const gameSlice = createSlice({
     },
     getPinSuccess: (state, { payload }) => {
       state.status = 'waitPlayers';
-      state.pin = payload;
+      const pinStr = payload + '';
+      state.pin = pinStr.slice(0, 3) + ' ' + pinStr.slice(3, 6);
     },
     joinPlayer: (state, { payload }) => {
       state.listPlayers = [...state.listPlayers, payload]

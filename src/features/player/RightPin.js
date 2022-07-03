@@ -25,7 +25,18 @@ const RightPin = ({ }) => {
       color: 'white'
     }}>
       <Box component='div' justifyContent='center' alignItems='center'>
-        <h1 align='center'> Kahut!</h1>
+        <Typography
+          sx={{
+            color: 'white',
+            fontFamily: [
+              'Chilanka',
+              'cursive',
+            ].join(','),
+            my: 3,
+          }}
+          variant="h2" align='center' fontWeight='bold'>
+          Kahut!
+        </Typography>
         <Stack
           component='form'
           onSubmit={handleEnterName}

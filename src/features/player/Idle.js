@@ -1,21 +1,16 @@
 import { useSelector, useDispatch } from 'react-redux';
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react'
-import { Tooltip, TextField, Box, Stack, Backdrop, CircularProgress, Divider, Typography, Container, Button } from '@mui/material'
-import { purple } from '@mui/material/colors';
-import { Form } from 'formik';
-import { playerSelector, sendPin } from './playerSlice';
-import Socket from '../../utils/socket';
+import { useState, useEffect } from 'react'
+import { Tooltip, TextField, Box, Stack, Backdrop, CircularProgress, Alert, Button, Typography } from '@mui/material'
+import { playerSelector, sendPin, clearState } from './playerSlice';
+
 const Idle = ({ }) => {
   const [pin, setPin] = useState(null);
   const dispatch = useDispatch();
-  const { isFetching } = useSelector(
+  const { isFetching, isError, errorMessage } = useSelector(
     playerSelector
   );
 
   const colorBg = '#46178F';
-  const colorText = purple[0];
 
   const handleEnterPin = (e) => {
     e.preventDefault();
@@ -23,6 +18,12 @@ const Idle = ({ }) => {
       dispatch(sendPin(pin));
     }
   }
+
+  useEffect(() => {
+    setTimeout(() => {
+      dispatch(clearState())
+    }, 6000);
+  }, [isError])
 
   return (
     <Box sx={{
@@ -35,13 +36,25 @@ const Idle = ({ }) => {
       color: 'white'
     }}>
       <Box component='div' justifyContent='center' alignItems='center'>
-        <h1 align='center'> Kahut!</h1>
+        <Typography
+          sx={{
+            color: 'white',
+            fontFamily: [
+              'Chilanka',
+              'cursive',
+            ].join(','),
+            my: 3,
+          }}
+          variant="h2" align='center' fontWeight='bold'>
+          Kahut!
+        </Typography>
         <Backdrop
           sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
           open={isFetching}
         >
           <CircularProgress color="inherit" />
         </Backdrop>
+
         <Stack
           component='form'
           onSubmit={handleEnterPin}
@@ -69,6 +82,11 @@ const Idle = ({ }) => {
             color="success">
             Enter
           </Button>
+          {isError &&
+            <Alert variant="filled" severity="error">
+              {errorMessage} , <strong> check it out!</strong>
+            </Alert>
+          }
         </Stack>
         {/* <Container maxWidth="xs" display='flex' justifyContent='center' >
           <Box sx={{ bgcolor: 'white', height: '20vh', p: 3 }}  >

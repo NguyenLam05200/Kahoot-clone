@@ -1,5 +1,6 @@
-import { Box, Typography, Stack, IconButton, Dialog, Button, DialogContent, Slide } from '@mui/material'
-import { useState, useEffect, forwardRef } from 'react';
+import { Box, Typography, Stack, IconButton, Button, DialogContent, Slide } from '@mui/material'
+import { useState } from 'react';
+import socket from '../../utils/socket';
 
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -138,6 +139,7 @@ const ScoreBoard = () => {
                     py: 2,
                 }}>
                     <Button
+                        onClick={() => socket.emit('NEXT_QUESTION')}
                         variant="contained"
                         sx={{
                             color: 'black',

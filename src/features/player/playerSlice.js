@@ -66,6 +66,18 @@ export const playerSlice = createSlice({
       state.isFetching = false;
       return state;
     },
+    reset: (state) => {
+      state.status = 'idle';
+      state.name = '';
+      state.questions = [];
+      state.score = 0;
+      state.curQuestion = 0;
+      state.point = 0;
+      state.isError = false;
+      state.isSuccess = false;
+      state.isFetching = false;
+      state.errorMessage = '';
+    },
     sendPin: (state, { payload }) => {
       Socket.emit('ENTER_PIN', payload)
       state.isFetching = true;
@@ -149,7 +161,7 @@ export const playerSlice = createSlice({
   },
 });
 
-export const { clearState, sendPin, sendPinResult, sendName, ready, readQuestion, chooseAnswer, sendResult, timeUp, incorrectAns, correctAns } = playerSlice.actions;
+export const { clearState, sendPin, sendPinResult, sendName, ready, readQuestion, chooseAnswer, sendResult, timeUp, incorrectAns, correctAns, reset } = playerSlice.actions;
 
 export const playerSelector = (state) => state.player;
 

@@ -80,24 +80,6 @@ export const answerUI2 = [
     },
 ]
 
-export const logoAnimate = [
-    {
-        icon: <SquareIcon sx={{ fontSize: fontSizeIcon }} />,
-        bgColor: '#e21b3c'
-    },
-    {
-        icon: <ChangeHistoryIcon sx={{ fontSize: fontSizeIcon }} />,
-        bgColor: '#e646cc'
-    },
-    {
-        icon: <HexagonIcon sx={{ fontSize: fontSizeIcon }} />,
-        bgColor: '#d89e00'
-    },
-    {
-        icon: <CircleIcon sx={{ fontSize: fontSizeIcon }} />,
-        bgColor: '#26890c'
-    }
-]
 
 const fontSizeIconPhone = 15
 export const logoPhone = [
@@ -115,6 +97,27 @@ export const logoPhone = [
     },
     {
         icon: <CircleIcon sx={{ fontSize: fontSizeIconPhone }} />,
+        bgColor: '#26890c'
+    }
+]
+
+
+const fontSizeLogoAnimate = '2.5vw'
+export const logoAnimate = [
+    {
+        icon: <SquareIcon sx={{ fontSize: fontSizeLogoAnimate }} />,
+        bgColor: '#e21b3c'
+    },
+    {
+        icon: <ChangeHistoryIcon sx={{ fontSize: fontSizeLogoAnimate }} />,
+        bgColor: '#e646cc'
+    },
+    {
+        icon: <HexagonIcon sx={{ fontSize: fontSizeLogoAnimate }} />,
+        bgColor: '#d89e00'
+    },
+    {
+        icon: <CircleIcon sx={{ fontSize: fontSizeLogoAnimate }} />,
         bgColor: '#26890c'
     }
 ]

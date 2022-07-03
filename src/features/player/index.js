@@ -11,6 +11,7 @@ import {
     incorrectAns,
     correctAns,
     timeUp,
+    reset
 } from './playerSlice';
 
 import Join from './Join';
@@ -41,6 +42,7 @@ export const PlayerPage = () => {
         Socket.on('CORRECT', (msg) => dispatch(correctAns(msg)))
         Socket.on('INCORRECT', () => dispatch(incorrectAns()))
         Socket.on('SKIP', () => dispatch(timeUp()))
+        Socket.on('HOST_LEAVE', () => dispatch(reset()))
 
         return () => {
             Socket.off('ENTER_PIN', handlePinResult);

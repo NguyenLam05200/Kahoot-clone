@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { gameSelector, setBlockJoin, startGame } from './gameSlice';
 import { useSelector, useDispatch } from "react-redux";
 
-import { Box, Typography, Stack, IconButton, Zoom, Button, Divider } from '@mui/material'
+import { Box, Typography, Stack, IconButton, Zoom, Button, Divider, Grid, Paper } from '@mui/material'
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import LockIcon from '@mui/icons-material/Lock';
 import PropTypes from 'prop-types';
@@ -64,7 +64,8 @@ const WaitingPlayers = () => {
                             borderRadius: 2,
                             backgroundColor: 'white',
                             display: 'flex',
-                            alignItems: 'center'
+                            alignItems: 'center',
+                            py: 1.5,
                         }}>
                             <Typography
                                 sx={{
@@ -74,29 +75,48 @@ const WaitingPlayers = () => {
                                     fontSize: 18,
                                 }}
                                 variant="h6" align='center' fontWeight='bold'>
-                                Join at www.kahut.it or with the Kahut! app
+                                {isBlockJoin ? 'This game is locked. No one else can join' : 'Join at www.kahut.it or with the Kahut! app'}
                             </Typography>
-                            <Divider orientation="vertical" variant="middle" flexItem />
-                            <Box>
-                                <Typography
+                            <Divider orientation="vertical" flexItem sx={{ borderRightWidth: 5, borderColor: '#bf6464', borderRadius: 5 }} />
+                            {isBlockJoin ?
+                                <Box
                                     sx={{
-                                        px: 1,
-                                        mx: 1,
+                                        width: '16vw',
+                                        backgroundColor: 'black',
+                                        color: 'white',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        display: 'flex',
+                                        mx: 3,
+                                        py: 1.5,
+                                        fontSize: 25,
+                                        borderRadius: 1,
                                     }}
-                                    variant="h6" align='left' fontWeight='bold'>
-                                    Game pin:
-                                </Typography>
-                                <Typography
-                                    sx={{
-                                        px: 1,
-                                        mx: 1,
-                                        fontSize: 50,
-                                        fontFamily: 'Roboto'
-                                    }}
-                                    variant="h6" align='left' fontWeight='bold'>
-                                    {pin}
-                                </Typography>
-                            </Box>
+                                >
+                                    <LockIcon fontSize="inherit" />
+                                </Box>
+                                :
+                                <Box>
+                                    <Typography
+                                        sx={{
+                                            px: 1,
+                                            mx: 1,
+                                        }}
+                                        variant="h6" align='left' fontWeight='bold'>
+                                        Game pin:
+                                    </Typography>
+                                    <Typography
+                                        sx={{
+                                            px: 1,
+                                            mx: 1,
+                                            fontSize: 50,
+                                            fontFamily: 'Roboto'
+                                        }}
+                                        variant="h6" align='left' fontWeight='bold'>
+                                        {pin}
+                                    </Typography>
+                                </Box>
+                            }
                         </Box>
                         <Stack direction='row' spacing={2}>
                             <IconButton
@@ -129,38 +149,11 @@ const WaitingPlayers = () => {
                         </Stack>
                     </Box>
                 </div>
-                <Stack spacing={7} alignItems="center" direction='row'>
-                    {listPlayers.length === 0 ?
-                        <Button
-                            style={{
-                                backgroundColor: 'black',
-                                border: "none",
-                                outline: "none"
-                            }}
-                            sx={{
-                                color: 'white',
-                                textTransform: 'none',
-                                fontWeight: 800,
-                                fontSize: 22,
-                                pl: 1,
-                                pr: 4 - count % 3,
-                                mx: 2,
-                                fontFamily: [
-                                    'cursive',
-                                ].join(','),
-                            }}
-                        >
-
-                            Waiting for players
-                            {count % 3 === 0 && ' .'}
-                            {count % 3 === 1 && ' ..'}
-                            {count % 3 === 2 && ' ...'}
-                        </Button>
-                        :
-                        listPlayers.map(eachPlayer => {
-                            return (
+                <div style={{ width: '100%' }}>
+                    <Box sx={{ flexGrow: 1, px: 10 }}>
+                        <Grid container spacing={3} justifyContent="center" alignItems="center">
+                            {listPlayers.length === 0 && !isBlockJoin ?
                                 <Button
-                                    key={eachPlayer.id}
                                     style={{
                                         backgroundColor: 'black',
                                         border: "none",
@@ -171,22 +164,52 @@ const WaitingPlayers = () => {
                                         textTransform: 'none',
                                         fontWeight: 800,
                                         fontSize: 22,
-                                        pl: 1,
+                                        pl: 2,
+                                        pr: 5 - count % 3,
                                         mx: 2,
                                         fontFamily: [
                                             'cursive',
                                         ].join(','),
                                     }}
                                 >
-                                    {eachPlayer.name}
-                                </Button>
-                            )
-                        })
 
-                    }
-                </Stack>
+                                    Waiting for players
+                                    {count % 3 === 0 && ' .'}
+                                    {count % 3 === 1 && ' ..'}
+                                    {count % 3 === 2 && ' ...'}
+                                </Button>
+                                :
+                                listPlayers.map(eachPlayer => {
+                                    return (
+                                        <Grid item xs="auto">
+                                            <Box
+                                                sx={{
+                                                    display: 'flex',
+                                                    justifyContent: 'center',
+                                                    alignItems: 'center',
+                                                    backgroundColor: 'black',
+                                                    color: 'white',
+                                                    fontSize: 20,
+                                                    fontWeight: 'bold',
+                                                    borderRadius: 1,
+                                                    boxShadow: 5,
+                                                    py: 1,
+                                                    px: 2,
+                                                    fontFamily: [
+                                                        'cursive',
+                                                    ].join(','),
+                                                }}
+                                            >
+                                                {eachPlayer.name}
+                                            </Box>
+                                        </Grid>
+                                    )
+                                })}
+                        </Grid>
+                    </Box>
+                </div>
             </Stack>
-        </Box>
+        </Box >
     );
 };
 

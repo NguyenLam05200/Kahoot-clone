@@ -217,7 +217,7 @@ const ShowResult = () => {
                     gridTemplateColumns: 'repeat(2, 1fr)',
                 }}
             >
-                {Array.from(Array(4)).map((_, index) => (
+                {listQuestions[curQuestion].ans.map((content, index) => (
                     <Box
                         key={index}
                         sx={{
@@ -247,8 +247,8 @@ const ShowResult = () => {
                                         'cursive',
                                     ].join(','),
                                 }}
-                                variant="h5" align='center' fontWeight='bold'>
-                                {listQuestions[curQuestion].ans[index]}
+                                variant="h5" align='left' fontWeight='bold'>
+                                {content}
                             </Typography>
                         </Box>
                         <Box sx={{ display: 'flex', width: 'auto', justifyContent: 'right' }}>

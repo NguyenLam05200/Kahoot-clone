@@ -53,7 +53,9 @@ const Idle = () => {
                                 color: 'white',
                                 alignItems: "center",
                                 justifyContent: "center",
-                                display: 'flex'
+                                display: 'flex',
+                                minWidth: 0,
+                                minHeight: 0,
                             }}
                         >
                             {logoAnimate[index].icon}
