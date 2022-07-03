@@ -1,14 +1,7 @@
 import { Box, Typography, Stack, Slide, Zoom, Button } from '@mui/material'
 import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from "react-redux";
-import { gameSelector, loadingPin } from './gameSlice';
+import { logoAnimate } from '../../components/AnswerUI';
 
-
-import SquareIcon from '@mui/icons-material/Square';
-import HexagonIcon from '@mui/icons-material/Hexagon';
-import CircleIcon from '@mui/icons-material/Circle';
-import DarkModeIcon from '@mui/icons-material/DarkMode';
-import ChangeHistoryIcon from '@mui/icons-material/ChangeHistory';
 const Idle = () => {
     const [count, setCount] = useState(0);
 
@@ -19,25 +12,6 @@ const Idle = () => {
         return () => clearInterval(interval);
     }, []);
 
-    const fontSizeIcon = 40
-    const answerUI = [
-        {
-            icon: <SquareIcon sx={{ fontSize: fontSizeIcon }} />,
-            bgColor: '#e21b3c'
-        },
-        {
-            icon: <ChangeHistoryIcon sx={{ fontSize: fontSizeIcon }} />,
-            bgColor: '#e646cc'
-        },
-        {
-            icon: <HexagonIcon sx={{ fontSize: fontSizeIcon }} />,
-            bgColor: '#d89e00'
-        },
-        {
-            icon: <CircleIcon sx={{ fontSize: fontSizeIcon }} />,
-            bgColor: '#26890c'
-        }
-    ]
     return (
         <Box sx={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Stack spacing={7} alignItems="center">
@@ -71,7 +45,7 @@ const Idle = () => {
                         <Button
                             key={index}
                             style={{
-                                backgroundColor: answerUI[index].bgColor,
+                                backgroundColor: logoAnimate[index].bgColor,
                                 border: "none",
                                 outline: "none"
                             }}
@@ -82,7 +56,7 @@ const Idle = () => {
                                 display: 'flex'
                             }}
                         >
-                            {answerUI[index].icon}
+                            {logoAnimate[index].icon}
                         </Button>
                     ))}
                 </Box>

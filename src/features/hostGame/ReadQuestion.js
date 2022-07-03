@@ -15,25 +15,7 @@ import DarkModeIcon from '@mui/icons-material/DarkMode';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 
-const fontSizeIcon = 15
-const answerUI = [
-    {
-        icon: <SquareIcon sx={{ fontSize: fontSizeIcon }} />,
-        bgColor: '#e21b3c'
-    },
-    {
-        icon: <DarkModeIcon sx={{ fontSize: fontSizeIcon }} />,
-        bgColor: '#e646cc'
-    },
-    {
-        icon: <HexagonIcon sx={{ fontSize: fontSizeIcon }} />,
-        bgColor: '#d89e00'
-    },
-    {
-        icon: <CircleIcon sx={{ fontSize: fontSizeIcon }} />,
-        bgColor: '#26890c'
-    }
-]
+import { logoPhone } from '../../components/AnswerUI';
 
 
 const ReadQuestion = () => {
@@ -177,7 +159,7 @@ const ReadQuestion = () => {
                                 <Button
                                     key={index}
                                     style={{
-                                        backgroundColor: answerUI[index].bgColor,
+                                        backgroundColor: logoPhone[index].bgColor,
                                         border: "none",
                                         outline: "none",
                                     }}
@@ -189,7 +171,7 @@ const ReadQuestion = () => {
                                         height: 24,
                                     }}
                                 >
-                                    {answerUI[index].icon}
+                                    {logoPhone[index].icon}
                                 </Button>
                             ))}
                         </Box>

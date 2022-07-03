@@ -71,7 +71,6 @@ export const playerSlice = createSlice({
       state.isFetching = true;
     },
     sendPinResult: (state, { payload }) => {
-      console.log('send pin result: ', payload);
       state.isFetching = false;
       if (payload.isRightPin) {
         state.questions = payload.listQuestions;
@@ -120,7 +119,6 @@ export const playerSlice = createSlice({
   },
   extraReducers: {
     [enterPIN.fulfilled]: (state, { payload }) => {
-      console.log('payload: ', payload);
       state.questions = payload;
       state.isFetching = false;
       state.isSuccess = true;

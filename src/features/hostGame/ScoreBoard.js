@@ -137,16 +137,22 @@ const ScoreBoard = () => {
                     display: 'grid',
                     py: 2,
                 }}>
-                    <Button variant='contained' sx={{
-                        textTransform: 'none',
-                        backgroundColor: 'white',
-                        color: 'black',
-                        '&:hover': {
-                            backgroundColor: 'purple',
-                            color: 'white',
+                    <Button
+                        variant="contained"
+                        sx={{
+                            color: 'black',
+                            display: 'block',
+                            backgroundColor: 'white',
+                            textTransform: 'none',
                             fontWeight: 'bold',
-                        }
-                    }}>Next</Button>
+                            fontSize: 18,
+                            '&:hover': {
+                                fontWeight: 'bold',
+                                backgroundColor: 'yellow',
+                                color: 'black',
+                            }
+                        }}
+                    > Next</Button>
                 </Box>
             </Box>
             <Box
@@ -161,7 +167,14 @@ const ScoreBoard = () => {
                 <Stack spacing={2} sx={{ height: '100%', width: '60%', alignItems: 'center', py: 2 }}>
                     {scoreBoard.length === 0
                         ?
-                        <Typography width='90%' sx={{ fontSize: 25, textAlign: 'left', fontWeight: 'bold' }}>Every one have been 0 points</Typography>
+                        <Typography width='90%' sx={{
+                            fontSize: 25,
+                            textAlign: 'center',
+                            fontWeight: 'bold',
+                            backgroundColor: 'white',
+                            py: 1,
+                            borderRadius: 2,
+                        }}>Every one have been 0 points</Typography>
                         :
                         scoreBoard.map((eachResult, index) => (
 

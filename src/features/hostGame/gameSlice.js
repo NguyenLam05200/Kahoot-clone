@@ -51,8 +51,9 @@ const initialState = {
   curQuestion: 0,
   timeReadQuestion: 0,
   countAnswer: 0,
-  countEachAns: [],
+  countEachAns: [0, 0, 0, 0],
   scoreBoard: [],
+  isSkip: false,
   isBlockJoin: false,
   isFullScreen: false,
   isFetching: false,
@@ -99,7 +100,7 @@ export const gameSlice = createSlice({
       state.curQuestion = payload.indexQuestion;
       state.countAnswer = 0;
       state.countEachAns = new Array(state.listQuestions[state.curQuestion].ans.length).fill(0);
-      state.scoreBoard = [];
+      state.isSkip = false;
       state.status = 'readQuestion';
     },
     setFullScreen: (state) => {
@@ -122,6 +123,15 @@ export const gameSlice = createSlice({
         return eachAns;
       })
     },
+    skip: (state) => {
+      socket.emit('SKIP');
+      state.countEachAns = new Array(state.listQuestions[state.curQuestion].ans.length).fill(0);
+      state.isSkip = true;
+      state.status = 'showResult';
+    },
+    requestScoreboard: (state) => {
+      state.isSkip ? state.status = 'scoreBoard' : socket.emit('SCORE_BOARD')
+    },
     getScoreBoard: (state, { payload }) => {
       state.scoreBoard = payload;
       state.status = 'scoreBoard';
@@ -143,7 +153,9 @@ export const {
   chooseAnswer,
   showResult,
   sendAnswer,
-  getScoreBoard
+  getScoreBoard,
+  requestScoreboard,
+  skip
 } = gameSlice.actions;
 
 export const gameSelector = (state) => state.game;

@@ -4,17 +4,8 @@ import { experimentalStyled as styled } from '@mui/material/styles';
 import { useSelector, useDispatch } from "react-redux";
 import { playerSelector, timeUp, correctAns, incorrectAns, sendResult } from './playerSlice';
 
-import SquareIcon from '@mui/icons-material/Square';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import HexagonIcon from '@mui/icons-material/Hexagon';
-import CircleIcon from '@mui/icons-material/Circle';
-import ChurchIcon from '@mui/icons-material/Church';
-import CloudIcon from '@mui/icons-material/Cloud';
-import DarkModeIcon from '@mui/icons-material/DarkMode';
-import DeviceHubIcon from '@mui/icons-material/DeviceHub';
 import { useEffect, useState } from 'react';
-import { current } from '@reduxjs/toolkit';
-import { findAllInRenderedTree } from 'react-dom/test-utils';
+import { answerUI } from '../../components/AnswerUI';
 
 const ChooseAnswer = ({ }) => {
   const { name, questions, curQuestion, score } = useSelector(
@@ -28,6 +19,7 @@ const ChooseAnswer = ({ }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCountDown((old) => old - 1);
+      console.log('countDown: ', countDown);
     }, 1000);
     return () => clearInterval(interval);
   }, []);
@@ -38,41 +30,6 @@ const ChooseAnswer = ({ }) => {
 
   const [curAns, setCurAns] = useState([]);
 
-  const fontSizeIcon = 40
-  const answerUI = [
-    {
-      icon: <SquareIcon sx={{ fontSize: fontSizeIcon }} />,
-      bgColor: '#e21b3c'
-    },
-    {
-      icon: <FavoriteIcon sx={{ fontSize: fontSizeIcon }} />,
-      bgColor: '#1367cd'
-    },
-    {
-      icon: <HexagonIcon sx={{ fontSize: fontSizeIcon }} />,
-      bgColor: '#d89e00'
-    },
-    {
-      icon: <CircleIcon sx={{ fontSize: fontSizeIcon }} />,
-      bgColor: '#26890c'
-    },
-    {
-      icon: <CloudIcon sx={{ fontSize: fontSizeIcon }} />,
-      bgColor: '#0aa3a3'
-    },
-    {
-      icon: <DarkModeIcon sx={{ fontSize: fontSizeIcon }} />,
-      bgColor: '#864cbf'
-    },
-    {
-      icon: <ChurchIcon sx={{ fontSize: fontSizeIcon }} />,
-      bgColor: '#dad3db'
-    },
-    {
-      icon: <DeviceHubIcon sx={{ fontSize: fontSizeIcon }} />,
-      bgColor: '#e646cc'
-    },
-  ]
   const handleClickAns = (ans) => {
     if (!curAns.includes(ans)) {
       setCurAns([...curAns, ans]);
@@ -137,8 +94,8 @@ const ChooseAnswer = ({ }) => {
             key={index}
             onClick={() => handleClickAns(index)}
             sx={{
-              backgroundColor: curAns.includes(index) ? '#5a5253' : answerUI[index].bgColor,
-              // backgroundColor: answerUI[index].bgColor,
+              backgroundColor: answerUI[index].bgColor,
+              opacity: curAns.includes(index) ? 0.3 : 2,
               color: 'white',
               alignItems: "center",
               justifyContent: "center",
