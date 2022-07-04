@@ -3,7 +3,7 @@ import socket from '../../utils/socket';
 import { requestFullScreen } from '../../utils/utilities';
 
 const initialState = {
-  status: 'waitPlayers',
+  status: 'sumary',
   listQuestions: [
     {
       type: "Quiz",
@@ -34,7 +34,7 @@ const initialState = {
       img: "https://images.unsplash.com/reserve/Af0sF2OS5S5gatqrKzVP_Silhoutte.jpg?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
       time: 10,
       ques_title: "Làm nguời yêu nhé em 💜🧡💚💛🤍",
-      ans: ['Hong bé ơi', 'Friend zones forever 🍇🍉🍍🥭🍏🍐🍒🍓🍅'],
+      ans: ['Hong bé ơi', 'Friend zones forever 🍉🍍🍏🍓'],
       correctAns: [0],
     },
     {
@@ -137,6 +137,12 @@ export const gameSlice = createSlice({
       state.scoreBoard = payload;
       state.status = 'scoreBoard';
     },
+    prepareSumary: (state) => {
+      state.status = 'prepareSumary';
+    },
+    sumary: (state) => {
+      state.status = 'sumary';
+    }
   },
 });
 
@@ -156,7 +162,9 @@ export const {
   sendAnswer,
   getScoreBoard,
   requestScoreboard,
-  skip
+  skip,
+  prepareSumary,
+  sumary,
 } = gameSlice.actions;
 
 export const gameSelector = (state) => state.game;

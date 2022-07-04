@@ -43,7 +43,7 @@ const ReadQuestion = ({ }) => {
           justifyContent: 'left',
           display: 'flex',
         }}>
-          {curQuestion ? curQuestion : 1} of {questions.length}
+          {curQuestion ? curQuestion + 1 : 1} of {questions.length}
         </Typography>
         <Typography sx={{
           marginLeft: 1,

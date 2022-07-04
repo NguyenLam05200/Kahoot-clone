@@ -43,7 +43,7 @@ export const enterName = createAsyncThunk(
 export const playerSlice = createSlice({
   name: 'player',
   initialState: {
-    status: 'idle',
+    status: 'sumary',
     name: 'Lam',
     questions: [{
       type: "Multi selections",
@@ -54,6 +54,7 @@ export const playerSlice = createSlice({
     curQuestion: 0,
     timeReadQuestion: 0,
     point: 0,
+    rating: 1,
     isFetching: false,
     isSuccess: false,
     isError: false,

@@ -274,7 +274,7 @@ const ShowResult = () => {
                     justifyContent: 'left',
                     display: 'flex',
                 }}>
-                    1/10
+                    {curQuestion + 1} / {listQuestions.length}
                 </Typography>
                 <Typography sx={{
                     marginLeft: 1,

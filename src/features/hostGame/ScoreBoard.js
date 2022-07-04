@@ -17,7 +17,7 @@ import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 
 const ScoreBoard = () => {
     const dispatch = useDispatch();
-    const { isFullScreen, pin, scoreBoard } = useSelector(
+    const { isFullScreen, pin, scoreBoard, curQuestion, listQuestions } = useSelector(
         gameSelector
     );
 
@@ -216,7 +216,7 @@ const ScoreBoard = () => {
                     justifyContent: 'left',
                     display: 'flex',
                 }}>
-                    1/10
+                    {curQuestion + 1} / {listQuestions.length}
                 </Typography>
                 <Typography sx={{
                     marginLeft: 1,
