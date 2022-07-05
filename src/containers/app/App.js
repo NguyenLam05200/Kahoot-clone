@@ -54,7 +54,7 @@ function App() {
           path="/addKahutQuestion"
           element={<CreateListKahootQuestion />}
         />
-        <Route path="KahootDetail" element={<KahootDetail />} />
+        <Route path="KahootDetail/:roomID" element={<KahootDetail />} />
 
         <Route path="/dashboard" element={<ProtectedLayout />}>
           {/* vi du: localhost:3000/dashboard/profile -> isLoggedIn ? render(ProfilePag) : Navigate '/login' */}

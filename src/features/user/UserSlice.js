@@ -27,7 +27,8 @@ export const loginUser = createAsyncThunk(
     try {
       let response = await handleLoginApi(username, password);
       if (response.status === 200) {
-        localStorage.kahut_app_accessToken = response.data.token;
+        //localStorage.kahut_app_accessToken = response.data.token;
+        localStorage.setItem("kahut_app_accessToken",response.data.token );
         return true;
       } else {
         return thunkAPI.rejectWithValue(response.data);
