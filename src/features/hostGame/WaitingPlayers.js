@@ -181,7 +181,7 @@ const WaitingPlayers = () => {
                                 :
                                 listPlayers.map(eachPlayer => {
                                     return (
-                                        <Grid item xs="auto">
+                                        <Grid key={eachPlayer.id} item xs="auto">
                                             <Box
                                                 sx={{
                                                     display: 'flex',

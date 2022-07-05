@@ -102,7 +102,7 @@ const ReadQuestion = () => {
                             fontWeight: 'bold',
                             fontSize: 20,
                         }}>
-                            1 of 10
+                            {curQuestion ? curQuestion + 1 : 1} of {listQuestions.length}
                         </Typography>
                     </Box>
                 </Box>
@@ -181,7 +181,7 @@ const ReadQuestion = () => {
                             sx={{
                                 color: 'black',
                             }}
-                            variant="h5" align='center' fontWeight='bold'>
+                            variant="h5" align='left' fontWeight='bold'>
                             {/* Name of these fruits: 🍏🍌🍍 ? */}
                             {listQuestions[curQuestion].ques_title}
                         </Typography>

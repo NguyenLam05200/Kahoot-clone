@@ -19,7 +19,6 @@ const ChooseAnswer = ({ }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCountDown((old) => old - 1);
-      console.log('countDown: ', countDown);
     }, 1000);
     return () => clearInterval(interval);
   }, []);
@@ -64,7 +63,7 @@ const ChooseAnswer = ({ }) => {
           justifyContent: 'left',
           display: 'flex',
         }}>
-          {curQuestion ? curQuestion : 1} of {questions.length}
+          {curQuestion ? curQuestion + 1 : 1} of {questions.length}
         </Typography>
         <Typography sx={{
           marginLeft: 1,

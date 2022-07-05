@@ -14,6 +14,8 @@ import TimeUp from "./TimeUp";
 import CorrectAns from "./CorrectAns";
 import IncorrectAns from "./IncorrectAns";
 import WaitResult from "./WaitResult";
+import PrepareSumary from "./PrepareSumary";
+import Sumary from "./Sumary";
 const Game = ({ }) => {
   const { status, name, questions, score } = useSelector(
     playerSelector
@@ -31,6 +33,9 @@ const Game = ({ }) => {
       {status === 'timeUp' && <TimeUp />}
       {status === 'correctAns' && <CorrectAns />}
       {status === 'incorrectAns' && <IncorrectAns />}
+      {status === 'prepareSumary' && <PrepareSumary />}
+      {status === 'sumary' && <Sumary />}
+
     </>
   );
 };
