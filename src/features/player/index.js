@@ -14,7 +14,9 @@ import {
     reset,
     sumaryData,
     sumary,
-    prepareSumary
+    prepareSumary,
+    skip,
+    playAgain
 } from './playerSlice';
 
 import Join from './Join';
@@ -44,11 +46,13 @@ export const PlayerPage = () => {
         Socket.on('READ_QUESTION', (msg) => dispatch(readQuestion(msg)))
         Socket.on('CORRECT', (msg) => dispatch(correctAns(msg)))
         Socket.on('INCORRECT', () => dispatch(incorrectAns()))
-        Socket.on('SKIP', () => dispatch(timeUp()))
+        Socket.on('SKIP', () => dispatch(skip()))
+        Socket.on('TIME_UP', () => dispatch(timeUp()))
         Socket.on('HOST_LEAVE', () => dispatch(reset()))
         Socket.on('PREPARE_SUMARY', () => dispatch(prepareSumary()))
         Socket.on('SUMARY_DATA', (msg) => dispatch(sumaryData(msg)))
         Socket.on('SUMARY', () => dispatch(sumary()))
+        Socket.on('PLAY_AGAIN', () => dispatch(playAgain()))
 
         return () => {
             Socket.off('ENTER_PIN', handlePinResult);

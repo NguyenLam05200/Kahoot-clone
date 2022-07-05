@@ -118,6 +118,11 @@ export const playerSlice = createSlice({
       state.status = 'waitResult';
     },
     timeUp: (state) => {
+      if (state.waitResult !== 'waitResult') {
+        state.status = 'timeUp';
+      }
+    },
+    skip: (state) => {
       state.status = 'timeUp';
     },
     incorrectAns: (state) => {
@@ -140,6 +145,16 @@ export const playerSlice = createSlice({
     sumary: (state) => {
       console.log(' sumary');
       state.status = 'sumary';
+    },
+    playAgain: (state) => {
+      state.score = 0;
+      state.curQuestion = 0;
+      state.point = 0;
+      state.isError = false;
+      state.isSuccess = false;
+      state.isFetching = false;
+      state.errorMessage = '';
+      state.status = 'rightName';
     }
   },
   extraReducers: {
@@ -174,7 +189,25 @@ export const playerSlice = createSlice({
   },
 });
 
-export const { clearState, sendPin, sendPinResult, sendName, ready, readQuestion, chooseAnswer, sendResult, timeUp, incorrectAns, correctAns, reset, prepareSumary, sumaryData, sumary } = playerSlice.actions;
+export const {
+  clearState,
+  sendPin,
+  sendPinResult,
+  sendName,
+  ready,
+  readQuestion,
+  chooseAnswer,
+  sendResult,
+  timeUp,
+  incorrectAns,
+  correctAns,
+  reset,
+  prepareSumary,
+  sumaryData,
+  sumary,
+  skip,
+  playAgain
+} = playerSlice.actions;
 
 export const playerSelector = (state) => state.player;
 

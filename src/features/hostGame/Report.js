@@ -26,7 +26,8 @@ import {
   gameSelector,
   setFullScreen,
   showResult,
-  sumary
+  sumary,
+  playAgain
 } from './gameSlice';
 
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
@@ -405,7 +406,9 @@ const Report = ({ }) => {
                     alignItems: 'end',
                   }}
                 >
-                  <Button variant='contained' size='small' sx={{ textTransform: 'none', py: 0.5, px: 1, }} disableElevation>Play again</Button>
+                  <Button
+                    onClick={() => dispatch(playAgain())}
+                    variant='contained' size='small' sx={{ textTransform: 'none', py: 0.5, px: 1, }} disableElevation>Play again</Button>
                 </Box>
               </Box>
             </Box>

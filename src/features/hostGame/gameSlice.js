@@ -95,7 +95,6 @@ export const gameSlice = createSlice({
     },
     startGame: (state) => {
       socket.emit('START_GAME');
-      state.listPlayers = [];
       state.status = 'startGame';
     },
     readQuestion: (state, { payload }) => {
@@ -152,6 +151,15 @@ export const gameSlice = createSlice({
     },
     report: (state) => {
       state.status = 'report';
+    },
+    playAgain: (state) => {
+      socket.emit('PLAY_AGAIN')
+      state.curQuestion = 0;
+      state.scoreBoard = [];
+      state.isSkip = false;
+      state.isBlockJoin = false;
+      state.isFullScreen = false;
+      state.status = 'waitPlayers'
     }
   },
 });
@@ -175,7 +183,8 @@ export const {
   skip,
   prepareSumary,
   sumary,
-  report
+  report,
+  playAgain
 } = gameSlice.actions;
 
 export const gameSelector = (state) => state.game;
