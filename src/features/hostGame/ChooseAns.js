@@ -31,7 +31,6 @@ const ChooseAns = () => {
     useEffect(() => {
         const interval = setInterval(() => {
             setCountDown((old) => old - 1);
-            console.log('countDown: ', countDown);
         }, 1000);
         return () => clearInterval(interval);
     }, []);

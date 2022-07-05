@@ -10,7 +10,8 @@ import {
     leavePlayer,
     readQuestion,
     sendAnswer,
-    getScoreBoard
+    getScoreBoard,
+    prepareSumary
 } from './gameSlice';
 import socket from '../../utils/socket';
 
@@ -24,6 +25,7 @@ import ShowResult from './ShowResult';
 import WaitingPlayers from './WaitingPlayers';
 import Sumary from './Sumary';
 import PrepareSumary from './PrepareSumary';
+import Report from './Report';
 
 const GameHost = () => {
     const { status, listQuestions } = useSelector(
@@ -48,6 +50,7 @@ const GameHost = () => {
         socket.on('READ_QUESTION', (msg) => dispatch(readQuestion(msg)))
         socket.on('SEND_ANSWER', (ans) => dispatch(sendAnswer(ans)))
         socket.on('SCORE_BOARD', (listScoreBoard) => dispatch(getScoreBoard(listScoreBoard)))
+        socket.on('PREPARE_SUMARY', (msg) => dispatch(prepareSumary(msg)))
 
         return () => {
             socket.off('HAND_SHAKE', requestCreatePin);
@@ -69,6 +72,7 @@ const GameHost = () => {
             {status === 'scoreBoard' && <ScoreBoard />}
             {status === 'prepareSumary' && <PrepareSumary />}
             {status === 'sumary' && <Sumary />}
+            {status === 'report' && <Report />}
         </Box>
     );
 };

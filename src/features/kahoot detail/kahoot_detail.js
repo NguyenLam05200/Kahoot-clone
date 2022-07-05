@@ -25,7 +25,7 @@ const KahootDetail = function () {
   } else if (postStatus === "succeeded") {
     // map object when get quiz
 
-    content = Quiz.map((quiz) => (
+    content = Quiz.map((item) => (
       <div className="mb-3">
         <div
           style={{

@@ -43,7 +43,7 @@ export const enterName = createAsyncThunk(
 export const playerSlice = createSlice({
   name: 'player',
   initialState: {
-    status: 'sumary',
+    status: 'idle',
     name: 'Lam',
     questions: [{
       type: "Multi selections",
@@ -129,6 +129,18 @@ export const playerSlice = createSlice({
       // state.score += payload / 2;
       state.score = state.score + payload;
     },
+    prepareSumary: (state) => {
+      console.log('prepare sumary');
+      state.status = 'prepareSumary'
+    },
+    sumaryData: (state, { payload }) => {
+      console.log('data sumary: ', payload);
+      state.rating = payload;
+    },
+    sumary: (state) => {
+      console.log(' sumary');
+      state.status = 'sumary';
+    }
   },
   extraReducers: {
     [enterPIN.fulfilled]: (state, { payload }) => {
@@ -162,7 +174,7 @@ export const playerSlice = createSlice({
   },
 });
 
-export const { clearState, sendPin, sendPinResult, sendName, ready, readQuestion, chooseAnswer, sendResult, timeUp, incorrectAns, correctAns, reset } = playerSlice.actions;
+export const { clearState, sendPin, sendPinResult, sendName, ready, readQuestion, chooseAnswer, sendResult, timeUp, incorrectAns, correctAns, reset, prepareSumary, sumaryData, sumary } = playerSlice.actions;
 
 export const playerSelector = (state) => state.player;
 

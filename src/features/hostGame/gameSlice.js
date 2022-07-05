@@ -3,7 +3,7 @@ import socket from '../../utils/socket';
 import { requestFullScreen } from '../../utils/utilities';
 
 const initialState = {
-  status: 'sumary',
+  status: 'idle',
   listQuestions: [
     {
       type: "Quiz",
@@ -29,14 +29,14 @@ const initialState = {
       ans: ['Việt Nam', 'Anh', 'Lào', 'Trung Quốc', 'Cuba', 'Nga'],
       correctAns: [0, 2, 3, 4],
     },
-    {
-      type: "True or False",
-      img: "https://images.unsplash.com/reserve/Af0sF2OS5S5gatqrKzVP_Silhoutte.jpg?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-      time: 10,
-      ques_title: "Làm nguời yêu nhé em 💜🧡💚💛🤍",
-      ans: ['Hong bé ơi', 'Friend zones forever 🍉🍍🍏🍓'],
-      correctAns: [0],
-    },
+    // {
+    //   type: "True or False",
+    //   img: "https://images.unsplash.com/reserve/Af0sF2OS5S5gatqrKzVP_Silhoutte.jpg?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
+    //   time: 10,
+    //   ques_title: "Làm nguời yêu nhé em 💜🧡💚💛🤍",
+    //   ans: ['Hong bé ơi', 'Friend zones forever 🍉🍍🍏🍓'],
+    //   correctAns: [0],
+    // },
     {
       type: "Quiz",
       img: "https://images.unsplash.com/reserve/Af0sF2OS5S5gatqrKzVP_Silhoutte.jpg?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
@@ -53,6 +53,8 @@ const initialState = {
   countAnswer: 0,
   countEachAns: [0, 0, 0, 0],
   scoreBoard: [],
+  percentRightTotal: 0,
+  reportData: null,
   isSkip: false,
   isBlockJoin: false,
   isFullScreen: false,
@@ -131,17 +133,25 @@ export const gameSlice = createSlice({
       state.status = 'showResult';
     },
     requestScoreboard: (state) => {
-      state.isSkip ? state.status = 'scoreBoard' : socket.emit('SCORE_BOARD')
+      state.isSkip && state.curQuestion < state.listQuestions.length - 1 ? state.status = 'scoreBoard' : socket.emit('SCORE_BOARD')
     },
     getScoreBoard: (state, { payload }) => {
       state.scoreBoard = payload;
       state.status = 'scoreBoard';
     },
-    prepareSumary: (state) => {
+    prepareSumary: (state, { payload }) => {
+      console.log('payload: ', payload);
+      state.percentRightTotal = payload.percentRightTotal;
+      state.scoreBoard = payload.rating;
+      state.reportData = payload.reportData;
       state.status = 'prepareSumary';
     },
     sumary: (state) => {
+      socket.emit('SUMARY');
       state.status = 'sumary';
+    },
+    report: (state) => {
+      state.status = 'report';
     }
   },
 });
@@ -165,6 +175,7 @@ export const {
   skip,
   prepareSumary,
   sumary,
+  report
 } = gameSlice.actions;
 
 export const gameSelector = (state) => state.game;

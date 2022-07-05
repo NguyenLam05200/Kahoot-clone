@@ -12,7 +12,7 @@ export const fetchQuiz = createAsyncThunk(
 export const addNewQuiz = createAsyncThunk(
   "quiz/addNewQuiz",
   // The payload creator receives the partial `{title, content, user}` object
-  async (initialPost) => {
+  async (roomID, initialPost) => {
     // We send the initial data to the fake API server
     const response = await instance.post("/quiz/" + roomID, initialPost);
     // The response includes the complete post object, including unique ID
