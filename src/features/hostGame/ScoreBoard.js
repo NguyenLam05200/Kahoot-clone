@@ -224,7 +224,7 @@ const ScoreBoard = () => {
                     width: '70%',
                     height: '100%',
                     alignItems: 'center',
-                    justifyContent: 'right',
+                    justifyContent: 'flex-end',
                     display: 'flex',
                 }}>
                     kahut.it Game PIN: {pin}

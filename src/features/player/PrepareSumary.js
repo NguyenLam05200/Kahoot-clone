@@ -78,7 +78,7 @@ const PrepareSumary = ({ }) => {
             display: 'flex',
             width: '60%',
             alignItems: 'center',
-            justifyContent: 'right',
+            justifyContent: 'flex-end',
           }}
         >
           <Button variant="contained"

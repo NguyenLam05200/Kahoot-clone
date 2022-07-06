@@ -85,14 +85,14 @@ const ReadQuestion = () => {
                     width: '40%',
                     height: '100%',
                     alignItems: 'center',
-                    justifyContent: 'right',
+                    justifyContent: 'flex-end',
                     display: 'flex',
                 }}>
                     <Box sx={{
                         py: 1,
                         px: 3,
                         alignItems: 'center',
-                        justifyContent: 'center',
+                        justifyContent: 'flex-end',
                         display: 'flex',
                         backgroundColor: '#1150B2',
                         borderRadius: 5,

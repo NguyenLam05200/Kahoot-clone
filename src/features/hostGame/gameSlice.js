@@ -53,8 +53,8 @@ const initialState = {
   countAnswer: 0,
   countEachAns: [0, 0, 0, 0],
   scoreBoard: [],
-  percentRightTotal: 0,
-  reportData: null,
+  percentRightTotal: null,
+  reportData: [],
   isSkip: false,
   isBlockJoin: false,
   isFullScreen: false,
@@ -139,7 +139,7 @@ export const gameSlice = createSlice({
       state.status = 'scoreBoard';
     },
     prepareSumary: (state, { payload }) => {
-      console.log('payload: ', payload);
+      console.log('dataSumary: ', payload);
       state.percentRightTotal = payload.percentRightTotal;
       state.scoreBoard = payload.rating;
       state.reportData = payload.reportData;

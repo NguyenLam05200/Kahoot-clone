@@ -146,7 +146,7 @@ const ChooseAnswer = ({ }) => {
             display: 'flex',
             width: '30%',
             alignItems: 'center',
-            justifyContent: 'right',
+            justifyContent: 'flex-end',
           }}
         >
           <Button variant="contained"

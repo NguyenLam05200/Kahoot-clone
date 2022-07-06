@@ -148,6 +148,7 @@ function NestedList(props) {
   const { listQuestions, reportData } = useSelector(
     gameSelector
   );
+  console.log('report data: ', reportData)
 
   const [open, setOpen] = useState(true);
 
@@ -272,6 +273,7 @@ const Report = ({ }) => {
   const { isFullScreen, percentRightTotal } = useSelector(
     gameSelector
   );
+  console.log('percent: ', percentRightTotal)
 
   const [isShowLogout, setIsShowLogout] = useState(false);
   const bgColorContent = '#083C8F'
@@ -374,6 +376,7 @@ const Report = ({ }) => {
                 height: '100%',
                 width: 'calc(100% - 8rem)',
                 p: 2,
+                pb: 0.9,
               }}
             >
               <Typography
@@ -389,7 +392,7 @@ const Report = ({ }) => {
                 sx={{
                   height: '60%',
                   display: 'flex',
-                  alignItems: 'end',
+                  alignItems: 'flex-end',
                   width: '100%',
                 }}
               >
@@ -402,8 +405,8 @@ const Report = ({ }) => {
                   sx={{
                     width: '5rem',
                     display: 'flex',
-                    justifyContent: 'right',
-                    alignItems: 'end',
+                    justifyContent: 'flex-end',
+                    alignItems: 'flex-end',
                   }}
                 >
                   <Button
@@ -468,7 +471,7 @@ const Report = ({ }) => {
                 p: 0.9
               }}
             >
-              <Button variant='contained' size='small' sx={{ textTransform: 'none', py: 0.5, px: 1, boxShadow: 4 }} disableElevation>Play new game</Button>
+              <Button variant='contained'  sx={{ textTransform: 'none', py: 0.5, px: 1, boxShadow: 4, fontSize: '0.7em' }} disableElevation>Play new game</Button>
             </Box>
           </Box>
         </Stack>
@@ -508,7 +511,7 @@ const Report = ({ }) => {
                 width: '30%',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'right',
+                justifyContent: 'flex-end',
               }}
             >
               <Link
@@ -548,7 +551,7 @@ const Report = ({ }) => {
         }}
       >
         <Stack spacing={1}>
-          <Box sx={{ display: 'flex', justifyContent: 'right' }}>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
             <Fab
               onClick={() => setIsShowLogout(!isShowLogout)}
               variant="extended"

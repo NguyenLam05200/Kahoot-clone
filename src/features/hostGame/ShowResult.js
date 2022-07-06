@@ -120,7 +120,7 @@ const ShowResult = () => {
                     width: '10%',
                     height: '100%',
                     alignItems: 'start',
-                    justifyContent: 'right',
+                    justifyContent: 'flex-end',
                     display: 'grid',
                 }}>
                     <Button
@@ -134,11 +134,11 @@ const ShowResult = () => {
                     height: '45%',
                     px: 2,
                     display: 'flex',
-                    alignItems: 'end',
+                    alignItems: 'flex-end',
                     justifyContent: 'center',
                 }}
             >
-                <Stack spacing={2} direction='row' sx={{ height: '100%', alignItems: 'end', py: 2 }}>
+                <Stack spacing={2} direction='row' sx={{ height: '100%', alignItems: 'flex-end', py: 2 }}>
                     {countEachAns.map((total, index) => (
                         <Box
                             key={index}
@@ -150,7 +150,7 @@ const ShowResult = () => {
                                 backgroundColor: answerUI2[index].bgColor,
                                 display: 'flex',
                                 justifyContent: 'center',
-                                alignItems: 'end',
+                                alignItems: 'flex-end',
                                 color: 'white',
                                 py: 0.5,
                                 borderRadius: 1,
@@ -251,7 +251,7 @@ const ShowResult = () => {
                                 {content}
                             </Typography>
                         </Box>
-                        <Box sx={{ display: 'flex', width: 'auto', justifyContent: 'right' }}>
+                        <Box sx={{ display: 'flex', width: 'auto', justifyContent: 'flex-end' }}>
                             {listQuestions[curQuestion].correctAns.includes(index) ? <DoneIcon fontSize='large' /> : <ClearIcon fontSize='large' />}
                         </Box>
                     </Box>
@@ -282,7 +282,7 @@ const ShowResult = () => {
                     width: '70%',
                     height: '100%',
                     alignItems: 'center',
-                    justifyContent: 'right',
+                    justifyContent: 'flex-end',
                     display: 'flex',
                 }}>
                     kahut.it Game PIN: {pin}

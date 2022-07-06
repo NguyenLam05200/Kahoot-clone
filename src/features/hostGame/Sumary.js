@@ -226,7 +226,7 @@ const Sumary = ({ }) => {
           height: '80%',
           display: 'flex',
           justifyContent: 'center',
-          alignItems: 'end',
+          alignItems: 'flex-end',
           color: 'white'
         }}
       >
@@ -238,7 +238,7 @@ const Sumary = ({ }) => {
             width: '60%',
             position: 'relative',
             justifyContent: 'center',
-            alignItems: 'end',
+            alignItems: 'flex-end',
             display: 'flex',
             overflow: 'hidden',
           }}

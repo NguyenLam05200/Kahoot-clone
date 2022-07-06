@@ -243,7 +243,7 @@ const ChooseAns = () => {
                                     'cursive',
                                 ].join(','),
                             }}
-                            variant="h5" align='center' fontWeight='bold'>
+                            variant="h5" align='left' fontWeight='bold'>
                             {content}
                         </Typography>
                     </Box>
@@ -274,7 +274,7 @@ const ChooseAns = () => {
                     width: '70%',
                     height: '100%',
                     alignItems: 'center',
-                    justifyContent: 'right',
+                    justifyContent: 'flex-end',
                     display: 'flex',
                 }}>
                     kahut.it Game PIN: {pin}
