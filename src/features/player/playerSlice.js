@@ -135,15 +135,12 @@ export const playerSlice = createSlice({
       state.score = state.score + payload;
     },
     prepareSumary: (state) => {
-      console.log('prepare sumary');
       state.status = 'prepareSumary'
     },
     sumaryData: (state, { payload }) => {
-      console.log('data sumary: ', payload);
       state.rating = payload;
     },
     sumary: (state) => {
-      console.log(' sumary');
       state.status = 'sumary';
     },
     playAgain: (state) => {

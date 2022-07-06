@@ -145,18 +145,16 @@ function CircularProgressListItem(props) {
   );
 }
 function NestedList(props) {
-  const { listQuestions, reportData } = useSelector(
+  const { listQuestions } = useSelector(
     gameSelector
   );
-  console.log('report data: ', reportData)
-
+ 
   const [open, setOpen] = useState(true);
 
   const handleClick = () => {
     setOpen(!open);
   };
-
-  const reportDataAnalyst = reportData.filter(eachReport => eachReport[1] < 100);
+const reportDataAnalyst = props.reportDataAnalyst;
   return (
     <List
       sx={{
@@ -270,13 +268,13 @@ function NestedList(props) {
 const Report = ({ }) => {
   const containerRef = useRef(null);
   const dispatch = useDispatch();
-  const { isFullScreen, percentRightTotal } = useSelector(
+  const { isFullScreen, percentRightTotal, reportData } = useSelector(
     gameSelector
   );
-  console.log('percent: ', percentRightTotal)
 
   const [isShowLogout, setIsShowLogout] = useState(false);
   const bgColorContent = '#083C8F'
+  const reportDataAnalyst = reportData.filter(eachReport => eachReport[1] < 100);
 
   return (
     <Box
@@ -503,7 +501,7 @@ const Report = ({ }) => {
                 px: 2,
                 m: 2, fontWeight: 'bold', fontSize: 20
               }}>
-                3
+                {reportDataAnalyst.length}
               </Typography>
             </Box>
             <Box
@@ -538,7 +536,7 @@ const Report = ({ }) => {
               p: 2,
             }}
           >
-            <NestedList />
+            <NestedList reportDataAnalyst={reportDataAnalyst}/>
           </Box>
         </Box>
       </Box >

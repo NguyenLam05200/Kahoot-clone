@@ -139,7 +139,6 @@ export const gameSlice = createSlice({
       state.status = 'scoreBoard';
     },
     prepareSumary: (state, { payload }) => {
-      console.log('dataSumary: ', payload);
       state.percentRightTotal = payload.percentRightTotal;
       state.scoreBoard = payload.rating;
       state.reportData = payload.reportData;
