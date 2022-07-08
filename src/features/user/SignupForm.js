@@ -13,10 +13,7 @@ import {
   Box,
   Stack, IconButton, Avatar, Button, Divider, Link, Typography
 } from '@mui/material';
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useNavigate } from 'react-router-dom';
-
-
 
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
@@ -26,29 +23,13 @@ import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-import { styled } from '@mui/material/styles';
-import MuiGrid from '@mui/material/Grid';
-
 import { ReactComponent as Logo } from "../../assets/images/icons/social-google.svg";
 import { SvgIcon } from '@mui/material';
 
 
-import { Howl, Howler } from 'howler';
-import newSound from '../../assets/audio/test.wav'
-
-const Grid = styled(MuiGrid)(({ theme }) => ({
-  width: '100%',
-  ...theme.typography.body2,
-  '& [role="separator"]': {
-    margin: theme.spacing(0, 2),
-  },
-}));
-
 const SignupForm = ({ }) => {
 
   const navigate = useNavigate();
-
-  const [sound, setSound] = useState(new Howl({ src: [newSound] }))
 
   const [values, setValues] = useState({
     email: '',
