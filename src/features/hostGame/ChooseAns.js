@@ -1,31 +1,23 @@
-import { Box, Typography, Stack, IconButton, LinearProgress, Button } from '@mui/material'
+import { Box, Typography, Stack, IconButton, Button } from '@mui/material'
 import { useState, useEffect } from 'react';
 
 import { useSelector, useDispatch } from "react-redux";
 import {
     gameSelector,
-    setFullScreen,
     showResult,
     skip
 } from './gameSlice';
 
-import FullscreenIcon from '@mui/icons-material/Fullscreen';
-import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
-
-import VolumeUpIcon from '@mui/icons-material/VolumeUp';
-import VolumeOffIcon from '@mui/icons-material/VolumeOff';
-import { requestFullScreen } from '../../utils/utilities';
 
 import { answerUI } from '../../components/AnswerUI';
-
+import ActionUtils from './ActionUtils';
 
 const ChooseAns = () => {
     const dispatch = useDispatch();
-    const { isFullScreen, listQuestions, curQuestion, countAnswer, pin } = useSelector(
+    const { listQuestions, curQuestion, countAnswer, pin } = useSelector(
         gameSelector
     );
 
-    const [isVolumn, setIsVolumn] = useState(true);
     const [countDown, setCountDown] = useState(listQuestions[curQuestion].time);
 
     useEffect(() => {
@@ -53,58 +45,16 @@ const ChooseAns = () => {
                 }}
             >
                 <Box sx={{
-                    width: '10%',
+                    width: '15%',
                     height: '100%',
                     alignItems: 'start',
                     justifyContent: 'left',
                     display: 'flex',
                 }}>
-                    <Stack spacing={2}>
-                        <IconButton
-                            style={{
-                                fontWeight: 'bold',
-                                // border: "none",
-                                // outline: "none"
-                            }}
-                            aria-label="delete"
-                            size="medium"
-                            sx={{
-                                boxShadow: 2,
-                                backgroundColor: 'white',
-                                color: 'black',
-                                '&:hover': {
-                                    backgroundColor: 'pink',
-                                }
-                            }}
-                            onClick={() => dispatch(setFullScreen())}
-                        >
-                            {isFullScreen ? <FullscreenExitIcon fontSize="inherit" /> : < FullscreenIcon fontSize="inherit" />}
-                        </IconButton>
-                        <IconButton
-                            style={{
-                                fontWeight: 'bold',
-                                // border: "none",
-                                // outline: "none"
-                            }}
-                            aria-label="delete"
-                            size="medium"
-                            sx={{
-                                boxShadow: 3,
-                                backgroundColor: 'white',
-                                color: 'black',
-                                '&:hover': {
-                                    backgroundColor: 'purple',
-                                    color: 'white',
-                                }
-                            }}
-                            onClick={() => setIsVolumn(!isVolumn)}
-                        >
-                            {isVolumn ? <VolumeUpIcon fontSize="inherit" /> : < VolumeOffIcon fontSize="inherit" />}
-                        </IconButton>
-                    </Stack>
+                    <ActionUtils />
                 </Box>
                 <Box sx={{
-                    width: '80%',
+                    width: '70%',
                     height: '100%',
                     alignItems: 'start',
                     justifyContent: 'center',
@@ -121,11 +71,11 @@ const ChooseAns = () => {
                     </Box>
                 </Box>
                 <Box sx={{
-                    width: '10%',
+                    width: '15%',
                     height: '100%',
                     alignItems: 'start',
-                    justifyContent: 'right',
-                    display: 'grid',
+                    justifyContent: 'flex-end',
+                    display: 'flex',
                 }}>
                     <Button
                         onClick={() => dispatch(skip())}

@@ -1,28 +1,18 @@
-import { Box, Typography, Stack, IconButton, Button, DialogContent, Slide } from '@mui/material'
+import { Box, Typography, Stack, Button, } from '@mui/material'
 import { useState } from 'react';
 import socket from '../../utils/socket';
 
 import { useSelector, useDispatch } from "react-redux";
 import {
     gameSelector,
-    setFullScreen
 } from './gameSlice';
-
-import FullscreenIcon from '@mui/icons-material/Fullscreen';
-import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
-
-import VolumeUpIcon from '@mui/icons-material/VolumeUp';
-import VolumeOffIcon from '@mui/icons-material/VolumeOff';
+import ActionUtils from './ActionUtils';
 
 
 const ScoreBoard = () => {
-    const dispatch = useDispatch();
-    const { isFullScreen, pin, scoreBoard, curQuestion, listQuestions } = useSelector(
+    const { pin, scoreBoard, curQuestion, listQuestions } = useSelector(
         gameSelector
     );
-
-    const [isVolumn, setIsVolumn] = useState(true);
-    const [isShowMedia, setIsShowMedia] = useState(false);
 
     return (
         <Box sx={{
@@ -37,58 +27,16 @@ const ScoreBoard = () => {
                 }}
             >
                 <Box sx={{
-                    width: '10%',
+                    width: '15%',
                     height: '100%',
                     alignItems: 'start',
                     justifyContent: 'left',
                     display: 'flex',
                 }}>
-                    <Stack spacing={2}>
-                        <IconButton
-                            style={{
-                                fontWeight: 'bold',
-                                // border: "none",
-                                // outline: "none"
-                            }}
-                            aria-label="delete"
-                            size="medium"
-                            sx={{
-                                boxShadow: 2,
-                                backgroundColor: 'white',
-                                color: 'black',
-                                '&:hover': {
-                                    backgroundColor: 'pink',
-                                }
-                            }}
-                            onClick={() => dispatch(setFullScreen())}
-                        >
-                            {isFullScreen ? <FullscreenExitIcon fontSize="inherit" /> : < FullscreenIcon fontSize="inherit" />}
-                        </IconButton>
-                        <IconButton
-                            style={{
-                                fontWeight: 'bold',
-                                // border: "none",
-                                // outline: "none"
-                            }}
-                            aria-label="delete"
-                            size="medium"
-                            sx={{
-                                boxShadow: 3,
-                                backgroundColor: 'white',
-                                color: 'black',
-                                '&:hover': {
-                                    backgroundColor: 'purple',
-                                    color: 'white',
-                                }
-                            }}
-                            onClick={() => setIsVolumn(!isVolumn)}
-                        >
-                            {isVolumn ? <VolumeUpIcon fontSize="inherit" /> : < VolumeOffIcon fontSize="inherit" />}
-                        </IconButton>
-                    </Stack>
+                    <ActionUtils sx={{color: 'white'}}/>
                 </Box>
                 <Box sx={{
-                    width: '80%',
+                    width: '70%',
                     height: '100%',
                     alignItems: 'start',
                     justifyContent: 'center',
@@ -131,12 +79,11 @@ const ScoreBoard = () => {
                     </Box>
                 </Box>
                 <Box sx={{
-                    width: '10%',
+                    width: '15%',
                     height: '100%',
                     alignItems: 'start',
-                    justifyContent: 'right',
-                    display: 'grid',
-                    py: 2,
+                    justifyContent: 'flex-end',
+                    display: 'flex',
                 }}>
                     <Button
                         onClick={() => socket.emit('NEXT_QUESTION')}

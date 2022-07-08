@@ -19,23 +19,14 @@ let playList = [];
 playList.push(
     newSound(startGameSound),
     newSound(showResultSound),
+    newSound(readQuestionSound),
     newSound(scoreBoardSound),
     newSound(chooseAnswerSound),
-    newSound(readQuestionSound),
     newSound(sumarySound),
 )
 
-// const playSound = (src, isAutoPlay) => {
-//     const sound = new Howl({
-//         src: src,
-//         html5: true,
-//         autoplay: isAutoPlay,
-//         volume: 0.5,
-//     })
-//     sound.play();
-// }
 
-const changeVolumn = (vol) => {
+const changeVolume = (vol) => {
     // Change global volume in range : [0, 1]
     // Howler.volume(0.5);
     Howler.volume(vol);
@@ -61,8 +52,4 @@ const playSound = (index) => {
     })
 }
 
-const stopSound = (index) => {
-    playList[index].stop();
-}
-
-export { playSound, stopSound, changeVolumn }
+export { playSound, changeVolume }

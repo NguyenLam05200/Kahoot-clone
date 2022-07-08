@@ -16,6 +16,7 @@ import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 
 import { logoPhone } from '../../components/AnswerUI';
+import ActionUtils from './ActionUtils';
 
 
 const ReadQuestion = () => {
@@ -54,37 +55,23 @@ const ReadQuestion = () => {
             <Box
                 sx={{
                     height: 1 / 10,
-
-                    px: 2,
+                    p: 2,
                     display: 'flex'
                 }}
             >
                 <Box sx={{
-                    width: '60%',
+                    width: '15%',
                     height: '100%',
-                    alignItems: 'center',
+                    alignItems: 'start',
                     justifyContent: 'left',
                     display: 'flex',
                 }}>
-                    <IconButton
-                        style={{
-                            backgroundColor: 'white',
-                            color: 'black',
-                            fontWeight: 'bold',
-                            border: "none",
-                            outline: "none"
-                        }}
-                        aria-label="delete"
-                        size="medium"
-                        onClick={() => dispatch(setFullScreen())}
-                    >
-                        {isFullScreen ? <FullscreenExitIcon fontSize="inherit" /> : < FullscreenIcon fontSize="inherit" />}
-                    </IconButton>
+                    <ActionUtils sx={{ color: 'white' }} />
                 </Box>
                 <Box sx={{
-                    width: '40%',
+                    width: '85%',
                     height: '100%',
-                    alignItems: 'center',
+                    alignItems: 'start',
                     justifyContent: 'flex-end',
                     display: 'flex',
                 }}>

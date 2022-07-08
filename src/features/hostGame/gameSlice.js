@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import socket from '../../utils/socket';
 import { requestFullScreen } from '../../utils/utilities';
-import { playSound, stopSound } from './sound/sound';
+import { playSound, changeVolume } from './sound/sound';
 
 const initialState = {
   status: 'idle',
@@ -56,6 +56,7 @@ const initialState = {
   scoreBoard: [],
   percentRightTotal: null,
   reportData: [],
+  volume: 0.5,
   isSkip: false,
   isBlockJoin: false,
   isFullScreen: false,
@@ -169,7 +170,11 @@ export const gameSlice = createSlice({
       state.isBlockJoin = false;
       state.isFullScreen = false;
       state.status = 'waitPlayers'
-    }
+    },
+    setVolume: (state, { payload }) => {
+      changeVolume(payload);
+      state.volume = payload;
+    },
   },
 });
 
@@ -193,7 +198,8 @@ export const {
   prepareSumary,
   sumary,
   report,
-  playAgain
+  playAgain,
+  setVolume
 } = gameSlice.actions;
 
 export const gameSelector = (state) => state.game;

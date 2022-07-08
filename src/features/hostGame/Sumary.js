@@ -1,17 +1,11 @@
-import { Box, Stack, Slide, Typography, Grow, Zoom, IconButton, Button } from '@mui/material'
-import { useEffect, useState, useRef } from 'react';
+import { Box, Stack, Slide, Typography, Grow, Zoom, Button } from '@mui/material'
+import { useRef } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import {
   gameSelector,
-  setFullScreen,
   report
 } from './gameSlice';
-
-import FullscreenIcon from '@mui/icons-material/Fullscreen';
-import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
-
-import VolumeUpIcon from '@mui/icons-material/VolumeUp';
-import VolumeOffIcon from '@mui/icons-material/VolumeOff';
+import ActionUtils from './ActionUtils';
 
 
 const generateMedal = (rating, point, correct, total) => {
@@ -100,12 +94,11 @@ const generateMedal = (rating, point, correct, total) => {
 const Sumary = ({ }) => {
   const containerRef = useRef(null);
   const dispatch = useDispatch();
-  const { isFullScreen, scoreBoard, listQuestions } = useSelector(
+  const { scoreBoard, listQuestions } = useSelector(
     gameSelector
   );
   const total = listQuestions.length;
 
-  const [isVolumn, setIsVolumn] = useState(true);
   return (
     <Box
       sx={{
@@ -122,58 +115,16 @@ const Sumary = ({ }) => {
         p: 2
       }}>
         <Box sx={{
-          width: '10%',
+          width: '15%',
           height: '100%',
           alignItems: 'start',
           justifyContent: 'left',
           display: 'flex',
         }}>
-          <Stack spacing={2}>
-            <IconButton
-              style={{
-                fontWeight: 'bold',
-                border: "none",
-                outline: "none"
-              }}
-              aria-label="delete"
-              size="medium"
-              sx={{
-                boxShadow: 2,
-                backgroundColor: 'white',
-                color: 'black',
-                '&:hover': {
-                  backgroundColor: 'pink',
-                }
-              }}
-              onClick={() => dispatch(setFullScreen())}
-            >
-              {isFullScreen ? <FullscreenExitIcon fontSize="inherit" /> : < FullscreenIcon fontSize="inherit" />}
-            </IconButton>
-            <IconButton
-              style={{
-                fontWeight: 'bold',
-                border: "none",
-                outline: "none"
-              }}
-              aria-label="delete"
-              size="medium"
-              sx={{
-                boxShadow: 3,
-                backgroundColor: 'white',
-                color: 'black',
-                '&:hover': {
-                  backgroundColor: 'purple',
-                  color: 'white',
-                }
-              }}
-              onClick={() => setIsVolumn(!isVolumn)}
-            >
-              {isVolumn ? <VolumeUpIcon fontSize="inherit" /> : < VolumeOffIcon fontSize="inherit" />}
-            </IconButton>
-          </Stack>
+          <ActionUtils />
         </Box>
         <Box sx={{
-          width: '80%',
+          width: '70%',
           height: '100%',
           alignItems: 'center',
           justifyContent: 'center',
@@ -194,7 +145,7 @@ const Sumary = ({ }) => {
           </Stack>
         </Box>
         <Box sx={{
-          width: '10%',
+          width: '15%',
           height: '100%',
           alignItems: 'start',
           justifyContent: 'right',
