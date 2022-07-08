@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import socket from '../../utils/socket';
 import { requestFullScreen } from '../../utils/utilities';
+import { playSound, stopSound } from './sound/sound';
 
 const initialState = {
   status: 'idle',
@@ -94,10 +95,12 @@ export const gameSlice = createSlice({
       state.isBlockJoin = !state.isBlockJoin;
     },
     startGame: (state) => {
+      playSound(0)
       socket.emit('START_GAME');
       state.status = 'startGame';
     },
     readQuestion: (state, { payload }) => {
+      playSound(4)
       state.timeReadQuestion = payload.timeReadQuestion;
       state.curQuestion = payload.indexQuestion;
       state.countAnswer = 0;
@@ -110,9 +113,11 @@ export const gameSlice = createSlice({
       state.isFullScreen = !state.isFullScreen
     },
     chooseAnswer: (state) => {
+      playSound(3)
       state.status = 'chooseAnswer';
     },
     showResult: (state) => {
+      playSound(1)
       socket.emit('SHOW_RESULT');
       state.status = 'showResult';
     },
@@ -129,9 +134,11 @@ export const gameSlice = createSlice({
       socket.emit('SKIP');
       state.countEachAns = new Array(state.listQuestions[state.curQuestion].ans.length).fill(0);
       state.isSkip = true;
+      playSound(1)
       state.status = 'showResult';
     },
     requestScoreboard: (state) => {
+      playSound(2)
       state.isSkip && state.curQuestion < state.listQuestions.length - 1 ? state.status = 'scoreBoard' : socket.emit('SCORE_BOARD')
     },
     getScoreBoard: (state, { payload }) => {
@@ -146,9 +153,12 @@ export const gameSlice = createSlice({
     },
     sumary: (state) => {
       socket.emit('SUMARY');
+
+      playSound(5)
       state.status = 'sumary';
     },
     report: (state) => {
+      playSound(-1)
       state.status = 'report';
     },
     playAgain: (state) => {

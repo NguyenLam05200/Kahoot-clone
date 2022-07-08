@@ -25,8 +25,7 @@ import ShowResult from './ShowResult';
 import WaitingPlayers from './WaitingPlayers';
 import Sumary from './Sumary';
 import PrepareSumary from './PrepareSumary';
-import Report from './Report';
-
+import Report from './Report'; 
 const GameHost = () => {
     const { status, listQuestions } = useSelector(
         gameSelector

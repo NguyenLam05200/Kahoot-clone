@@ -30,15 +30,13 @@ const Login = ({ }) => {
 
   useEffect(() => {
     if (isError) {
-      console.log('eror msg: ', errorMessage);
-      console.log('// toast.error(errorMessage);');
       setOpen(true)
       dispatch(clearState());
     }
 
     if (isSuccess) {
       dispatch(clearState());
-      navigate(-1);
+      // navigate(-1);
     }
   }, [isError, isSuccess]);
 

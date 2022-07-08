@@ -17,6 +17,9 @@ import { Container, Paper } from "@mui/material";
 import Library from "../../features/list kahoot room/Library";
 import GameHost from "../../features/hostGame/index";
 import KahootDetail from "../../features/kahoot detail/kahoot_detail";
+import { AuthLayout } from "../../features/user/AuthLayout";
+import LoginForm from "../../features/user/LoginForm";
+import SignupForm from "../../features/user/SignupForm";
 
 function App() {
   return (
@@ -42,10 +45,15 @@ function App() {
           {/** url: localhost:3000/user/home */}
         </Route>
 
+        <Route element={<AuthLayout />}>
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/signup" element={<SignupForm />} />
+        </Route>
+
         <Route element={<HomeLayout />}>
           <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
+          {/* <Route path="/login2" element={<Login />} />
+          <Route path="/signup" element={<Signup />} /> */}
         </Route>
 
         <Route path="/play" element={<PlayerPage />} />

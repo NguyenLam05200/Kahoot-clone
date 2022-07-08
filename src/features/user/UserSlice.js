@@ -1,5 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { handleLoginApi, handleRegisterApi } from './userAPI';
+import axios from 'axios'
+
 export const signupUser = createAsyncThunk(
   'users/signupUser',
   async (_data, thunkAPI) => {
@@ -21,22 +23,48 @@ export const signupUser = createAsyncThunk(
   }
 );
 
+const baseURL = 'http://157.245.147.239:8080/v1/user/'
 export const loginUser = createAsyncThunk(
   'users/login',
   async ({ username, password }, thunkAPI) => {
+    // axios
+    //   .post(`${baseURL}/authenticate`, {
+    //     title: "Hello World!",
+    //     body: { username, password }
+    //   })
+    //   .then((response) => {
+    //     console.log('data res: ', response);
+    //   }).catch(error => {
+    //     console.log('error catch: ', error);
+    //   });
     try {
-      let response = await handleLoginApi(username, password);
-      if (response.status === 200) {
-        //localStorage.kahut_app_accessToken = response.data.token;
-        localStorage.setItem("kahut_app_accessToken",response.data.token );
-        return true;
-      } else {
-        return thunkAPI.rejectWithValue(response.data);
-      }
-    } catch (e) {
-      console.log('Error 2', e);
-      return thunkAPI.rejectWithValue(e.response.data);
+      //const response = await fetch(`url`); //where you want to fetch data
+      //Your Axios code part.
+      const response = await axios.post(`${baseURL}/authenticate`, {
+        username, password
+      })//where you want to fetch data
+      // return await response.json();
+      console.log('res: ', response);
+    } catch (error) {
+      console.log('error catch: ', error);
+      // return thunkAPI.rejectWithValue({ error: error.message });
     }
+
+    // try {
+    //   console.log('data input: ', username, password);
+    //   let response = await handleLoginApi(username, password);
+    //   console.log('res: ', response);
+    //   if (response.status === 200) {
+    //     //localStorage.kahut_app_accessToken = response.data.token;
+    //     localStorage.setItem("kahut_app_accessToken",response.data.token );
+    //     return true;
+    //   } else {
+    //     return thunkAPI.rejectWithValue(response.data);
+    //   }
+    // } catch (e) {
+    //   console.log('Error 2', e);
+    //   return thunkAPI.rejectWithValue(e.response.data);
+    // }
   }
 );
 
