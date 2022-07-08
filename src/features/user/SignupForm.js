@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { loginUser, userSelector, clearState } from './UserSlice';
+import {
+  signupUser,
+  userSelector,
+  clearState
+} from './userSlice';
 import {
   Snackbar,
   Alert,
@@ -106,8 +110,9 @@ const SignupForm = ({ }) => {
       const dataInput = {
         email: sliceLowerCase === '@gmail.com' ? emailInput.slice(0, -10) + '@gmail.com' : emailInput + '@gmail.com',
         password: values.password.trim(),
+        name: values.name,
       }
-      dispatch(loginUser(dataInput));
+      dispatch(signupUser(dataInput));
     }
   };
 
@@ -125,7 +130,8 @@ const SignupForm = ({ }) => {
 
     if (isSuccess) {
       dispatch(clearState());
-      navigate(-1);
+      alert('success')
+      // navigate(-1);
     }
   }, [isError, isSuccess]);
 

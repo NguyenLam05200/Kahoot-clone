@@ -2,28 +2,26 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { handleLoginApi, handleRegisterApi } from './userAPI';
 import axios from 'axios'
 
+const baseURL = 'https://157.245.147.239:80/v1/user'
+
 export const signupUser = createAsyncThunk(
   'users/signupUser',
   async (_data, thunkAPI) => {
-    try {
-      let response = await handleRegisterApi({
-        email: _data.email,
-        password: _data.password,
-        name: _data.lastName + " " + _data.firstName,
-      });
-      if (response.status === 200) {
-        return true;
-      } else {
-        return thunkAPI.rejectWithValue(response.data);
-      }
-    } catch (e) {
-      console.log('Error', e.response.data);
-      return thunkAPI.rejectWithValue(e.response.data);
-    }
+    // axios.post('http://157.245.147.239:80/v1/user/register',
+    //   _data
+    // ).then(function (response) {
+    //   console.log('response', response);
+    // }).catch(function (error) {
+    //   console.log('catch: ', error);
+    // });
+    axios.get('http://157.245.147.239:80/v1/api/admin/quiz/62b8132f02831715a9fbaa7a').then(function (response) {
+      console.log('response', response);
+    }).catch(function (error) {
+      console.log('catch: ', error);
+    });
   }
 );
 
-const baseURL = 'http://157.245.147.239:8080/v1/user/'
 export const loginUser = createAsyncThunk(
   'users/login',
   async ({ username, password }, thunkAPI) => {

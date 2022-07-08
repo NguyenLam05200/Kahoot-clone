@@ -196,6 +196,8 @@ const itemData = [
     img: 'https://images.unsplash.com/photo-1533827432537-70133748f5c8',
     title: 'Hats'
   },
+]
+const itemData2 = [
   {
     img: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62',
     title: 'Honey'
@@ -362,15 +364,18 @@ const Dashboard = () => {
             <Divider />
             {listRoom.map((room, index) => {
               return (
-                <Box key={index} sx={{
-                  width: '100%',
-                  height: '5rem',
-                  border: '1px solid grey',
-                  boxShadow: 1,
-                  borderRadius: 1,
-                  mt: 2,
-                  display: 'flex'
-                }}>
+                <Box
+                  onClick={() => { alert('Naviage to detail') }}
+                  key={index} sx={{
+                    width: '100%',
+                    height: '6rem',
+                    border: '1px solid grey',
+                    boxShadow: 1,
+                    borderRadius: 1,
+                    mt: 2,
+                    display: 'flex',
+                    cursor: 'pointer'
+                  }}>
                   <Box sx={{
                     width: '40%',
                     height: '100%',
@@ -384,14 +389,16 @@ const Dashboard = () => {
                   <Box sx={{
                     width: '60%',
                     height: '100%',
+                    display: 'grid',
+                    alignItems: 'center',
                     mx: 1
                   }}>
-                    <Typography variant="subtitle2" sx={{ py: 1, width: '100%' }}>
+                    <Typography sx={{ pt: 1, width: '100%', fontSize: 18, fontWeight: 'bold' }}>
                       {room.room_title}
                     </Typography>
-                    <Stack spacing={1} direction='row'>
-                      <Chip label={room.num_question + " questions"} variant='outlined' size="small" color="info" sx={{ width: '50%', fontWeight: 'bold', fontSize: 10 }} />
-                      <Chip label={room.num_question + " plays"} variant='outlined' size="small" color="secondary" sx={{ width: '50%', fontWeight: 'bold', fontSize: 10 }} />
+                    <Stack spacing={1} direction='row' sx={{ py: 1, width: '100%' }}>
+                      <Chip label={room.num_question + " questions"} variant='outlined' size="small" color="info" sx={{ width: '50%', fontWeight: 'bold', fontSize: 14 }} />
+                      <Chip label={room.num_question + " plays"} variant='outlined' size="small" color="secondary" sx={{ width: '50%', fontWeight: 'bold', fontSize: 14 }} />
                     </Stack>
                   </Box>
                 </Box>
@@ -406,7 +413,7 @@ const Dashboard = () => {
                 }}
                 sx={{ my: 5, textAlign: 'right', color: 'info', fontWeight: 'bold', cursor: 'pointer' }}
               >
-                See all (2)
+                See all (5)
               </Link>
             </Box>
           </Box>
@@ -492,7 +499,7 @@ const Dashboard = () => {
             </Box>
             <Box bgColor='success' width='50%'>
               <Stack spacing={2} >
-                {itemData.map((item, index) => (
+                {itemData2.map((item, index) => (
                   <Card key={index} sx={{ display: 'flex' }}>
                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                       <CardContent sx={{ flex: '1 0 auto' }}>

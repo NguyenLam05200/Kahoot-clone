@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { loginUser, userSelector, clearState } from './UserSlice';
+import { loginUser, userSelector, clearState } from './userSlice';
 import {
   Snackbar,
   Alert,
@@ -45,6 +45,9 @@ const LoginForm = ({ }) => {
   );
 
   const onSubmit = () => {
+    setHelperTextEmail('')
+    setHelperTextPassword('')
+
     if (values.email.trim() === '') {
       setHelperTextEmail('Please fill in email field!')
     }

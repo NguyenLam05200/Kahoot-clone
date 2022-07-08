@@ -16,9 +16,8 @@ import {
 } from "@mui/material";
 import LanguageIcon from '@mui/icons-material/Language';
 
-import { Navigate, useOutlet } from "react-router-dom";
-import LoginForm from './LoginForm';
-
+import { Navigate, useOutlet, useNavigate } from "react-router-dom";
+ 
 const options = [
   'Vietnamese',
   'English',
@@ -29,6 +28,7 @@ const options = [
 
 export const AuthLayout = () => {
   const outlet = useOutlet();
+  const navigate = useNavigate();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [selectedIndex, setSelectedIndex] = React.useState(1);
@@ -51,7 +51,6 @@ export const AuthLayout = () => {
   if (user) {
     return <Navigate to="/dashboard/profile" replace />;
   }
-
 
 
   return (
@@ -77,15 +76,18 @@ export const AuthLayout = () => {
           display: 'flex',
           alignItems: 'center'
         }}>
-          <Typography sx={{
-            color: 'purple',
-            fontSize: 30,
-            fontWeight: 'bold',
-            fontFamily: [
-              'Chilanka',
-              'cursive',
-            ].join(','),
-          }}>
+          <Typography
+            onClick={() => navigate('/')}
+            sx={{
+              color: 'purple',
+              fontSize: 30,
+              fontWeight: 'bold',
+              fontFamily: [
+                'Chilanka',
+                'cursive',
+              ].join(','),
+              cursor: 'pointer'
+            }}>
             Kahut!
           </Typography>
         </Box>
@@ -143,6 +145,7 @@ export const AuthLayout = () => {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
+          background: 'linear-gradient(to right bottom, #430089, #82ffa1)'
         }}
       >
         {outlet}

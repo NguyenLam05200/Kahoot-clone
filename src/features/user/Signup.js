@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
-import { signupUser, userSelector, clearState } from './UserSlice';
+import { signupUser, userSelector, clearState } from './userSlice';
 import { Stack, Snackbar, Alert, Backdrop, CircularProgress, Box, Grid, Container, Avatar, Button, TextField, Link, Typography } from '@mui/material';
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useNavigate } from 'react-router-dom';

@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import counterReducer from '../features/counter/counterSlice';
-import userReducer from '../features/user/UserSlice';
+import userReducer from '../features/user/userSlice';
 import playerReducer from '../features/player/playerSlice';
 import gameReducer from '../features/hostGame/gameSlice';
 import quizReducer from "../features/quizSlice/quizSlice";
