@@ -5,19 +5,36 @@ import { instance } from "../../utils/axios";
 export const fetchQuiz = createAsyncThunk(
   "quiz/getListQuiz",
   async (roomID, thunkAPI) => {
-    axios
-      .get(`http://157.245.147.239:9090/v1/api/admin/quiz/${roomID}`, {
+    const Token =
+      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Imh1eWRvYW5AZ21haWwuY29tIiwidGVzdF9maWVsZCI6InRlc3QiLCJleHRyYSI6e30sInNjb3BlIjpbInNjb3BlLmFkbWluIl0sImlhdCI6MTY1NzIxODM4OCwiZXhwIjoxNjU3MjIxOTg4LCJzdWIiOiJodXlkb2FuQGdtYWlsLmNvbSJ9.N7GWoR4VA9azQ7SHee85308r9JJxwp2F8eTkUdlWKDo";
+    // axios
+    //   .get(`//157.245.147.239:80/v1/api/admin/quiz/${roomID}`, {
+    //     headers: {
+    //       Authorization: `Bearer ${Token}`,
+    //       Accept: "application/json",
+    //       "Content-Type": "application/json",
+    //     },
+    //   })
+    //   .then((res) => {
+    //     console.log(res.data);
+    //     return res.data;
+    //   })
+    //   .catch((error) => console.log(error));
+
+    const res = await axios.get(
+      `//157.245.147.239:80/v1/api/admin/quiz/${roomID}`,
+      {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('kahut_app_accessToken')}`,
+          Authorization: `Bearer ${Token}`,
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-      })
-      .then((res) => {
-        console.log(res);
-        // return res.data;
-      })
-      .catch((error) => console.log(error));
+      }
+    );
+
+    if (res.status === 200) {
+      return res.data;
+    }
   }
 );
 
@@ -48,8 +65,8 @@ const quizSlice = createSlice({
       .addCase(fetchQuiz.fulfilled, (state, action) => {
         state.status = "succeeded";
         // Add any fetched posts to the array
+
         state.quiz = action.payload;
-        console.log(state.quiz);
       })
       .addCase(fetchQuiz.rejected, (state, action) => {
         state.status = "failed";
