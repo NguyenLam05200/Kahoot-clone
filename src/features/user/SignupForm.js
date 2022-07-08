@@ -6,12 +6,17 @@ import {
   clearState
 } from './userSlice';
 import {
-  Snackbar,
   Alert,
   Backdrop,
   CircularProgress,
   Box,
-  Stack, IconButton, Avatar, Button, Divider, Link, Typography
+  Stack, IconButton, Button, Divider, Link, Typography,
+  Dialog,
+  DialogTitle,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  Collapse
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
@@ -27,7 +32,7 @@ import { ReactComponent as Logo } from "../../assets/images/icons/social-google.
 import { SvgIcon } from '@mui/material';
 
 
-const SignupForm = ({ }) => {
+const SignupForm = () => {
 
   const navigate = useNavigate();
 
@@ -45,7 +50,7 @@ const SignupForm = ({ }) => {
   const [helperTextConfirmPassword, setHelperTextConfirmPassword] = useState('')
 
   const [open, setOpen] = useState(false)
-
+  const [openDialog, setOpenDialog] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -107,18 +112,19 @@ const SignupForm = ({ }) => {
     if (isError) {
       setOpen(true)
       dispatch(clearState());
+      window.setTimeout(function () {
+        if (open) {
+          setOpen(false)
+        }
+      }, 3000);
     }
 
     if (isSuccess) {
       dispatch(clearState());
-      alert('success')
-      // navigate(-1);
+      setOpenDialog(true);
+
     }
   }, [isError, isSuccess]);
-
-  const handleClose = () => {
-    setOpen(false)
-  }
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
@@ -140,6 +146,10 @@ const SignupForm = ({ }) => {
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
   };
 
   return (
@@ -165,8 +175,14 @@ const SignupForm = ({ }) => {
             'cursive',
           ].join(','),
         }}>Sign up</Typography>
-        {open ? <Alert severity="error">{errorMessage}</Alert> : null}
-        <Snackbar
+        {
+          open &&
+          <Collapse in={open}>
+            <Alert severity="error">{errorMessage}</Alert>
+          </Collapse>
+        }
+
+        {/* <Snackbar
           open={open}
           autoHideDuration={2000}
           message={errorMessage}
@@ -174,9 +190,29 @@ const SignupForm = ({ }) => {
         // anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         >
           <Alert severity="error">{errorMessage}</Alert>
-        </Snackbar>
+        </Snackbar> */}
 
-
+        <Dialog
+          open={openDialog}
+          onClose={handleCloseDialog}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {"Register successfully!"}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Go to login page
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseDialog}>Cancel</Button>
+            <Button onClick={() => navigate('/login')} autoFocus>
+              Log in
+            </Button>
+          </DialogActions>
+        </Dialog>
 
         <Box sx={{
           display: 'flex',
@@ -325,6 +361,7 @@ const SignupForm = ({ }) => {
             Login
           </Link>
         </Box>
+
       </Stack>
     </Box >
   );

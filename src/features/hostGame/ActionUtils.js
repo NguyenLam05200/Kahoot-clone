@@ -23,7 +23,7 @@ const ActionUtils = (props) => {
     const { isFullScreen, volume } = useSelector(
         gameSelector
     );
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(true);
 
     const handleChange = (event, newValue) => {
         dispatch(setVolume(newValue / 100))

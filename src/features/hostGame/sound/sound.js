@@ -1,6 +1,5 @@
 import { Howl, Howler } from 'howler';
 
-import soundTest from './test.wav'
 import startGameSound from './startGameSound.mp3'
 import showResultSound from './showResultSound.mp3'
 import scoreBoardSound from './scoreBoardSound.mp3'
@@ -11,7 +10,7 @@ const newSound = (src) => {
     return new Howl({
         src: [src],
         html5: true,
-        volume: 0.5,
+        volume: 0.3,
     })
 }
 

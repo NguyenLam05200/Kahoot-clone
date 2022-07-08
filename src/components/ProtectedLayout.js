@@ -1,5 +1,4 @@
 import { Navigate, useOutlet } from "react-router-dom";
-import ResponsiveAppBar from "./AppBar";
 
 export const ProtectedLayout = () => {
   const user = localStorage.kahut_app_accessToken
@@ -10,14 +9,8 @@ export const ProtectedLayout = () => {
   }
 
   return (
-    <div>
-      <ResponsiveAppBar
-        pages={[
-          // { label: "Settings", path: "settings" },
-          // { label: "Profile", path: "profile" }
-        ]}
-      />
+    <>
       {outlet}
-    </div>
+    </>
   );
 };

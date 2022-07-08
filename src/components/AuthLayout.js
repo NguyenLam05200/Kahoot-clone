@@ -17,7 +17,7 @@ import {
 import LanguageIcon from '@mui/icons-material/Language';
 
 import { Navigate, useOutlet, useNavigate } from "react-router-dom";
- 
+
 const options = [
   'Vietnamese',
   'English',
@@ -49,7 +49,7 @@ export const AuthLayout = () => {
   const user = localStorage.kahut_app_accessToken
 
   if (user) {
-    return <Navigate to="/dashboard/profile" replace />;
+    return <Navigate to="/user/home" replace />;
   }
 
 

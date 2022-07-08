@@ -146,8 +146,8 @@ const ShowResult = () => {
                             <Box
                                 component="img"
                                 sx={{
-                                    height: '45vh',
-                                    width: '40vw',
+                                    height: '100%',
+                                    width: '100%',
                                 }}
                                 alt="Sesame seeds"
                                 src={listQuestions[curQuestion].img}

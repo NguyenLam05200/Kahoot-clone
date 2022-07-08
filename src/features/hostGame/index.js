@@ -25,7 +25,8 @@ import ShowResult from './ShowResult';
 import WaitingPlayers from './WaitingPlayers';
 import Sumary from './Sumary';
 import PrepareSumary from './PrepareSumary';
-import Report from './Report'; 
+import Report from './Report';
+import { playSound } from './sound/sound';
 const GameHost = () => {
     const { status, listQuestions } = useSelector(
         gameSelector
@@ -41,6 +42,8 @@ const GameHost = () => {
     };
 
     useEffect(() => {
+        // playSound(-1);
+
         socket.emit('HAND_SHAKE');
         socket.on('HAND_SHAKE', requestCreatePin);
         socket.on('CREATE_PIN', (newPin) => dispatch(getPinSuccess(newPin)));
@@ -53,6 +56,7 @@ const GameHost = () => {
 
         return () => {
             socket.off('HAND_SHAKE', requestCreatePin);
+            // playSound(-1);
         };
     }, []);
 

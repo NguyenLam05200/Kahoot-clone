@@ -2,10 +2,7 @@ import axios from 'axios';
 
 export const instanceAuth = axios.create({
     baseURL: process.env.REACT_APP_BACK_END_AUTH,
-    timeout: 1000,
-    headers: {
-        //'Authorization': 'token <your-token-here> -- https://docs.GitHub.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token'
-    }
+    timeout: 1000, 
 });
 
 export const instance = axios.create({

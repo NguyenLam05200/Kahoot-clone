@@ -7,7 +7,8 @@ import {
   Backdrop,
   CircularProgress,
   Box,
-  Stack, IconButton, Avatar, Button, Divider, Link, Typography
+  Stack, IconButton, Avatar, Button, Divider, Link, Typography,
+  Collapse
 } from '@mui/material';
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useNavigate } from 'react-router-dom';
@@ -20,7 +21,8 @@ import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-
+import LoadingButton from '@mui/lab/LoadingButton';
+import SaveIcon from '@mui/icons-material/Save';
 
 import { ReactComponent as Logo } from "../../assets/images/icons/social-google.svg";
 import { SvgIcon } from '@mui/material';
@@ -77,11 +79,16 @@ const LoginForm = ({ }) => {
     if (isError) {
       setOpen(true)
       dispatch(clearState());
+      window.setTimeout(function () {
+        if (open) {
+          setOpen(false)
+        }
+      }, 3000);
     }
 
     if (isSuccess) {
       dispatch(clearState());
-      // navigate(-1);
+      navigate(-1);
     }
   }, [isError, isSuccess]);
 
@@ -127,23 +134,12 @@ const LoginForm = ({ }) => {
             'cursive',
           ].join(','),
         }}>Log in</Typography>
-        {/* <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
-          <LockOutlinedIcon />
-        </Avatar> */}
-        {open ? <Alert severity="error">{errorMessage}</Alert> : null}
-        <Snackbar
-          open={open}
-          autoHideDuration={2000}
-          message={errorMessage}
-          onClose={handleClose}
-        // anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-        >
-          <Alert severity="error">{errorMessage}</Alert>
-        </Snackbar>
-        {/* <FormControl fullWidth>
-              <TextField label="Email" variant="outlined" sx={{ mt: 1 }} />
-              <FormHelperText>Helper text for email.</FormHelperText>
-            </FormControl> */}
+        {
+          open &&
+          <Collapse in={open}>
+            <Alert severity="error">{errorMessage}</Alert>
+          </Collapse>
+        }
 
         <FormControl fullWidth sx={{ m: 1 }} variant="outlined">
           <InputLabel htmlFor="outlined-adornment-email">Email</InputLabel>
@@ -210,10 +206,10 @@ const LoginForm = ({ }) => {
             width: '100%',
             textTransform: 'none'
           }}>Log in</Button>
+
         <Backdrop
           sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
           open={isFetching}
-        // onClick={handleClose}
         >
           <CircularProgress color="inherit" />
         </Backdrop>

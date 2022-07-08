@@ -121,7 +121,7 @@ const Sumary = ({ }) => {
           justifyContent: 'left',
           display: 'flex',
         }}>
-          <ActionUtils />
+          <ActionUtils sx={{ color: 'white' }} />
         </Box>
         <Box sx={{
           width: '70%',
