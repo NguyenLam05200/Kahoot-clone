@@ -17,7 +17,7 @@ import { Container, Paper } from "@mui/material";
 import Library from "../../features/list kahoot room/Library";
 import GameHost from "../../features/hostGame/index";
 import KahootDetail from "../../features/kahoot detail/kahoot_detail";
-import { AuthLayout } from "../../features/user/AuthLayout";
+import { AuthLayout } from "../../components/AuthLayout";
 import LoginForm from "../../features/user/LoginForm";
 import SignupForm from "../../features/user/SignupForm";
 

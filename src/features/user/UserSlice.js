@@ -2,19 +2,19 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { handleLoginApi, handleRegisterApi } from './userAPI';
 import axios from 'axios'
 
-const baseURL = 'https://157.245.147.239:80/v1/user'
+const baseURL = '//157.245.147.239:80/v1/user/'
+
+const axiosInstance = axios.create({
+  baseURL: `//157.245.147.239:80/v1/user/` // the url of our server
+})
 
 export const signupUser = createAsyncThunk(
   'users/signupUser',
   async (_data, thunkAPI) => {
-    // axios.post('http://157.245.147.239:80/v1/user/register',
-    //   _data
-    // ).then(function (response) {
-    //   console.log('response', response);
-    // }).catch(function (error) {
-    //   console.log('catch: ', error);
-    // });
-    axios.get('http://157.245.147.239:80/v1/api/admin/quiz/62b8132f02831715a9fbaa7a').then(function (response) {
+    axios.post(
+      `${baseURL}/register`,
+      _data
+    ).then(function (response) {
       console.log('response', response);
     }).catch(function (error) {
       console.log('catch: ', error);
@@ -24,7 +24,7 @@ export const signupUser = createAsyncThunk(
 
 export const loginUser = createAsyncThunk(
   'users/login',
-  async ({ username, password }, thunkAPI) => {
+  async (dataInput, thunkAPI) => {
     // axios
     //   .post(`${baseURL}/authenticate`, {
     //     title: "Hello World!",
@@ -35,18 +35,21 @@ export const loginUser = createAsyncThunk(
     //   }).catch(error => {
     //     console.log('error catch: ', error);
     //   });
-    try {
-      //const response = await fetch(`url`); //where you want to fetch data
-      //Your Axios code part.
-      const response = await axios.post(`${baseURL}/authenticate`, {
-        username, password
-      })//where you want to fetch data
-      // return await response.json();
-      console.log('res: ', response);
-    } catch (error) {
-      console.log('error catch: ', error);
-      // return thunkAPI.rejectWithValue({ error: error.message });
-    }
+    console.log('data: ', dataInput);
+    axiosInstance.post(
+      `/authenticate`,
+      dataInput,
+      {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
+    ).then(function (response) {
+      console.log('response', response);
+    }).catch(function (error) {
+      console.log('catch: ', error);
+    });
 
     // try {
     //   console.log('data input: ', username, password);

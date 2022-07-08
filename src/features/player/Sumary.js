@@ -1,12 +1,8 @@
-import { Box, Stack, SvgIcon, Grid, Typography, Button, CircularProgress, Paper } from '@mui/material'
+import { Box, Stack, Typography, Button, } from '@mui/material'
 
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { playerSelector } from './playerSlice';
-import { useState, useEffect } from 'react';
 
-import DangerousIcon from '@mui/icons-material/Dangerous';
-import { ReactComponent as Logo } from '../../assets/gold-medal-svgrepo-com.svg'
-import { ReactComponent as Second } from '../../assets/2nd-place-medal-svgrepo-com.svg'
 
 const generateMedal = (rating) => {
   let colorMedal;

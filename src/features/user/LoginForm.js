@@ -81,7 +81,7 @@ const LoginForm = ({ }) => {
 
     if (isSuccess) {
       dispatch(clearState());
-      navigate(-1);
+      // navigate(-1);
     }
   }, [isError, isSuccess]);
 
