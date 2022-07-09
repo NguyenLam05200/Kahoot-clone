@@ -15,8 +15,8 @@ import AdbIcon from '@mui/icons-material/Adb';
 import ViewInArIcon from '@mui/icons-material/ViewInAr';
 import { green } from '@mui/material/colors';
 
-const pagesLeft = ['News', 'School', 'Work', 'Home', 'Study', 'Academy', 'AccessPass'];
-const pagesRight = ['Explore content', 'Play', 'Sign up', 'Login', 'Lang'];
+const pagesLeft = ['News', 'School', 'Work', 'Home',];
+const pagesRight = ['Play', 'Sign up', 'Login', 'Lang'];
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
@@ -61,6 +61,7 @@ const ResponsiveAppBar = () => {
               fontSize: 28,
               '&:hover': {
                 color: 'inherit',
+                textDecoration: 'none',
               }
             }}
           >

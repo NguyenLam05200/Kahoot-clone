@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { handleLoginApi, handleRegisterApi } from './userAPI';
 import { parseJwt } from '../../utils/axios';
+import { instanceAuth } from '../../utils/axios';
+import axios from 'axios';
 
 export const signupUser = createAsyncThunk(
   'users/signupUser',
@@ -22,10 +24,10 @@ export const loginUser = createAsyncThunk(
   'users/login',
   async (dataInput, thunkAPI) => {
     try {
-      const response = await handleLoginApi(dataInput);
+      const response = await instanceAuth.post(`authenticate`, dataInput)
       if (response.status === 200) {
         localStorage.setItem("kahut_app_accessToken", response.data.token);
-        return true;
+        return parseJwt(response.data.token);
       } else {
         return thunkAPI.rejectWithValue(response.data);
       }
@@ -52,16 +54,10 @@ export const userSlice = createSlice({
       state.isFetching = false;
       return state;
     },
-    logout: (state) => {
-      delete localStorage.kahut_app_accessToken;
-      state.user = null;
-    },
-    update: (state, {payload}) => {
-      state.user = payload;
-    }
   },
   extraReducers: {
     [signupUser.fulfilled]: (state, { payload }) => {
+      state.user = { email: payload.email, name: payload.name };
       state.isFetching = false;
       state.isSuccess = true;
     },
@@ -88,8 +84,8 @@ export const userSlice = createSlice({
   },
 });
 
-export const { clearState, logout, update } = userSlice.actions;
+export const { clearState } = userSlice.actions;
 
-export const userSelector = (state) => state.user; 
+export const userSelector = (state) => state.user;
 
 export default userSlice.reducer;

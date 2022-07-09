@@ -25,10 +25,11 @@ import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import ViewInArIcon from '@mui/icons-material/ViewInAr';
 import { green } from '@mui/material/colors';
+import { useNavigate } from 'react-router-dom';
 
 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-const pagesLeft = ['Home', 'Discover', 'Library', 'Reports', 'Groups', 'Marketplace'];
+const pagesLeft = ['Home', 'Discover', 'Library', 'Reports'];
 const pagesRight = ['Profile', 'Notification'];
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -76,6 +77,14 @@ const Navbar = () => {
     console.log(event.target.id);
     console.log(newValue);
   }
+
+
+  const navigate = useNavigate();
+  const handleClickLogout = () => {
+    delete localStorage.kahut_app_accessToken;
+    navigate('/login');
+  }
+
   return (
     <AppBar position="static" sx={{ backgroundColor: 'white', color: 'black' }}>
       <Container maxWidth="xl">
@@ -94,7 +103,11 @@ const Navbar = () => {
               letterSpacing: '.3rem',
               color: 'inherit',
               textDecoration: 'none',
-              fontSize: 28
+              fontSize: 28,
+              '&:hover': {
+                color: 'purple',
+                textDecoration: 'none',
+              }
             }}
           >
             KAHUT
@@ -102,6 +115,10 @@ const Navbar = () => {
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
+              style={{
+                border: 'none',
+                outline: 'none'
+              }}
               size="large"
               aria-label="account of current user"
               aria-controls="menu-appbar"
@@ -153,7 +170,7 @@ const Navbar = () => {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            Kahut
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pagesLeft.map((page) => (
@@ -266,22 +283,18 @@ const Navbar = () => {
                 <Avatar /> Profile
               </MenuItem>
               <MenuItem>
-                <Avatar /> My account
+                <Avatar /> My kahut
               </MenuItem>
               <Divider />
-              <MenuItem>
-                <ListItemIcon>
-                  <PersonAdd fontSize="small" />
-                </ListItemIcon>
-                Add another account
-              </MenuItem>
               <MenuItem>
                 <ListItemIcon>
                   <Settings fontSize="small" />
                 </ListItemIcon>
                 Settings
               </MenuItem>
-              <MenuItem>
+              <MenuItem
+                onClick={handleClickLogout}
+              >
                 <ListItemIcon>
                   <Logout fontSize="small" />
                 </ListItemIcon>

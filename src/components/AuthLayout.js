@@ -18,8 +18,6 @@ import LanguageIcon from '@mui/icons-material/Language';
 import { Navigate, useOutlet, useNavigate } from "react-router-dom";
 import { parseJwt } from '../utils/axios';
 
-import {logout, update} from '../features/user/userSlice';
-import { useDispatch } from "react-redux";
 
 const options = [
   'Vietnamese',
@@ -34,7 +32,6 @@ export const AuthLayout = () => {
 
   const outlet = useOutlet();
   const navigate = useNavigate();
-  const dispatch = useDispatch() 
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [selectedIndex, setSelectedIndex] = React.useState(1);
@@ -44,9 +41,8 @@ export const AuthLayout = () => {
   if (token) {
     const tokenParse = parseJwt(token);
     if (tokenParse.exp * 1000 < Date.now()) {
-      dispatch(logout());
+      delete localStorage.kahut_app_accessToken;
     } else {
-    dispatch(update(tokenParse));
       return <Navigate to="/user/home" replace />;
     }
   }
@@ -151,6 +147,7 @@ export const AuthLayout = () => {
       </Box>
       <Box
         sx={{
+          py: 5,
           width: '100%',
           minHeight: 'calc(100vh - 55px)',
           backgroundColor: '#f2f2f2',
