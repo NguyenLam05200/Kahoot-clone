@@ -1,12 +1,23 @@
 import { Navigate, useOutlet } from "react-router-dom";
 import ResponsiveAppBar from "./AppBar";
+import { parseJwt } from '../utils/axios';
+
+import { logout, update } from '../features/user/userSlice';
+import { useDispatch } from "react-redux";
 
 export const HomeLayout = () => {
-  const user = localStorage.kahut_app_accessToken
   const outlet = useOutlet();
+  const dispatch = useDispatch()
 
-  if (user) {
-    return <Navigate to="/dashboard/profile" replace />;
+  const token = localStorage.kahut_app_accessToken
+  if (token) {
+    const tokenParse = parseJwt(token);
+    if (tokenParse.exp * 1000 < Date.now()) {
+      dispatch(logout());
+    } else {
+      dispatch(update(tokenParse));
+      return <Navigate to="/user/home" replace />;
+    }
   }
 
   return (

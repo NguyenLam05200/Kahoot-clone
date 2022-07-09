@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-
 import {
   Box,
   Typography,
@@ -17,6 +16,10 @@ import {
 import LanguageIcon from '@mui/icons-material/Language';
 
 import { Navigate, useOutlet, useNavigate } from "react-router-dom";
+import { parseJwt } from '../utils/axios';
+
+import {logout, update} from '../features/user/userSlice';
+import { useDispatch } from "react-redux";
 
 const options = [
   'Vietnamese',
@@ -27,11 +30,27 @@ const options = [
 ];
 
 export const AuthLayout = () => {
+
+
   const outlet = useOutlet();
   const navigate = useNavigate();
+  const dispatch = useDispatch() 
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [selectedIndex, setSelectedIndex] = React.useState(1);
+
+  const token = localStorage.kahut_app_accessToken
+
+  if (token) {
+    const tokenParse = parseJwt(token);
+    if (tokenParse.exp * 1000 < Date.now()) {
+      dispatch(logout());
+    } else {
+    dispatch(update(tokenParse));
+      return <Navigate to="/user/home" replace />;
+    }
+  }
+
   const open = Boolean(anchorEl);
   const handleClickListItem = (event) => {
     setAnchorEl(event.currentTarget);
@@ -45,13 +64,6 @@ export const AuthLayout = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-  const user = localStorage.kahut_app_accessToken
-
-  if (user) {
-    return <Navigate to="/user/home" replace />;
-  }
-
 
   return (
     <Box

@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { handleLoginApi, handleRegisterApi } from './userAPI'; 
+import { handleLoginApi, handleRegisterApi } from './userAPI';
+import { parseJwt } from '../../utils/axios';
 
 export const signupUser = createAsyncThunk(
   'users/signupUser',
@@ -13,7 +14,7 @@ export const signupUser = createAsyncThunk(
       }
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);
-    } 
+    }
   }
 );
 
@@ -30,13 +31,15 @@ export const loginUser = createAsyncThunk(
       }
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);
-    } 
+    }
   }
-); 
+);
+
 
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
+    user: null,
     isFetching: false,
     isSuccess: false,
     isError: false,
@@ -49,6 +52,13 @@ export const userSlice = createSlice({
       state.isFetching = false;
       return state;
     },
+    logout: (state) => {
+      delete localStorage.kahut_app_accessToken;
+      state.user = null;
+    },
+    update: (state, {payload}) => {
+      state.user = payload;
+    }
   },
   extraReducers: {
     [signupUser.fulfilled]: (state, { payload }) => {
@@ -66,7 +76,6 @@ export const userSlice = createSlice({
     [loginUser.fulfilled]: (state, { payload }) => {
       state.isFetching = false;
       state.isSuccess = true;
-      return state;
     },
     [loginUser.rejected]: (state, { payload }) => {
       state.isFetching = false;
@@ -75,12 +84,12 @@ export const userSlice = createSlice({
     },
     [loginUser.pending]: (state) => {
       state.isFetching = true;
-    }, 
+    },
   },
 });
 
-export const { clearState } = userSlice.actions;
+export const { clearState, logout, update } = userSlice.actions;
 
-export const userSelector = (state) => state.user;
+export const userSelector = (state) => state.user; 
 
 export default userSlice.reducer;
