@@ -5,8 +5,8 @@ import { instance } from "../../utils/axios";
 export const fetchQuiz = createAsyncThunk(
   "quiz/getListQuiz",
   async (roomID, thunkAPI) => {
-    const Token =
-      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Imh1eWRvYW5AZ21haWwuY29tIiwidGVzdF9maWVsZCI6InRlc3QiLCJleHRyYSI6e30sInNjb3BlIjpbInNjb3BlLmFkbWluIl0sImlhdCI6MTY1NzMwMDY2NiwiZXhwIjoxNjU3MzA0MjY2LCJzdWIiOiJodXlkb2FuQGdtYWlsLmNvbSJ9.PR-Fjh26rsFbFZ9vysP9PKwiyR_PeFGq7pmbtFvnrLM";
+    const Token = localStorage.getItem("kahut_app_accessToken");
+      
     // axios
     //   .get(`//157.245.147.239:80/v1/api/admin/quiz/${roomID}`, {
     //     headers: {

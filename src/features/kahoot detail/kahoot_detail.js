@@ -5,7 +5,6 @@ import Navbar from "../user/Navbar";
 import { selectAllQuiz, fetchQuiz } from "../quizSlice/quizSlice";
 import { useParams } from "react-router-dom";
 
-
 const KahootDetail = function ({ match }) {
   const [showAnswer, setShowAnswer] = useState(false);
   const clickShowAnser = () => {
@@ -30,11 +29,13 @@ const KahootDetail = function ({ match }) {
   if (postStatus === "loading") {
     content = <div class="spinner-border text-primary"></div>;
   } else if (postStatus === "succeeded") {
-    console.log(Quiz);
+    //console.log(Quiz);
     // map object when get quiz
-    const ques_number = 1;
-    content = Quiz.questions.map((item) => {
+    let ques_number = 1;
+
+    content = Quiz.quiz.questions.map((item) => {
       //map datat
+     // console.log(item);
       <div className="mb-3">
         <div
           style={{
@@ -49,7 +50,7 @@ const KahootDetail = function ({ match }) {
               <span style={{ fontWeight: "bold" }}>{item.text}</span>
             </div>
             <div className="col-sm-3">
-              <img style={{ width: "100%" }} src={item.img} alt />
+              <img style={{ width: "100%" }} src="https://anhdepfree.com/wp-content/uploads/2022/01/background-3d-4k_529380-768x432.jpg" alt />
               <span
                 style={{
                   position: "absolute",
@@ -232,7 +233,9 @@ const KahootDetail = function ({ match }) {
           </div>
         )}
       </div>;
-      ques_number++;
+      {
+        ques_number++;
+      }
     });
   } else if (postStatus === "failed") {
     content = <div>{error}</div>;
