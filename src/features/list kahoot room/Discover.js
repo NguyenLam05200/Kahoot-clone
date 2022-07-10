@@ -1,6 +1,6 @@
 import { Grid } from "@mui/material";
 
-const Report = () => {
+const Discover = () => {
     return (
         <Grid container height='calc(100% - 70px)'>
             <Grid item xs={2.5} sx={{ boxShadow: 5, py: 4, backgroundColor: 'inherit' }}>
@@ -13,4 +13,4 @@ const Report = () => {
     )
 }
 
-export default Report;
+export default Discover;

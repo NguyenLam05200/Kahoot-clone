@@ -59,6 +59,7 @@ import StarBorder from '@mui/icons-material/StarBorder';
 
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
+import { parseJwt } from '../../utils/axios';
 
 
 function CircularProgressWithLabel(props) {
@@ -573,7 +574,7 @@ const Report = ({ }) => {
                 backgroundColor: 'white'
               }}>
               <AccountCircleIcon sx={{ mr: 1, color: 'blue' }} />
-              Alex
+              {parseJwt(localStorage.kahut_app_accessToken).name}
             </Fab>
           </Box>
           <Slide direction="left" in={isShowLogout} container={containerRef.current}>

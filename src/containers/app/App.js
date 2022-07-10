@@ -17,6 +17,8 @@ import { AuthLayout } from "../../components/AuthLayout";
 import LoginForm from "../../features/user/LoginForm";
 import SignupForm from "../../features/user/SignupForm";
 import Report from "../../features/list kahoot room/Report";
+import Discover from "../../features/list kahoot room/Discover";
+import CreateKahut from "../../features/list kahoot room/CreateKahut";
 
 function App() {
   return (
@@ -32,8 +34,9 @@ function App() {
           <Route path="home" element={<Dashboard />} />
           <Route path="library" element={<Library />} />
           <Route path="reports" element={<Report />} />
+          <Route path="discover" element={<Discover />} />
           <Route path="create">
-            <Route path="kahut" element={<CreateListKahootQuestion />} />
+            <Route path="kahut" element={<CreateKahut />} />
           </Route>
 
           {/* http://localhost:3000/user/addKahutQuestion */}

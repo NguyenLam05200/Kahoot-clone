@@ -27,8 +27,7 @@ export const loginUser = createAsyncThunk(
       const response = await instanceAuth.post(`authenticate`, dataInput)
       if (response.status === 200) {
         localStorage.setItem("kahut_app_accessToken", response.data.token);
-        console.log('response parse: ', parseJwt(response.data.token));
-        return parseJwt(response.data.token);
+        return true;
       } else {
         return thunkAPI.rejectWithValue(response.data);
       }
@@ -42,7 +41,6 @@ export const loginUser = createAsyncThunk(
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
-    user: null,
     isFetching: false,
     isSuccess: false,
     isError: false,
@@ -70,8 +68,7 @@ export const userSlice = createSlice({
       state.errorMessage = payload.error;
     },
     [loginUser.fulfilled]: (state, { payload }) => {
-      console.log('payload: ', payload);
-      state.user = { email: payload.email, name: payload.name };
+      // state.user = { email: payload.email, name: payload.name };
       state.isFetching = false;
       state.isSuccess = true;
     },

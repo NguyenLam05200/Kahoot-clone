@@ -21,10 +21,7 @@ import IconButton from '@mui/material/IconButton';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
-
-
-import { userSelector } from './userSlice';
-import { useSelector } from 'react-redux';
+import { parseJwt } from '../../utils/axios';
 
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -181,6 +178,10 @@ ColorlibStepIcon.propTypes = {
 const steps = ['Play demo game', 'Create a Kahut', 'Host kahut'];
 const itemData = [
   {
+    img: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62',
+    title: 'Honey'
+  },
+  {
     img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
     title: 'Breakfast'
   },
@@ -202,10 +203,7 @@ const itemData = [
   },
 ]
 const itemData2 = [
-  {
-    img: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62',
-    title: 'Honey'
-  },
+
   {
     img: 'https://images.unsplash.com/photo-1516802273409-68526ee1bdd6',
     title: 'Basketball'
@@ -246,15 +244,10 @@ const Dashboard = () => {
     },
   ]);
 
-  const { user } = useSelector(
-    userSelector
-  );
-
-  console.log('user: ', user);
   const theme = useTheme();
 
   return (
-    <Grid rowSpacing={2} columnSpacing={0} container my={4}
+    <Grid rowSpacing={2} columnSpacing={0} container my={1}
       sx={{ backgroundColor: '#fafafa' }}
     // justifyContent="center"
     // alignItems="center"
@@ -262,7 +255,7 @@ const Dashboard = () => {
       <Grid item xs={4}>
         <Box
           sx={{
-            m: 1,
+            m: 2,
             p: 2,
             boxShadow: 3,
             backgroundColor: 'white',
@@ -279,7 +272,7 @@ const Dashboard = () => {
             Add name
           </Button>
           <Typography variant="subtitle2" sx={{ py: 1 }}>
-            NguyenLam05200
+            {parseJwt(localStorage.kahut_app_accessToken).name}
           </Typography>
           <Box sx={{
             width: '100%',
@@ -331,7 +324,7 @@ const Dashboard = () => {
         </Box>
         <Box
           sx={{
-            m: 1,
+            m: 2,
             p: 2,
             boxShadow: 3,
             backgroundColor: 'white',
@@ -360,7 +353,7 @@ const Dashboard = () => {
         </Box>
         <Box
           sx={{
-            m: 1,
+            m: 2,
             p: 2,
             boxShadow: 3,
             backgroundColor: 'white',
@@ -430,7 +423,7 @@ const Dashboard = () => {
       <Grid item xs={8}>
         <Box p={3} bgcolor='success.light' justifyContent='center' display={'flex'}
           sx={{
-            m: 1,
+            m: 2,
             boxShadow: 3,
             backgroundColor: 'pink',
             borderRadius: 1,
@@ -439,7 +432,7 @@ const Dashboard = () => {
         </Box>
         <Box p={3} bgcolor='success.light' justifyContent='center' display={'flex'}
           sx={{
-            m: 1,
+            m: 2,
             boxShadow: 3,
             backgroundColor: '#abdba7',
             borderRadius: 1,
@@ -464,7 +457,7 @@ const Dashboard = () => {
         </Box>
         <Box p={3} bgcolor='success.light'
           sx={{
-            m: 1,
+            m: 2,
             boxShadow: 3,
             // backgroundColor: '#abdba7',
             borderRadius: 1,
