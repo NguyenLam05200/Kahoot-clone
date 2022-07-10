@@ -1,5 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { handleLoginApi, handleRegisterApi } from './userAPI'; 
+import { handleLoginApi, handleRegisterApi } from './userAPI';
+import { parseJwt } from '../../utils/axios';
+import { instanceAuth } from '../../utils/axios';
+import axios from 'axios';
 
 export const signupUser = createAsyncThunk(
   'users/signupUser',
@@ -13,7 +16,7 @@ export const signupUser = createAsyncThunk(
       }
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);
-    } 
+    }
   }
 );
 
@@ -21,22 +24,25 @@ export const loginUser = createAsyncThunk(
   'users/login',
   async (dataInput, thunkAPI) => {
     try {
-      const response = await handleLoginApi(dataInput);
+      const response = await instanceAuth.post(`authenticate`, dataInput)
       if (response.status === 200) {
         localStorage.setItem("kahut_app_accessToken", response.data.token);
-        return true;
+        console.log('response parse: ', parseJwt(response.data.token));
+        return parseJwt(response.data.token);
       } else {
         return thunkAPI.rejectWithValue(response.data);
       }
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);
-    } 
+    }
   }
-); 
+);
+
 
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
+    user: null,
     isFetching: false,
     isSuccess: false,
     isError: false,
@@ -64,9 +70,10 @@ export const userSlice = createSlice({
       state.errorMessage = payload.error;
     },
     [loginUser.fulfilled]: (state, { payload }) => {
+      console.log('payload: ', payload);
+      state.user = { email: payload.email, name: payload.name };
       state.isFetching = false;
       state.isSuccess = true;
-      return state;
     },
     [loginUser.rejected]: (state, { payload }) => {
       state.isFetching = false;
@@ -75,7 +82,7 @@ export const userSlice = createSlice({
     },
     [loginUser.pending]: (state) => {
       state.isFetching = true;
-    }, 
+    },
   },
 });
 

@@ -65,8 +65,6 @@ const CreateListKahootQuestion = () => {
 
   return (
     <div>
-      {/* <ResponsiveAppBar /> */}
-      <Navbar />
       {/* menu luu danh sach cau hoi*/}
       {listQuestion.length > 0 && (
         <h3 className="ml-3 mt-2" style={{ color: "#479fec" }}>
@@ -121,20 +119,20 @@ const CreateListKahootQuestion = () => {
                 </button>
               </div>
               <div className="modal-body">
-               
-                  <div className="form-group">
-                    <label htmlFor="txtid">Id</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="txtid"
-                      placeholder="id"
-                      value={id}
-                      disabled
-                    />
-                  </div>
-                  <div className="form-group">
-                    {/* <div className="custom-file">
+
+                <div className="form-group">
+                  <label htmlFor="txtid">Id</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="txtid"
+                    placeholder="id"
+                    value={id}
+                    disabled
+                  />
+                </div>
+                <div className="form-group">
+                  {/* <div className="custom-file">
                       <input
                         type="file"
                         className="custom-file-input"
@@ -144,168 +142,168 @@ const CreateListKahootQuestion = () => {
                         Choose image of question
                       </label>
                     </div> */}
-                    <UploadImage callback={handleCallback} />
+                  <UploadImage callback={handleCallback} />
+                </div>
+                <div className="form-group">
+                  <div className="d-flex align-item-center">
+                    <i
+                      class="fa fa-clock-o "
+                      aria-hidden="true"
+                      style={{ color: "#20ee20" }}
+                    >
+                      <label className="ml-2" htmlFor="txttime">
+                        Time
+                      </label>
+                    </i>
                   </div>
-                  <div className="form-group">
-                    <div className="d-flex align-item-center">
-                      <i
-                        class="fa fa-clock-o "
-                        aria-hidden="true"
-                        style={{ color: "#20ee20" }}
-                      >
-                        <label className="ml-2" htmlFor="txttime">
-                          Time
+
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="txttime"
+                    placeholder="seconds"
+                    required
+                  />
+                  {inputState !== true && (
+                    <span style={{ color: "red" }}>required</span>
+                  )}
+                </div>
+                <div className="form-group">
+                  <label htmlFor="txtquestion" style={{ color: "#ee5914" }}>
+                    <i class="fa fa-question" aria-hidden="true"></i> Question
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="txtquestion"
+                    placeholder="what is this?"
+                    required
+                  />
+                  {inputState !== true && (
+                    <span style={{ color: "red" }}>required</span>
+                  )}
+                </div>
+                <div className="form-group">
+                  <label htmlFor="txtans1" style={{ color: "#573ee4" }}>
+                    <i class="fa fa-ravelry" aria-hidden="true"></i> Answer 1
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="txtans1"
+                    placeholder="Dog"
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="txtans2" style={{ color: "#573ee4" }}>
+                    <i class="fa fa-ravelry" aria-hidden="true"></i> Answer 2
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="txtans2"
+                    placeholder="Pig"
+                    required
+                  />
+                  {inputState !== true && (
+                    <span style={{ color: "red" }}>required</span>
+                  )}
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="txtans3" style={{ color: "#573ee4" }}>
+                    <i class="fa fa-ravelry" aria-hidden="true"></i> Answer 3
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="txtans3"
+                    placeholder="Cat"
+                    required
+                  />
+                  {inputState !== true && (
+                    <span style={{ color: "red" }}>required</span>
+                  )}
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="txtans4" style={{ color: "#573ee4" }}>
+                    <i class="fa fa-ravelry" aria-hidden="true"></i> Answer 4
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="txtans4"
+                    placeholder="Dog"
+                    required
+                  />
+                  {inputState !== true && (
+                    <span style={{ color: "red" }}>required</span>
+                  )}
+                </div>
+
+                <div className="form-group">
+                  <div className="form-check row">
+                    <h5 style={{ color: "#3dd5f0" }}>Correct answer?</h5>
+                    <div className="d-flex justify-content-around">
+                      <div>
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          id="correctans1"
+                        />
+                        <label
+                          className="form-check-label"
+                          htmlFor="correctans1"
+                        >
+                          <i class="fa fa-ravelry" aria-hidden="true"></i>{" "}
+                          Answer 1
                         </label>
-                      </i>
-                    </div>
+                      </div>
+                      <div>
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          id="correctans2"
+                        />
+                        <label
+                          className="form-check-label"
+                          htmlFor="correctans2"
+                        >
+                          Answer 2
+                        </label>
+                      </div>
+                      <div>
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          id="correctans3"
+                        />
+                        <label
+                          className="form-check-label"
+                          htmlFor="correctans3"
+                        >
+                          Answer 3
+                        </label>
+                      </div>
 
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="txttime"
-                      placeholder="seconds"
-                      required
-                    />
-                    {inputState !== true && (
-                      <span style={{ color: "red" }}>required</span>
-                    )}
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="txtquestion" style={{ color: "#ee5914" }}>
-                      <i class="fa fa-question" aria-hidden="true"></i> Question
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="txtquestion"
-                      placeholder="what is this?"
-                      required
-                    />
-                    {inputState !== true && (
-                      <span style={{ color: "red" }}>required</span>
-                    )}
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="txtans1" style={{ color: "#573ee4" }}>
-                      <i class="fa fa-ravelry" aria-hidden="true"></i> Answer 1
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="txtans1"
-                      placeholder="Dog"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="txtans2" style={{ color: "#573ee4" }}>
-                      <i class="fa fa-ravelry" aria-hidden="true"></i> Answer 2
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="txtans2"
-                      placeholder="Pig"
-                      required
-                    />
-                    {inputState !== true && (
-                      <span style={{ color: "red" }}>required</span>
-                    )}
-                  </div>
-
-                  <div className="form-group">
-                    <label htmlFor="txtans3" style={{ color: "#573ee4" }}>
-                      <i class="fa fa-ravelry" aria-hidden="true"></i> Answer 3
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="txtans3"
-                      placeholder="Cat"
-                      required
-                    />
-                    {inputState !== true && (
-                      <span style={{ color: "red" }}>required</span>
-                    )}
-                  </div>
-
-                  <div className="form-group">
-                    <label htmlFor="txtans4" style={{ color: "#573ee4" }}>
-                      <i class="fa fa-ravelry" aria-hidden="true"></i> Answer 4
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="txtans4"
-                      placeholder="Dog"
-                      required
-                    />
-                    {inputState !== true && (
-                      <span style={{ color: "red" }}>required</span>
-                    )}
-                  </div>
-
-                  <div className="form-group">
-                    <div className="form-check row">
-                      <h5 style={{ color: "#3dd5f0" }}>Correct answer?</h5>
-                      <div className="d-flex justify-content-around">
-                        <div>
-                          <input
-                            className="form-check-input"
-                            type="checkbox"
-                            id="correctans1"
-                          />
-                          <label
-                            className="form-check-label"
-                            htmlFor="correctans1"
-                          >
-                            <i class="fa fa-ravelry" aria-hidden="true"></i>{" "}
-                            Answer 1
-                          </label>
-                        </div>
-                        <div>
-                          <input
-                            className="form-check-input"
-                            type="checkbox"
-                            id="correctans2"
-                          />
-                          <label
-                            className="form-check-label"
-                            htmlFor="correctans2"
-                          >
-                            Answer 2
-                          </label>
-                        </div>
-                        <div>
-                          <input
-                            className="form-check-input"
-                            type="checkbox"
-                            id="correctans3"
-                          />
-                          <label
-                            className="form-check-label"
-                            htmlFor="correctans3"
-                          >
-                            Answer 3
-                          </label>
-                        </div>
-
-                        <div>
-                          <input
-                            className="form-check-input"
-                            type="checkbox"
-                            id="correctans4"
-                          />
-                          <label
-                            className="form-check-label"
-                            htmlFor="correctans4"
-                          >
-                            Answer 4
-                          </label>
-                        </div>
+                      <div>
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          id="correctans4"
+                        />
+                        <label
+                          className="form-check-label"
+                          htmlFor="correctans4"
+                        >
+                          Answer 4
+                        </label>
                       </div>
                     </div>
                   </div>
-              
+                </div>
+
               </div>
               <div className="modal-footer">
                 <button

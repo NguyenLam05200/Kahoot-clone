@@ -47,7 +47,7 @@ const initialState = {
       correctAns: [0],
     },
   ],
-  pin: 123456,
+  pin: null,
   listPlayers: [],
   curQuestion: 0,
   timeReadQuestion: 0,
@@ -71,6 +71,14 @@ export const gameSlice = createSlice({
   initialState,
   reducers: {
     clearState: (state) => {
+      state.status = 'idle';
+      state.isFullScreen = 'false';
+      state.listPlayers = [];
+      state.pin = null;
+      state.curQuestion = 0;
+      state.scoreBoard = [];
+      state.isSkip = false;
+      state.isBlockJoin = false;
       state.isError = false;
       state.isSuccess = false;
       state.isFetching = false;

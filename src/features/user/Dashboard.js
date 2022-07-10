@@ -22,6 +22,10 @@ import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 
+
+import { userSelector } from '../user/userSlice';
+import { useSelector } from 'react-redux';
+
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
     top: 10,
@@ -241,303 +245,307 @@ const Dashboard = () => {
       num_question: 6,
     },
   ]);
+
+  const { user } = useSelector(
+    userSelector
+  );
+
+  console.log('user: ', user);
   const theme = useTheme();
 
   return (
-    <Paper elevation={0} sx={{ backgroundColor: '#fafafa' }}>
-      <Navbar />
-      <Grid rowSpacing={2} columnSpacing={0} container my={4}
-      // justifyContent="center"
-      // alignItems="center"
-      >
-        <Grid item xs={4}>
-          <Box
+    <Grid rowSpacing={2} columnSpacing={0} container my={4}
+      sx={{ backgroundColor: '#fafafa' }}
+    // justifyContent="center"
+    // alignItems="center"
+    >
+      <Grid item xs={4}>
+        <Box
+          sx={{
+            m: 1,
+            p: 2,
+            boxShadow: 3,
+            backgroundColor: 'white',
+            borderRadius: 1,
+          }}
+        >
+          <Button
+            size='small'
+            variant="contained"
             sx={{
-              m: 1,
-              p: 2,
-              boxShadow: 3,
-              backgroundColor: 'white',
-              borderRadius: 1,
+              textTransform: 'none',
             }}
-          >
-            <Button
-              size='small'
-              variant="contained"
-              sx={{
-                textTransform: 'none',
+            endIcon={<AddIcon />}>
+            Add name
+          </Button>
+          <Typography variant="subtitle2" sx={{ py: 1 }}>
+            NguyenLam05200
+          </Typography>
+          <Box sx={{
+            width: '100%',
+            display: 'flex',
+            backgroundColor: '#f2f2f2',
+            boxShadow: 2,
+            my: 2,
+            px: 2,
+            color: '#6e6e83',
+          }}>
+            <Typography variant="subtitle2" sx={{ width: '50%', py: 1 }}>
+              Plan:
+            </Typography>
+
+            <Link
+              component='span'
+              variant="body2"
+              onClick={() => {
+                console.info("I'm a button.");
               }}
-              endIcon={<AddIcon />}>
-              Add name
-            </Button>
-            <Typography variant="subtitle2" sx={{ py: 1 }}>
-              NguyenLam05200
-            </Typography>
-            <Box sx={{
-              width: '100%',
-              display: 'flex',
-              backgroundColor: '#f2f2f2',
-              boxShadow: 2,
-              my: 2,
-              px: 2,
-              color: '#6e6e83',
-            }}>
-              <Typography variant="subtitle2" sx={{ width: '50%', py: 1 }}>
-                Plan:
-              </Typography>
-
-              <Link
-                component='span'
-                variant="body2"
-                onClick={() => {
-                  console.info("I'm a button.");
-                }}
-                sx={{ width: '50%', py: 1, textAlign: 'right', color: '#6e6e83', fontWeight: 'bold', cursor: 'pointer' }}
-              >
-                Pro vjp
-              </Link>
-            </Box>
-            <Box sx={{
-              width: '100%',
-              display: 'flex',
-              backgroundColor: '#f2f2f2',
-              boxShadow: 2,
-              px: 2,
-              color: '#6e6e83',
-            }}>
-              <Typography variant="subtitle2" sx={{ width: '50%', py: 1 }}>
-                My interests:
-              </Typography>
-
-              <Link
-                component='span'
-                variant="body2"
-                onClick={() => {
-                  console.info("I'm a button.");
-                }}
-                sx={{ width: '50%', py: 1, textAlign: 'right', color: '#6e6e83', fontWeight: 'bold', cursor: 'pointer' }}
-              >
-                Add interests
-              </Link>
-            </Box>
+              sx={{ width: '50%', py: 1, textAlign: 'right', color: '#6e6e83', fontWeight: 'bold', cursor: 'pointer' }}
+            >
+              Pro vjp
+            </Link>
           </Box>
-          <Box
-            sx={{
-              m: 1,
-              p: 2,
-              boxShadow: 3,
-              backgroundColor: 'white',
-              borderRadius: 1,
-            }}
-          >
-            <Typography variant="subtitle1" sx={{ py: 1, fontWeight: 'bold' }}>
-              Assignments
+          <Box sx={{
+            width: '100%',
+            display: 'flex',
+            backgroundColor: '#f2f2f2',
+            boxShadow: 2,
+            px: 2,
+            color: '#6e6e83',
+          }}>
+            <Typography variant="subtitle2" sx={{ width: '50%', py: 1 }}>
+              My interests:
             </Typography>
-            <Divider />
-            <Box textAlign='center' sx={{
-              width: '100%',
-              backgroundColor: '#f2f2f2',
-              boxShadow: 1,
-              borderRadius: 1,
-              mt: 2,
-              px: 2,
-              color: '#6e6e83',
-            }}>
-              <Typography variant="subtitle2" sx={{ width: '100%', p: 3, textAlign: 'center' }}>
-                Self-paced kahoots are perfect for e-learning as remote workers play independently at a time that suits them.
-              </Typography>
 
-              <Button variant='contained' size='small' sx={{ mb: 2 }}>Learn more</Button>
-            </Box>
+            <Link
+              component='span'
+              variant="body2"
+              onClick={() => {
+                console.info("I'm a button.");
+              }}
+              sx={{ width: '50%', py: 1, textAlign: 'right', color: '#6e6e83', fontWeight: 'bold', cursor: 'pointer' }}
+            >
+              Add interests
+            </Link>
           </Box>
-          <Box
-            sx={{
-              m: 1,
-              p: 2,
-              boxShadow: 3,
-              backgroundColor: 'white',
-              borderRadius: 1,
-            }}
-          >
-            <Typography variant="subtitle1" sx={{ py: 1, fontWeight: 'bold' }}>
-              My kahuts
+        </Box>
+        <Box
+          sx={{
+            m: 1,
+            p: 2,
+            boxShadow: 3,
+            backgroundColor: 'white',
+            borderRadius: 1,
+          }}
+        >
+          <Typography variant="subtitle1" sx={{ py: 1, fontWeight: 'bold' }}>
+            Assignments
+          </Typography>
+          <Divider />
+          <Box textAlign='center' sx={{
+            width: '100%',
+            backgroundColor: '#f2f2f2',
+            boxShadow: 1,
+            borderRadius: 1,
+            mt: 2,
+            px: 2,
+            color: '#6e6e83',
+          }}>
+            <Typography variant="subtitle2" sx={{ width: '100%', p: 3, textAlign: 'center' }}>
+              Self-paced kahoots are perfect for e-learning as remote workers play independently at a time that suits them.
             </Typography>
-            <Divider />
-            {listRoom.map((room, index) => {
-              return (
-                <Box
-                  onClick={() => { alert('Naviage to detail') }}
-                  key={index} sx={{
-                    width: '100%',
-                    height: '6rem',
-                    border: '1px solid grey',
-                    boxShadow: 1,
-                    borderRadius: 1,
-                    mt: 2,
-                    display: 'flex',
-                    cursor: 'pointer'
-                  }}>
-                  <Box sx={{
-                    width: '40%',
-                    height: '100%',
-                    backgroundImage: `url(${room.img})`,
-                    backgroundRepeat: 'no-repeat',
-                    backgroundSize: 'cover',
-                    textAlign: 'center',
-                    alignItems: "justify-end",
-                  }}>
-                  </Box>
-                  <Box sx={{
-                    width: '60%',
-                    height: '100%',
-                    display: 'grid',
-                    alignItems: 'center',
-                    mx: 1
-                  }}>
-                    <Typography sx={{ pt: 1, width: '100%', fontSize: 18, fontWeight: 'bold' }}>
-                      {room.room_title}
-                    </Typography>
-                    <Stack spacing={1} direction='row' sx={{ py: 1, width: '100%' }}>
-                      <Chip label={room.num_question + " questions"} variant='outlined' size="small" color="info" sx={{ width: '50%', fontWeight: 'bold', fontSize: 14 }} />
-                      <Chip label={room.num_question + " plays"} variant='outlined' size="small" color="secondary" sx={{ width: '50%', fontWeight: 'bold', fontSize: 14 }} />
-                    </Stack>
-                  </Box>
+
+            <Button variant='contained' size='small' sx={{ mb: 2 }}>Learn more</Button>
+          </Box>
+        </Box>
+        <Box
+          sx={{
+            m: 1,
+            p: 2,
+            boxShadow: 3,
+            backgroundColor: 'white',
+            borderRadius: 1,
+          }}
+        >
+          <Typography variant="subtitle1" sx={{ py: 1, fontWeight: 'bold' }}>
+            My kahuts
+          </Typography>
+          <Divider />
+          {listRoom.map((room, index) => {
+            return (
+              <Box
+                onClick={() => { alert('Naviage to detail') }}
+                key={index} sx={{
+                  width: '100%',
+                  height: '6rem',
+                  border: '1px solid grey',
+                  boxShadow: 1,
+                  borderRadius: 1,
+                  mt: 2,
+                  display: 'flex',
+                  cursor: 'pointer'
+                }}>
+                <Box sx={{
+                  width: '40%',
+                  height: '100%',
+                  backgroundImage: `url(${room.img})`,
+                  backgroundRepeat: 'no-repeat',
+                  backgroundSize: 'cover',
+                  textAlign: 'center',
+                  alignItems: "justify-end",
+                }}>
                 </Box>
-              )
-            })}
-            <Box textAlign='center' mt={2}>
-              <Link
-                component='span'
-                variant="body2"
-                onClick={() => {
-                  console.info("I'm a button.");
-                }}
-                sx={{ my: 5, textAlign: 'right', color: 'info', fontWeight: 'bold', cursor: 'pointer' }}
-              >
-                See all (5)
-              </Link>
-            </Box>
+                <Box sx={{
+                  width: '60%',
+                  height: '100%',
+                  display: 'grid',
+                  alignItems: 'center',
+                  mx: 1
+                }}>
+                  <Typography sx={{ pt: 1, width: '100%', fontSize: 18, fontWeight: 'bold' }}>
+                    {room.room_title}
+                  </Typography>
+                  <Stack spacing={1} direction='row' sx={{ py: 1, width: '100%' }}>
+                    <Chip label={room.num_question + " questions"} variant='outlined' size="small" color="info" sx={{ width: '50%', fontWeight: 'bold', fontSize: 14 }} />
+                    <Chip label={room.num_question + " plays"} variant='outlined' size="small" color="secondary" sx={{ width: '50%', fontWeight: 'bold', fontSize: 14 }} />
+                  </Stack>
+                </Box>
+              </Box>
+            )
+          })}
+          <Box textAlign='center' mt={2}>
+            <Link
+              component='span'
+              variant="body2"
+              onClick={() => {
+                console.info("I'm a button.");
+              }}
+              sx={{ my: 5, textAlign: 'right', color: 'info', fontWeight: 'bold', cursor: 'pointer' }}
+            >
+              See all (5)
+            </Link>
           </Box>
-        </Grid>
-        <Grid item xs={8}>
-          <Box p={3} bgcolor='success.light' justifyContent='center' display={'flex'}
-            sx={{
-              m: 1,
-              boxShadow: 3,
-              backgroundColor: 'pink',
-              borderRadius: 1,
-            }} >
-            <Button color='inherit'>Quảng cáo</Button>
-          </Box>
-          <Box p={3} bgcolor='success.light' justifyContent='center' display={'flex'}
-            sx={{
-              m: 1,
-              boxShadow: 3,
-              backgroundColor: '#abdba7',
-              borderRadius: 1,
-              color: 'white'
-            }} >
-            <Stack sx={{ width: '100%' }} spacing={4}>
-              <Stepper alternativeLabel activeStep={1} connector={<QontoConnector />}>
-                {steps.map((label) => (
-                  <Step key={label}>
-                    <StepLabel StepIconComponent={QontoStepIcon}>{label}</StepLabel>
-                  </Step>
-                ))}
-              </Stepper>
-              <Stepper alternativeLabel activeStep={1} connector={<ColorlibConnector />}>
-                {steps.map((label) => (
-                  <Step key={label}>
-                    <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
-                  </Step>
-                ))}
-              </Stepper>
+        </Box>
+      </Grid>
+      <Grid item xs={8}>
+        <Box p={3} bgcolor='success.light' justifyContent='center' display={'flex'}
+          sx={{
+            m: 1,
+            boxShadow: 3,
+            backgroundColor: 'pink',
+            borderRadius: 1,
+          }} >
+          <Button color='inherit'>Quảng cáo</Button>
+        </Box>
+        <Box p={3} bgcolor='success.light' justifyContent='center' display={'flex'}
+          sx={{
+            m: 1,
+            boxShadow: 3,
+            backgroundColor: '#abdba7',
+            borderRadius: 1,
+            color: 'white'
+          }} >
+          <Stack sx={{ width: '100%' }} spacing={4}>
+            <Stepper alternativeLabel activeStep={1} connector={<QontoConnector />}>
+              {steps.map((label) => (
+                <Step key={label}>
+                  <StepLabel StepIconComponent={QontoStepIcon}>{label}</StepLabel>
+                </Step>
+              ))}
+            </Stepper>
+            <Stepper alternativeLabel activeStep={1} connector={<ColorlibConnector />}>
+              {steps.map((label) => (
+                <Step key={label}>
+                  <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
+                </Step>
+              ))}
+            </Stepper>
+          </Stack>
+        </Box>
+        <Box p={3} bgcolor='success.light'
+          sx={{
+            m: 1,
+            boxShadow: 3,
+            // backgroundColor: '#abdba7',
+            borderRadius: 1,
+            color: 'white',
+            display: 'flex'
+          }} >
+          <Box bgColor='success' width='50%' marginRight={2}>
+            <Stack spacing={2} >
+              {itemData.map((item, index) => (
+                <Card key={index} sx={{ display: 'flex' }}>
+                  <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                    <CardContent sx={{ flex: '1 0 auto' }}>
+                      <Typography component="div" variant="h5">
+                        {item.title}
+                      </Typography>
+                      <Typography variant="subtitle1" color="text.secondary" component="div">
+                        Mac Miller
+                      </Typography>
+                    </CardContent>
+                    <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
+                      <IconButton aria-label="previous">
+                        {theme.direction === 'rtl' ? <SkipNextIcon /> : <SkipPreviousIcon />}
+                      </IconButton>
+                      <IconButton aria-label="play/pause">
+                        <PlayArrowIcon sx={{ height: 38, width: 38 }} />
+                      </IconButton>
+                      <IconButton aria-label="next">
+                        {theme.direction === 'rtl' ? <SkipPreviousIcon /> : <SkipNextIcon />}
+                      </IconButton>
+                    </Box>
+                  </Box>
+                  <CardMedia
+                    component="img"
+                    sx={{ width: 151 }}
+                    image={item.img}
+                    alt="Live from space album cover"
+                  />
+                </Card>
+              ))}
             </Stack>
           </Box>
-          <Box p={3} bgcolor='success.light'
-            sx={{
-              m: 1,
-              boxShadow: 3,
-              // backgroundColor: '#abdba7',
-              borderRadius: 1,
-              color: 'white',
-              display: 'flex'
-            }} >
-            <Box bgColor='success' width='50%' marginRight={2}>
-              <Stack spacing={2} >
-                {itemData.map((item, index) => (
-                  <Card key={index} sx={{ display: 'flex' }}>
-                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                      <CardContent sx={{ flex: '1 0 auto' }}>
-                        <Typography component="div" variant="h5">
-                          {item.title}
-                        </Typography>
-                        <Typography variant="subtitle1" color="text.secondary" component="div">
-                          Mac Miller
-                        </Typography>
-                      </CardContent>
-                      <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
-                        <IconButton aria-label="previous">
-                          {theme.direction === 'rtl' ? <SkipNextIcon /> : <SkipPreviousIcon />}
-                        </IconButton>
-                        <IconButton aria-label="play/pause">
-                          <PlayArrowIcon sx={{ height: 38, width: 38 }} />
-                        </IconButton>
-                        <IconButton aria-label="next">
-                          {theme.direction === 'rtl' ? <SkipPreviousIcon /> : <SkipNextIcon />}
-                        </IconButton>
-                      </Box>
+          <Box bgColor='success' width='50%'>
+            <Stack spacing={2} >
+              {itemData2.map((item, index) => (
+                <Card key={index} sx={{ display: 'flex' }}>
+                  <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                    <CardContent sx={{ flex: '1 0 auto' }}>
+                      <Typography component="div" variant="h5">
+                        {item.title}
+                      </Typography>
+                      <Typography variant="subtitle1" color="text.secondary" component="div">
+                        Mac Miller
+                      </Typography>
+                    </CardContent>
+                    <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
+                      <IconButton aria-label="previous">
+                        {theme.direction === 'rtl' ? <SkipNextIcon /> : <SkipPreviousIcon />}
+                      </IconButton>
+                      <IconButton aria-label="play/pause">
+                        <PlayArrowIcon sx={{ height: 38, width: 38 }} />
+                      </IconButton>
+                      <IconButton aria-label="next">
+                        {theme.direction === 'rtl' ? <SkipPreviousIcon /> : <SkipNextIcon />}
+                      </IconButton>
                     </Box>
-                    <CardMedia
-                      component="img"
-                      sx={{ width: 151 }}
-                      image={item.img}
-                      alt="Live from space album cover"
-                    />
-                  </Card>
-                ))}
-              </Stack>
-            </Box>
-            <Box bgColor='success' width='50%'>
-              <Stack spacing={2} >
-                {itemData2.map((item, index) => (
-                  <Card key={index} sx={{ display: 'flex' }}>
-                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                      <CardContent sx={{ flex: '1 0 auto' }}>
-                        <Typography component="div" variant="h5">
-                          {item.title}
-                        </Typography>
-                        <Typography variant="subtitle1" color="text.secondary" component="div">
-                          Mac Miller
-                        </Typography>
-                      </CardContent>
-                      <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
-                        <IconButton aria-label="previous">
-                          {theme.direction === 'rtl' ? <SkipNextIcon /> : <SkipPreviousIcon />}
-                        </IconButton>
-                        <IconButton aria-label="play/pause">
-                          <PlayArrowIcon sx={{ height: 38, width: 38 }} />
-                        </IconButton>
-                        <IconButton aria-label="next">
-                          {theme.direction === 'rtl' ? <SkipPreviousIcon /> : <SkipNextIcon />}
-                        </IconButton>
-                      </Box>
-                    </Box>
-                    <CardMedia
-                      component="img"
-                      sx={{ width: 151 }}
-                      image={item.img}
-                      alt="Live from space album cover"
-                    />
-                  </Card>
-                ))}
-              </Stack>
-            </Box>
-
+                  </Box>
+                  <CardMedia
+                    component="img"
+                    sx={{ width: 151 }}
+                    image={item.img}
+                    alt="Live from space album cover"
+                  />
+                </Card>
+              ))}
+            </Stack>
           </Box>
 
-        </Grid>
+        </Box>
+
       </Grid>
-    </Paper >
+    </Grid>
   );
 };
 

@@ -15,6 +15,7 @@ import {
 import CircularProgress, {
   circularProgressClasses,
 } from '@mui/material/CircularProgress';
+import { useNavigate } from 'react-router-dom';
 
 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -27,7 +28,8 @@ import {
   setFullScreen,
   showResult,
   sumary,
-  playAgain
+  playAgain,
+  clearState
 } from './gameSlice';
 
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
@@ -148,13 +150,13 @@ function NestedList(props) {
   const { listQuestions } = useSelector(
     gameSelector
   );
- 
+
   const [open, setOpen] = useState(true);
 
   const handleClick = () => {
     setOpen(!open);
   };
-const reportDataAnalyst = props.reportDataAnalyst;
+  const reportDataAnalyst = props.reportDataAnalyst;
   return (
     <List
       sx={{
@@ -275,6 +277,13 @@ const Report = ({ }) => {
   const [isShowLogout, setIsShowLogout] = useState(false);
   const bgColorContent = '#083C8F'
   const reportDataAnalyst = reportData.filter(eachReport => eachReport[1] < 100);
+
+  const navigate = useNavigate();
+  const handleClickLogout = () => {
+    delete localStorage.kahut_app_accessToken;
+    dispatch(clearState())
+    navigate('/login');
+  }
 
   return (
     <Box
@@ -469,7 +478,7 @@ const Report = ({ }) => {
                 p: 0.9
               }}
             >
-              <Button variant='contained'  sx={{ textTransform: 'none', py: 0.5, px: 1, boxShadow: 4, fontSize: '0.7em' }} disableElevation>Play new game</Button>
+              <Button variant='contained' sx={{ textTransform: 'none', py: 0.5, px: 1, boxShadow: 4, fontSize: '0.7em' }} disableElevation>Play new game</Button>
             </Box>
           </Box>
         </Stack>
@@ -536,7 +545,7 @@ const Report = ({ }) => {
               p: 2,
             }}
           >
-            <NestedList reportDataAnalyst={reportDataAnalyst}/>
+            <NestedList reportDataAnalyst={reportDataAnalyst} />
           </Box>
         </Box>
       </Box >
@@ -569,6 +578,7 @@ const Report = ({ }) => {
           </Box>
           <Slide direction="left" in={isShowLogout} container={containerRef.current}>
             <Button
+              onClick={handleClickLogout}
               style={{
                 border: "none",
                 outline: "none",

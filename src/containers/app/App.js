@@ -6,7 +6,7 @@ import CreateListKahootQuestion from "../../features/create_kahoot/createKhut";
 
 import Dashboard from "../../features/user/Dashboard";
 import { HomePage } from "../landingPages/HomePage";
-import ListKahootRoom from "../../features/list kahoot room/ListKahootRoom";
+// import ListKahootRoom from "../../features/list kahoot room/ListKahootRoom";
 
 import { Routes, Route } from "react-router-dom";
 import { Container, Paper } from "@mui/material";
@@ -16,6 +16,7 @@ import KahootDetail from "../../features/kahoot detail/kahoot_detail";
 import { AuthLayout } from "../../components/AuthLayout";
 import LoginForm from "../../features/user/LoginForm";
 import SignupForm from "../../features/user/SignupForm";
+import Report from "../../features/list kahoot room/Report";
 
 function App() {
   return (
@@ -30,16 +31,18 @@ function App() {
           <Route path="" element={<Dashboard />} />
           <Route path="home" element={<Dashboard />} />
           <Route path="library" element={<Library />} />
+          <Route path="reports" element={<Report />} />
           <Route path="create">
             <Route path="kahut" element={<CreateListKahootQuestion />} />
           </Route>
-          <Route path="gameHost" element={<GameHost />} />
 
           {/* http://localhost:3000/user/addKahutQuestion */}
-          <Route path="addKahutRoom" element={<ListKahootRoom />} />
+          {/* <Route path="addKahutRoom" element={<ListKahootRoom />} /> */}
           <Route path="addKahutQuestion" element={<CreateListKahootQuestion />} />
           <Route path="kahootDetail/:roomID" element={<KahootDetail />} />
         </Route>
+
+        <Route path="/user/gameHost" element={<GameHost />} />
 
         <Route element={<AuthLayout />}>
           <Route path="/login" element={<LoginForm />} />
