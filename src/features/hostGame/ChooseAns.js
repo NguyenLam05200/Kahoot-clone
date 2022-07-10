@@ -66,7 +66,7 @@ const ChooseAns = () => {
                                 color: 'black',
                             }}
                             variant="h5" align='center' fontWeight='bold'>
-                            {listQuestions[curQuestion].ques_title}
+                            {listQuestions[curQuestion].text}
                         </Typography>
                     </Box>
                 </Box>

@@ -23,7 +23,7 @@ import {
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 
 import List from '@mui/material/List';
@@ -35,34 +35,64 @@ import PhotoSizeSelectActualIcon from '@mui/icons-material/PhotoSizeSelectActual
 import DoneIcon from '@mui/icons-material/Done';
 import { answerUI2 } from '../../components/AnswerUI';
 
+const schemaQuiz = {
+  type: 'Quiz',
+  img: null,
+  time: 20,
+  text: '',
+  ans: [
+    { text: '', isRight: false },
+    { text: '', isRight: false },
+    { text: '', isRight: false },
+    { text: '', isRight: false },
+  ],
+  point: 1 // 1: standard, 2: x2, 3: x3
+}
+
+const schemaTrueOrFalse = {
+  type: 'True or False',
+  img: null,
+  time: 20,
+  text: '',
+  ans: [
+    { text: '', isRight: false },
+    { text: '', isRight: false },
+    { text: '', isRight: false },
+    { text: '', isRight: false },
+  ],
+  point: 1 // 1: standard, 2: x2, 3: x3
+}
+
 const CreateKahut = () => {
-  const [newQuestion, setNewQuestion] = useState({
-    type: 'Quiz',
-    img: null,
-    time: 20,
-    ques_title: null,
-    ans: ['', '', '', ''],
-    correctAns: [],
-    point: 0 //0: standard, 1: x2, 2: x3
-  })
+
 
   const [listQuestion, setListQuestion] = useState([{
     type: "Quiz",
     img: "https://images.unsplash.com/photo-1569504275728-9350b4c55fee?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1027&q=80",
     time: 10,
-    ques_title: "Con gà có trước hay quả trứng có trước?",
-    ans: ['Con gà trước', 'Quả trứng trước', 'Cả 2 cùng lúc', 'Bó tay .com'],
-    correctAns: [1],
+    text: "Con gà có trước hay quả trứng có trước?",
+    ans: [
+      { text: 'Con gà trước', isRight: false },
+      { text: 'Quả trứng trước', isRight: true },
+      { text: 'Cả 2 cùng lúc', isRight: false },
+      { text: 'Bó tay .com', isRight: false },
+    ],
+    point: 1,
   },
   {
     type: "Quiz",
     img: "https://images.unsplash.com/photo-1586343061001-b61e47c9b7cf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
     time: 10,
-    ques_title: "Bao lâu bán đuợc 1 tỉ gói mè 😐?",
-    ans: ['1 tỉ năm', 'Mùa quýt năm sau', '2 triệu năm Đen Vâu', 'a thousand years - Christina Perri'],
-    correctAns: [1],
+    text: "Bao lâu bán đuợc 1 tỉ gói mè 😐?",
+    ans: [
+      { text: '1 tỉ năm', isRight: false },
+      { text: 'Mùa quýt năm sau', isRight: true },
+      { text: '2 triệu năm Đen Vâu', isRight: false },
+      { text: 'a thousand years - Christina Perri', isRight: false },
+    ],
+    point: 1,
   },
-    newQuestion,
+    schemaQuiz,
   ]);
 
   const [curQuestion, setCurQuestion] = useState(0);
@@ -74,25 +104,42 @@ const CreateKahut = () => {
   };
 
   const handleChangeQuestionTitle = (event) => {
-    listQuestion[curQuestion].ques_title = event.target.value;
+    listQuestion[curQuestion].text = event.target.value;
     setListQuestion([...listQuestion])
   };
 
   const handleChangeAns = (event, index) => {
-    listQuestion[curQuestion].ans[index] = event.target.value;
+    listQuestion[curQuestion].ans[index].text = event.target.value;
     setListQuestion([...listQuestion])
   };
 
 
   const handleChangeCorrectAns = (event, value) => {
-    const i = listQuestion[curQuestion].correctAns.indexOf(value)
-    if (i !== -1) {
-      listQuestion[curQuestion].correctAns.splice(i, 1);
-    } else {
-      listQuestion[curQuestion].correctAns.push(value);
-    }
+    let QuestionPersist = listQuestion[curQuestion]
+    QuestionPersist.ans[value].isRight = !QuestionPersist.ans[value].isRight
+    let i = 0;
+    QuestionPersist.ans.map(eachAns => {
+      eachAns.isRight && i++;
+    })
+    if (i > 1) QuestionPersist.type = 'Multi selections'
+    else if (i === 1) QuestionPersist.type = 'Quiz'
+    if (i === 1 && QuestionPersist.ans.length === 2) QuestionPersist.type = 'True or False'
     setListQuestion([...listQuestion])
   };
+
+  const [isAddMore, setIsAddMore] = useState(listQuestion[curQuestion].ans.length <= 4);
+  useEffect(() => {
+    setIsAddMore(listQuestion[curQuestion].ans.length <= 4)
+  }, [curQuestion]);
+  const handleClickAddMoreAnswer = () => {
+    if (isAddMore) {
+      listQuestion[curQuestion].ans.push({ text: '', isRight: false })
+      listQuestion[curQuestion].ans.push({ text: '', isRight: false })
+    } else {
+      listQuestion[curQuestion].ans.splice(-2, 2);
+    }
+    setIsAddMore(!isAddMore)
+  }
 
   return (
     <Grid container height='calc(100% - 70px)' sx={{ pt: 0.5 }}>
@@ -111,6 +158,7 @@ const CreateKahut = () => {
         }}>
           {listQuestion.map((eachQuestion, index) => (
             <ListItemButton
+              key={'question ' + index}
               divider={true}
               selected={curQuestion === index}
               onClick={(event) => handleListQuestionNav(event, index)}
@@ -170,7 +218,7 @@ const CreateKahut = () => {
                       }}
                       textAlign="center"
                     >
-                      {eachQuestion.ques_title ? eachQuestion.ques_title : 'Question'}
+                      {eachQuestion.text ? eachQuestion.text : 'Question'}
                     </Typography>
                     <Box
                       sx={{
@@ -239,8 +287,9 @@ const CreateKahut = () => {
                         gridTemplateColumns: 'repeat(2, 1fr)',
                       }}
                     >
-                      {eachQuestion.ans.map((_, i) => (
+                      {eachQuestion.ans.map((eachAns, i) => (
                         <Box
+                          key={index + ' ' + i}
                           sx={{
                             px: 1,
                             border: '1px solid grey',
@@ -250,14 +299,14 @@ const CreateKahut = () => {
                             alignItems: 'center',
                           }}
                         >
-                          {eachQuestion.correctAns.includes(i) ?
+                          {eachAns.isRight ?
                             <DoneIcon sx={{
-                              fontSize: 13,
+                              fontSize: eachQuestion.ans.length <= 4 ? 13 : 7,
                               color: '#07BA66'
                             }} />
                             :
                             <DoneIcon sx={{
-                              fontSize: 13,
+                              fontSize: eachQuestion.ans.length <= 4 ? 13 : 7,
                               color: curQuestion === index ? 'white' : '#f2f2f2'
                             }} />
                           }
@@ -331,7 +380,7 @@ const CreateKahut = () => {
           <InputBase
             multiline
             maxRows={2}
-            value={listQuestion[curQuestion].ques_title}
+            value={listQuestion[curQuestion].text}
             onChange={handleChangeQuestionTitle}
             sx={{
               width: '100%',
@@ -364,6 +413,7 @@ const CreateKahut = () => {
           }}>
           {listQuestion[curQuestion].ans.map((eachAns, index) => (
             <Stack
+              key={'ans ' + index}
               direction='row'
               spacing={1}
               alignItems='center'
@@ -390,14 +440,14 @@ const CreateKahut = () => {
               </Box>
               <InputBase
                 multiline
-                maxRows={2}
-                value={eachAns}
+                maxRows={1}
+                value={eachAns.text}
                 onChange={(event) => handleChangeAns(event, index)}
                 sx={{
                   flexGrow: 1,
                   // width: '100%',
                   mx: 1,
-                  fontSize: 20,
+                  fontSize: 17,
                   color: 'white'
                 }}
                 placeholder={"Add answer " + index}
@@ -411,7 +461,7 @@ const CreateKahut = () => {
                 component="span"
                 onClick={(event) => handleChangeCorrectAns(event, index)}
                 onMouseOver={() => {
-                  !listQuestion[curQuestion].correctAns.includes(index) && setCurHoverAnscheck(index)
+                  !eachAns.isRight && setCurHoverAnscheck(index)
                 }}
                 onMouseOut={() => setCurHoverAnscheck(-1)}
                 size='large'
@@ -419,17 +469,17 @@ const CreateKahut = () => {
                   outline: 'none'
                 }}
                 sx={{
-                  p: 1,
+                  p: 0,
                   m: 1,
                   border: '3px solid white',
-                  backgroundColor: listQuestion[curQuestion].correctAns.includes(index) && '#59B32C'
+                  backgroundColor: eachAns.isRight && '#59B32C'
                 }}
               >
                 {curHoverAnscheck === index ?
                   <DoneIcon sx={{ color: 'white' }} /> :
                   <DoneIcon
                     sx={{
-                      color: listQuestion[curQuestion].correctAns.includes(index) ? '#fff' : answerUI2[index].bgColor
+                      color: eachAns.isRight ? '#fff' : answerUI2[index].bgColor
                     }}
                   />}
               </IconButton>
@@ -437,6 +487,7 @@ const CreateKahut = () => {
           ))}
         </Box>
         <Button
+          onClick={handleClickAddMoreAnswer}
           variant='text'
           style={{
             outline: 'none',
@@ -447,7 +498,7 @@ const CreateKahut = () => {
             mt: 0,
             textTransform: 'none',
           }}
-        >Add more answer</Button>
+        >{isAddMore ? 'Add more answer' : 'Remove additional answers'}</Button>
       </Stack>
       <Box
         width='20%'

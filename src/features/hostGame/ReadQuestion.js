@@ -170,7 +170,7 @@ const ReadQuestion = () => {
                             }}
                             variant="h5" align='left' fontWeight='bold'>
                             {/* Name of these fruits: 🍏🍌🍍 ? */}
-                            {listQuestions[curQuestion].ques_title}
+                            {listQuestions[curQuestion].text}
                         </Typography>
                     </Box>
                 </Stack>

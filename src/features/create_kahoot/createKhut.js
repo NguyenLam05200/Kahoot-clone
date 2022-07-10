@@ -13,7 +13,7 @@ import { height } from "@mui/system";
 import UploadImage from "../../features/create_kahoot/uploadImage";
 
 const CreateListKahootQuestion = () => {
-  //const test = [{id:1, time:20, ques_title: "abc", ans1: "def", ans2:"def", ans3:"kd", ans4:"dj", img:"s" }];
+  //const test = [{id:1, time:20, text: "abc", ans1: "def", ans2:"def", ans3:"kd", ans4:"dj", img:"s" }];
   // const [isDisplayPopup, setIsDisplayPopUp] = useState(false);
 
   const [inputState, setInputState] = useState(false);
@@ -39,7 +39,7 @@ const CreateListKahootQuestion = () => {
       const newQuestion = {
         id: id,
         time: $("#txttime").val(),
-        ques_title: $("#txtquestion").val(),
+        text: $("#txtquestion").val(),
         ans1: $("#txtans1").val(),
         ans2: $("#txtans2").val(),
         ans3: $("#txtans3").val(),

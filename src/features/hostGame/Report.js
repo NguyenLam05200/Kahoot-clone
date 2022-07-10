@@ -199,7 +199,7 @@ function NestedList(props) {
                   sx={{ fontSize: 18, color: 'black', fontWeight: 'bold' }}
                   component="span"
                 >
-                  {listQuestions[eachReport[0]].ques_title}
+                  {listQuestions[eachReport[0]].text}
                 </Typography>
               </Stack>
               <Box
