@@ -35,7 +35,7 @@ const KahootDetail = function ({ match }) {
 
     content = Quiz.quiz.questions.map((item) => {
       //map datat
-     // console.log(item);
+      // console.log(item);
       <div className="mb-3">
         <div
           style={{
@@ -278,7 +278,6 @@ const KahootDetail = function ({ match }) {
 
   return (
     <div>
-      <Navbar />
       <div className="container mt-2">
         <div className="row">
           <div className="col-sm-3">

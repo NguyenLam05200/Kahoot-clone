@@ -26,7 +26,10 @@ import WaitingPlayers from './WaitingPlayers';
 import Sumary from './Sumary';
 import PrepareSumary from './PrepareSumary';
 import Report from './Report';
-import { playSound } from './sound/sound';
+
+import { Navigate } from "react-router-dom";
+import { parseJwt } from '../../utils/axios';
+
 const GameHost = () => {
     const { status, listQuestions } = useSelector(
         gameSelector
@@ -40,6 +43,8 @@ const GameHost = () => {
             socket.emit("CREATE_PIN", listQuestions);
         }, 3000);
     };
+
+
 
     useEffect(() => {
         // playSound(-1);
@@ -59,6 +64,17 @@ const GameHost = () => {
             // playSound(-1);
         };
     }, []);
+
+    const token = localStorage.kahut_app_accessToken
+    if (token) {
+        const tokenParse = parseJwt(token);
+        if (tokenParse.exp * 1000 < Date.now()) {
+            delete localStorage.kahut_app_accessToken;
+            return <Navigate to="/login" />;
+        }
+    } else {
+        return <Navigate to="/login" />;
+    }
 
     return (
         <Box height="100%" width='100%' sx={{
