@@ -52,7 +52,11 @@ const KahootDetail = function ({ match }) {
               <span style={{ fontWeight: "bold" }}>{item.text}</span>
             </div>
             <div className="col-sm-3">
-              <img style={{ width: "100%" }} src="https://anhdepfree.com/wp-content/uploads/2022/01/background-3d-4k_529380-768x432.jpg" alt />
+              <img
+                style={{ width: "100%" }}
+                src="https://anhdepfree.com/wp-content/uploads/2022/01/background-3d-4k_529380-768x432.jpg"
+                alt
+              />
               <span
                 style={{
                   position: "absolute",
@@ -253,11 +257,7 @@ const KahootDetail = function ({ match }) {
                 <span style={{ fontWeight: "bold" }}>{item.text}</span>
               </div>
               <div className="col-sm-3">
-                <img
-                  style={{ width: "100%" }}
-                  src={item.img}
-                  alt
-                />
+                <img style={{ width: "100%" }} src={item.img} alt />
                 <span
                   style={{
                     position: "absolute",
@@ -491,11 +491,7 @@ const KahootDetail = function ({ match }) {
       <div className="container mt-2">
         <div className="row">
           <div className="col-sm-3">
-            <img
-              style={{ width: "100%" }}
-              src={Quiz.quiz.quizImage}
-              alt
-            />
+            <img style={{ width: "100%" }} src={Quiz.quiz.quizImage} alt />
             <h4>My room</h4>
             <div className="row">
               <div className="col-sm-5">
@@ -520,7 +516,7 @@ const KahootDetail = function ({ match }) {
           </div>
           <div
             className="col-sm-9"
-            style={{ backgroundColor: "#f4f7fa", height: "100vh" }}
+            style={{ backgroundColor: "#d6d2c4" }}
           >
             <div>
               <div className="row d-flex justify-content-between">

@@ -23,7 +23,7 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 
 
-import { userSelector } from '../user/userSlice';
+import { userSelector } from './userSlice';
 import { useSelector } from 'react-redux';
 
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
