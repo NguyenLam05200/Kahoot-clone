@@ -1,7 +1,5 @@
-import { faL } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import Navbar from "../user/Navbar";
 import { selectAllQuiz, fetchQuiz } from "../quizSlice/quizSlice";
 import { useParams } from "react-router-dom";
 
@@ -30,215 +28,9 @@ const KahootDetail = function ({ match }) {
   if (postStatus === "loading") {
     content = <div class="spinner-border text-primary"></div>;
   } else if (postStatus === "succeeded") {
-    //console.log(Quiz);
-    // map object when get quiz
-
-    let ans_number = 1;
+    let ans_number = 0;
 
     content = Quiz.quiz.questions.map((item) => {
-      //map datat
-      // console.log(item);
-      <div className="mb-3">
-        <div
-          style={{
-            backgroundColor: "#fff",
-            border: "none",
-            padding: 5,
-          }}
-        >
-          <div className="row">
-            <div className="col-sm-9">
-              <h5>{ques_number} - Quiz</h5>
-              <span style={{ fontWeight: "bold" }}>{item.text}</span>
-            </div>
-            <div className="col-sm-3">
-              <img
-                style={{ width: "100%" }}
-                src="https://anhdepfree.com/wp-content/uploads/2022/01/background-3d-4k_529380-768x432.jpg"
-                alt
-              />
-              <span
-                style={{
-                  position: "absolute",
-                  marginTop: 60,
-                  marginLeft: "-50px",
-                  color: "white",
-                }}
-              >
-                {item.time} sec
-              </span>
-            </div>
-          </div>
-        </div>
-        {showAnswer && (
-          <div>
-            {item.ans.map((ques) => {
-              {
-                ques_number === 1 && (
-                  <div
-                    style={{
-                      border: "solid 1px #f5f5f5",
-                      backgroundColor: "#fff",
-                    }}
-                  >
-                    <div
-                      className="row d-flex justify-content-between"
-                      style={{ margin: 0 }}
-                    >
-                      <div>
-                        <i
-                          className="ml-2 mr-1 fa fa-eercast"
-                          aria-hidden="true"
-                          style={{ color: "red" }}
-                        />
-                        <span>{ques.text}</span>
-                      </div>
-
-                      {ques.isRight ? (
-                        <i
-                          style={{
-                            color: "rgb(0, 255, 13)",
-                            marginRight: 5,
-                          }}
-                          className="fa fa-check"
-                          aria-hidden="true"
-                        ></i>
-                      ) : (
-                        <i
-                          style={{ color: "red", marginRight: 5 }}
-                          className="fa fa-times"
-                          aria-hidden="true"
-                        />
-                      )}
-                    </div>
-                  </div>
-                );
-              }
-              {
-                ques_number === 2 && (
-                  <div
-                    style={{
-                      border: "solid 1px #f5f5f5",
-                      backgroundColor: "#fff",
-                    }}
-                  >
-                    <div
-                      className="row d-flex justify-content-between"
-                      style={{ margin: 0 }}
-                    >
-                      <div>
-                        <i
-                          className="ml-2 mr-1 fa fa-superpowers"
-                          aria-hidden="true"
-                          style={{ color: "rgb(0, 255, 76)" }}
-                        />
-                        <span>{ques.text}</span>
-                      </div>
-                      {ques.isRight ? (
-                        <i
-                          style={{
-                            color: "rgb(0, 255, 13)",
-                            marginRight: 5,
-                          }}
-                          className="fa fa-check"
-                          aria-hidden="true"
-                        ></i>
-                      ) : (
-                        <i
-                          style={{ color: "red", marginRight: 5 }}
-                          className="fa fa-times"
-                          aria-hidden="true"
-                        />
-                      )}
-                    </div>
-                  </div>
-                );
-              }
-
-              {
-                ques_number === 3 && (
-                  <div
-                    style={{
-                      border: "solid 1px #f5f5f5",
-                      backgroundColor: "#fff",
-                    }}
-                  >
-                    <div
-                      className="row d-flex justify-content-between"
-                      style={{ margin: 0 }}
-                    >
-                      <div>
-                        <i
-                          className="ml-2 mr-1 fa fa-grav"
-                          aria-hidden="true"
-                          style={{ color: "rgb(0, 238, 255)" }}
-                        />
-                        <span>{ques.text}</span>
-                      </div>
-                      {ques.isRight ? (
-                        <i
-                          style={{
-                            color: "rgb(0, 255, 13)",
-                            marginRight: 5,
-                          }}
-                          className="fa fa-check"
-                          aria-hidden="true"
-                        ></i>
-                      ) : (
-                        <i
-                          style={{ color: "red", marginRight: 5 }}
-                          className="fa fa-times"
-                          aria-hidden="true"
-                        />
-                      )}
-                    </div>
-                  </div>
-                );
-              }
-              {
-                ques_number === 4 && (
-                  <div
-                    style={{
-                      border: "solid 1px #f5f5f5",
-                      backgroundColor: "#fff",
-                    }}
-                  >
-                    <div
-                      className="row d-flex justify-content-between"
-                      style={{ margin: 0 }}
-                    >
-                      <div>
-                        <i
-                          className="ml-1 mr-1 fa fa-ravelry"
-                          aria-hidden="true"
-                          style={{ color: "rgb(0, 255, 42)" }}
-                        />
-                        <span>{ques.text}</span>
-                      </div>
-                      {ques.isRight ? (
-                        <i
-                          style={{
-                            color: "rgb(0, 255, 13)",
-                            marginRight: 5,
-                          }}
-                          className="fa fa-check"
-                          aria-hidden="true"
-                        ></i>
-                      ) : (
-                        <i
-                          style={{ color: "red", marginRight: 5 }}
-                          className="fa fa-times"
-                          aria-hidden="true"
-                        />
-                      )}
-                    </div>
-                  </div>
-                );
-              }
-            })}
-          </div>
-        )}
-      </div>;
       {
         ques_number++;
       }
@@ -275,6 +67,7 @@ const KahootDetail = function ({ match }) {
           {showAnswer && (
             <div>
               {item.ans.map((ques) => {
+                ans_number++;
                 {
                   if (ans_number === 1)
                     return (
@@ -288,11 +81,12 @@ const KahootDetail = function ({ match }) {
                           className="row d-flex justify-content-between"
                           style={{ margin: 0 }}
                         >
-                          <div style={{ color: "red" }}>
+                          <div>
                             <span>
                               <i
-                                className="ml-1 mr-1 fa fa-grav"
+                                className=" mr-1 fa fa-grav"
                                 aria-hidden="true"
+                                style={{ color: "red", marginLeft: "10px" }}
                               />
                               {ques.text}
                             </span>
@@ -333,7 +127,11 @@ const KahootDetail = function ({ match }) {
                         >
                           <div style={{ color: "green" }}>
                             <span>
-                              <i className="fa fa-grav" aria-hidden="true" />
+                              <i
+                                className=" mr-1 fa fa-eercast"
+                                aria-hidden="true"
+                                style={{ color: "#ffc107", marginLeft: "10px" }}
+                              />
                               {ques.text}
                             </span>
                           </div>
@@ -373,7 +171,7 @@ const KahootDetail = function ({ match }) {
                         >
                           <div>
                             <i
-                              className="ml-2 mr-1 fa fa-grav"
+                              className="ml-2 mr-1 fa fa-ravelry"
                               aria-hidden="true"
                               style={{ color: "rgb(0, 238, 255)" }}
                             />
@@ -400,47 +198,49 @@ const KahootDetail = function ({ match }) {
                     );
                 }
                 {
-                  if (ans_number === 4)
-                    return (
+                  if (ans_number === 4) ans_number = 0;
+                  return (
+                    <div
+                      style={{
+                        border: "solid 1px #f5f5f5",
+                        backgroundColor: "#fff",
+                      }}
+                    >
                       <div
-                        style={{
-                          border: "solid 1px #f5f5f5",
-                          backgroundColor: "#fff",
-                        }}
+                        className="row d-flex justify-content-between"
+                        style={{ margin: 0 }}
                       >
-                        <div
-                          className="row d-flex justify-content-between"
-                          style={{ margin: 0 }}
-                        >
-                          <div>
-                            <i
-                              className="ml-1 mr-1 fa fa-ravelry"
-                              aria-hidden="true"
-                              style={{ color: "rgb(0, 255, 42)" }}
-                            />
-                            <span>{ques.text}</span>
-                          </div>
-                          {ques.isRight ? (
-                            <i
-                              style={{
-                                color: "rgb(0, 255, 13)",
-                                marginRight: 5,
-                              }}
-                              className="fa fa-check"
-                              aria-hidden="true"
-                            ></i>
-                          ) : (
-                            <i
-                              style={{ color: "red", marginRight: 5 }}
-                              className="fa fa-times"
-                              aria-hidden="true"
-                            />
-                          )}
+                        <div>
+                          <i
+                            className=" mr-1 fa fa-podcast"
+                            aria-hidden="true"
+                            style={{
+                              color: "rgb(0, 255, 42)",
+                              marginLeft: "13px",
+                            }}
+                          />
+                          <span>{ques.text}</span>
                         </div>
+                        {ques.isRight ? (
+                          <i
+                            style={{
+                              color: "rgb(0, 255, 13)",
+                              marginRight: 5,
+                            }}
+                            className="fa fa-check"
+                            aria-hidden="true"
+                          ></i>
+                        ) : (
+                          <i
+                            style={{ color: "red", marginRight: 5 }}
+                            className="fa fa-times"
+                            aria-hidden="true"
+                          />
+                        )}
                       </div>
-                    );
+                    </div>
+                  );
                 }
-                ans_number++;
               })}
             </div>
           )}
@@ -450,41 +250,6 @@ const KahootDetail = function ({ match }) {
   } else if (postStatus === "failed") {
     content = <div>{error}</div>;
   }
-
-  // const [listQueation, setListQuestion] = useState([
-  //   {
-  //     img: "https://img5.thuthuatphanmem.vn/uploads/2021/08/25/hinh-nen-3d-cho-may-tinh-4k_084701936.jpg",
-  //     time: 15,
-  //     ques_title: "What is this?",
-  //     ans1: "Pigs",
-  //     ans2: "Dogs",
-  //     ans3: "Ducks",
-  //     ans4: "Monkeys",
-  //     ans1True: true,
-  //     ans2True: false,
-  //     ans3True: true,
-  //     ans4True: false,
-  //   },
-  // ]);
-
-  // const loadListQuestion = () => {
-  //   setListQuestion([
-  //     ...listQueation,
-  //     {
-  //       img: "https://img5.thuthuatphanmem.vn/uploads/2021/08/25/hinh-nen-3d-cho-may-tinh-4k_084701936.jpg",
-  //       time: 20,
-  //       ques_title: "What is this?",
-  //       ans1: "a",
-  //       ans2: "b",
-  //       ans3: "c",
-  //       ans4: "d",
-  //       ans1True: true,
-  //       ans2True: false,
-  //       ans3True: false,
-  //       ans4True: false,
-  //     },
-  //   ]);
-  // };
 
   return (
     <div>
@@ -514,10 +279,7 @@ const KahootDetail = function ({ match }) {
               Start
             </button>
           </div>
-          <div
-            className="col-sm-9"
-            style={{ backgroundColor: "#d6d2c4" }}
-          >
+          <div className="col-sm-9" style={{ backgroundColor: "#d6d2c4" }}>
             <div>
               <div className="row d-flex justify-content-between">
                 <h5>Question ({ques_number})</h5>
