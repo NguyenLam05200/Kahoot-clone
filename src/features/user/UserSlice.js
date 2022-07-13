@@ -1,8 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { handleLoginApi, handleRegisterApi } from './userAPI';
-import { parseJwt } from '../../utils/axios';
-import { instanceAuth } from '../../utils/axios';
-import axios from 'axios';
 
 export const signupUser = createAsyncThunk(
   'users/signupUser',
@@ -24,7 +21,7 @@ export const loginUser = createAsyncThunk(
   'users/login',
   async (dataInput, thunkAPI) => {
     try {
-      const response = await instanceAuth.post(`authenticate`, dataInput)
+      const response = await handleLoginApi(dataInput)
       if (response.status === 200) {
         localStorage.setItem("kahut_app_accessToken", response.data.token);
         return true;

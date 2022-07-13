@@ -1,4 +1,10 @@
-import * as React from 'react';
+import { useEffect, useState, useRef } from 'react'
+
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  roomSelector,
+  getAllRoom
+} from '../features/roomKahut/roomSlice';
 
 import {
   Paper,
@@ -40,16 +46,25 @@ const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 
 export const ProtectedLayout = () => {
+  const dispatch = useDispatch();
+
+  // const { isFetching, isSuccess, isError, errorMessage } = useSelector(
+  //   roomSelector
+  // );
+
+  useEffect(() => {
+    console.log('hi');
+  }, []);
 
 
   const tempURL = window.location.href.split('/');
   const curPage = tempURL[tempURL.indexOf('user') + 1];
 
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
 
   // hook for Create menu
-  const [anchorElCreate, setAnchorElCreate] = React.useState(null);
+  const [anchorElCreate, setAnchorElCreate] = useState(null);
   const openCreate = Boolean(anchorElCreate);
   const handleClickCreateBtn = (event) => {
     setAnchorElCreate(event.currentTarget);
@@ -71,7 +86,7 @@ export const ProtectedLayout = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);

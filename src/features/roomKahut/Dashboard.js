@@ -1,7 +1,8 @@
 import { Chip, Box, Stack, Grid, Paper, Button, Typography, Link, Divider } from '@mui/material'
-import Navbar from "./Navbar";
+import Navbar from "../user/Navbar";
 import AddIcon from '@mui/icons-material/Add';
 import {
+  useEffect,
   useState
 } from 'react';
 import PropTypes from 'prop-types';
@@ -22,6 +23,14 @@ import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import { parseJwt } from '../../utils/axios';
+import { Link as Linkx } from 'react-router-dom';
+
+import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  getAllRoom,
+  roomSelector,
+} from './roomSlice';
 
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -231,20 +240,17 @@ const itemData2 = [
 ]
 
 const Dashboard = () => {
-  const [listRoom, setListRoom] = useState([
-    {
-      img: "https://img5.thuthuatphanmem.vn/uploads/2021/08/25/hinh-nen-3d-cho-may-tinh-4k_084701936.jpg",
-      room_title: "Bai Kiem Tra So 1",
-      num_question: 2,
-    },
-    {
-      img: "https://img5.thuthuatphanmem.vn/uploads/2021/08/25/hinh-nen-3d-cho-may-tinh-4k_084701936.jpg",
-      room_title: "Bai Kiem Tra So 2",
-      num_question: 6,
-    },
-  ]);
+  const { listRoom } = useSelector(
+    roomSelector
+  );
+  const navigate = useNavigate();
 
   const theme = useTheme();
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllRoom())
+  }, [])
 
   return (
     <Grid rowSpacing={2} columnSpacing={0} container my={1}
@@ -364,58 +370,58 @@ const Dashboard = () => {
             My kahuts
           </Typography>
           <Divider />
-          {listRoom.map((room, index) => {
-            return (
-              <Box
-                onClick={() => { alert('Naviage to detail') }}
-                key={index} sx={{
-                  width: '100%',
-                  height: '6rem',
-                  border: '1px solid grey',
-                  boxShadow: 1,
-                  borderRadius: 1,
-                  mt: 2,
-                  display: 'flex',
-                  cursor: 'pointer'
-                }}>
-                <Box sx={{
-                  width: '40%',
-                  height: '100%',
-                  backgroundImage: `url(${room.img})`,
-                  backgroundRepeat: 'no-repeat',
-                  backgroundSize: 'cover',
-                  textAlign: 'center',
-                  alignItems: "justify-end",
-                }}>
+          {listRoom.map((eachRoom, index) => {
+            if (index < 3) {
+              return (
+                <Box
+                  onClick={() => navigate(`/user/details/${eachRoom._id}`)}
+                  key={index} sx={{
+                    width: '100%',
+                    height: '6rem',
+                    border: '1px solid grey',
+                    boxShadow: 1,
+                    borderRadius: 1,
+                    mt: 2,
+                    display: 'flex',
+                    cursor: 'pointer'
+                  }}>
+                  <Box sx={{
+                    width: '40%',
+                    height: '100%',
+                    backgroundImage: `url(${eachRoom.quizImage})`,
+                    backgroundRepeat: 'no-repeat',
+                    backgroundSize: 'cover',
+                    textAlign: 'center',
+                    alignItems: "justify-end",
+                  }}>
+                  </Box>
+                  <Box sx={{
+                    width: '60%',
+                    height: '100%',
+                    display: 'grid',
+                    alignItems: 'center',
+                    mx: 1
+                  }}>
+                    <Typography sx={{ pt: 1, width: '100%', fontSize: 18, fontWeight: 'bold' }}>
+                      {eachRoom.quizTitle}
+                    </Typography>
+                    <Stack spacing={1} direction='row' sx={{ py: 1, width: '100%' }}>
+                      <Chip label={eachRoom.questions.length + " questions"} variant='outlined' size="small" color="info" sx={{ width: '50%', fontWeight: 'bold', fontSize: 14 }} />
+                      <Chip label={eachRoom.plays + " plays"} variant='outlined' size="small" color="secondary" sx={{ width: '50%', fontWeight: 'bold', fontSize: 14 }} />
+                    </Stack>
+                  </Box>
                 </Box>
-                <Box sx={{
-                  width: '60%',
-                  height: '100%',
-                  display: 'grid',
-                  alignItems: 'center',
-                  mx: 1
-                }}>
-                  <Typography sx={{ pt: 1, width: '100%', fontSize: 18, fontWeight: 'bold' }}>
-                    {room.room_title}
-                  </Typography>
-                  <Stack spacing={1} direction='row' sx={{ py: 1, width: '100%' }}>
-                    <Chip label={room.num_question + " questions"} variant='outlined' size="small" color="info" sx={{ width: '50%', fontWeight: 'bold', fontSize: 14 }} />
-                    <Chip label={room.num_question + " plays"} variant='outlined' size="small" color="secondary" sx={{ width: '50%', fontWeight: 'bold', fontSize: 14 }} />
-                  </Stack>
-                </Box>
-              </Box>
-            )
+              )
+            }
           })}
           <Box textAlign='center' mt={2}>
             <Link
               component='span'
               variant="body2"
-              onClick={() => {
-                console.info("I'm a button.");
-              }}
+              onClick={() => navigate('/user/library')}
               sx={{ my: 5, textAlign: 'right', color: 'info', fontWeight: 'bold', cursor: 'pointer' }}
             >
-              See all (5)
+              See all ({listRoom.length})
             </Link>
           </Box>
         </Box>

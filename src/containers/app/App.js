@@ -4,21 +4,22 @@ import { ProtectedLayout } from "../../components/ProtectedLayout";
 import { PlayerPage } from "../../features/player/index";
 import CreateListKahootQuestion from "../../features/create_kahoot/createKhut";
 
-import Dashboard from "../../features/user/Dashboard";
+import Dashboard from "../../features/roomKahut/Dashboard";
 import { HomePage } from "../landingPages/HomePage";
-// import ListKahootRoom from "../../features/list kahoot room/ListKahootRoom";
+// import ListKahootRoom from "../../features/roomKahut/ListKahootRoom";
 
 import { Routes, Route } from "react-router-dom";
 import { Container, Paper } from "@mui/material";
-import Library from "../../features/list kahoot room/Library";
+import Library from "../../features/roomKahut/Library";
 import GameHost from "../../features/hostGame/index";
 import KahootDetail from "../../features/kahoot detail/kahoot_detail";
 import { AuthLayout } from "../../components/AuthLayout";
 import LoginForm from "../../features/user/LoginForm";
 import SignupForm from "../../features/user/SignupForm";
-import Report from "../../features/list kahoot room/Report";
-import Discover from "../../features/list kahoot room/Discover";
-import CreateKahut from "../../features/list kahoot room/CreateKahut";
+import Report from "../../features/roomKahut/Report";
+import Discover from "../../features/roomKahut/Discover";
+import CreateKahut from "../../features/roomKahut/CreateKahut";
+import Details from "../../features/roomKahut/Details";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
           <Route path="library" element={<Library />} />
           <Route path="reports" element={<Report />} />
           <Route path="discover" element={<Discover />} />
+          <Route path="details/:roomID" element={<Details />} />
           <Route path="create">
             <Route path="kahut" element={<CreateKahut />} />
           </Route>

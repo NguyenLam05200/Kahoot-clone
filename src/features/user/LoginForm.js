@@ -208,6 +208,7 @@ const LoginForm = ({ }) => {
           }}>Log in</Button>
 
         <Backdrop
+          style={{ marginTop: '0px' }}
           sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
           open={isFetching}
         >

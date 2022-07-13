@@ -23,6 +23,7 @@ const KahootDetail = function ({ match }) {
       dispatch(fetchQuiz(roomID));
     }
   }, [postStatus, dispatch]);
+
   let ques_number = 0;
   let content;
   if (postStatus === "loading") {

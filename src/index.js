@@ -6,6 +6,7 @@ import App from './containers/app/App';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
 import { BrowserRouter } from "react-router-dom";
+import { SnackbarProvider } from "notistack";
 
 const container = document.getElementById('root');
 const root = createRoot(container);
@@ -14,7 +15,15 @@ root.render(
   // <React.StrictMode>
   <Provider store={store}>
     <BrowserRouter>
-      <App />
+      <SnackbarProvider
+        autoHideDuration={6000}
+        maxSnack={10}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}>
+        <App />
+      </SnackbarProvider>
     </BrowserRouter>
   </Provider>
   // </React.StrictMode>

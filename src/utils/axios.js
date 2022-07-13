@@ -2,13 +2,17 @@ import axios from 'axios';
 
 export const instanceAuth = axios.create({
     baseURL: process.env.REACT_APP_BACK_END_AUTH,
-    timeout: 1000, 
+    timeout: 1000,
 });
 
 export const instance = axios.create({
-    baseURL: process.env.BACK_END_OTHER,
+    baseURL: process.env.REACT_APP_BACK_END_OTHER,
     timeout: 5000,
-    headers: { Authorization: `Bearer ${localStorage.kahut_app_accessToken}` }
+    headers: {
+        Authorization: `Bearer ${localStorage.getItem("kahut_app_accessToken")}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+    }
 });
 
 export function parseJwt(token) {

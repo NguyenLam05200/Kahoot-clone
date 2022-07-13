@@ -1,6 +1,22 @@
-import { Chip, Badge, Avatar, Box, Stack, Grid, Paper, Divider, ButtonGroup, Button, ListItem, Checkbox, ListItemAvatar, ListSubheader, Typography } from '@mui/material'
+import {
+  Chip,
+  Badge,
+  Avatar,
+  Box,
+  Stack,
+  Grid,
+  Paper,
+  Divider,
+  ButtonGroup,
+  Button,
+  ListItem,
+  Checkbox,
+  ListItemAvatar,
+  ListSubheader,
+  Typography,
+} from '@mui/material'
 import Navbar from '../user/Navbar';
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import TableRowsIcon from '@mui/icons-material/TableRows';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -24,28 +40,42 @@ import SearchIcon from '@mui/icons-material/Search';
 import DirectionsIcon from '@mui/icons-material/Directions';
 import CommentIcon from '@mui/icons-material/Comment';
 
-import { userSelector } from '../user/userSlice';
-import { useSelector } from 'react-redux';
+import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  getAllRoom,
+  roomSelector,
+} from './roomSlice';
+import { parseJwt } from '../../utils/axios';
+import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
+import { styled } from '@mui/material/styles';
+
+const LightTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: 'violet',
+    color: 'black',
+    boxShadow: theme.shadows[5],
+    fontSize: 14,
+    mx: 1,
+  },
+}));
 
 const Library = () => {
-  const [listRoom, setListRoom] = useState([
-    {
-      img: "https://img5.thuthuatphanmem.vn/uploads/2021/08/25/hinh-nen-3d-cho-may-tinh-4k_084701936.jpg",
-      room_title: "Bai Kiem Tra So 1",
-      num_question: 2,
-    },
-    {
-      img: "https://img5.thuthuatphanmem.vn/uploads/2021/08/25/hinh-nen-3d-cho-may-tinh-4k_084701936.jpg",
-      room_title: "Bai Kiem Tra So 2",
-      num_question: 6,
-    },
-  ]);
+  const { listRoom } = useSelector(
+    roomSelector
+  );
+  const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllRoom())
+  }, [])
+
   const [selectedIndex, setSelectedIndex] = useState(2);
   const [checked, setChecked] = useState([]);
 
-  const { user } = useSelector(
-    userSelector
-  );
 
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
@@ -64,9 +94,9 @@ const Library = () => {
     setChecked(newChecked);
   };
   return (
-    <Grid container height='calc(100% - 70px)'>
+    <Grid container minHeight='calc(100% - 70px)' style={{ backgroundColor: 'white' }} sx={{ mt: 0.5 }}>
       <Grid item xs={2.5} sx={{ boxShadow: 5, py: 4, backgroundColor: 'inherit' }}>
-        <List component="nav" sx={{ p: 0, m: 0 }}>
+        <List component="nav" sx={{ p: 0, m: 0, }}>
           <ListItemButton
             divider={true}
             selected={selectedIndex === 0}
@@ -105,7 +135,7 @@ const Library = () => {
         </List>
       </Grid>
       <Grid item xs={9.5} >
-        <Box sx={{ bgcolor: '#f9f9f9', height: '98.5%', mt: 1, ml: 1, px: 2 }}>
+        <Box sx={{ bgcolor: '#f9f9f9', height: '98.5%', mt: 0, ml: 1, px: 2 }}>
           <Stack direction='row' spacing={2} display='-webkit-inline-box' sx={{ mt: 4 }}>
             <ButtonGroup variant="outlined" aria-label="outlined button group" size='medium'>
               <Button>Recent</Button>
@@ -131,10 +161,11 @@ const Library = () => {
           </Stack>
           <Divider sx={{ py: 3 }} orientation="horizontal" flexItem />
           <List sx={{ width: '100%' }}>
-            {listRoom.map((room, index) => {
+            {listRoom.map((eachRoom, index) => {
               const labelId = `checkbox-list-label-${index}`;
               return (
                 <ListItem
+                  sx={{ py: 1 }}
                   divider={true}
                   key={index}
                   secondaryAction={
@@ -148,34 +179,77 @@ const Library = () => {
                         }}
                         startIcon={<PersonIcon sx={{ color: 'green' }} />}
                       >
-                        Huy Doan
+                        {parseJwt(localStorage.kahut_app_accessToken).name}
                       </Button>
                       <Divider orientation="vertical" flexItem />
                       <Button
                         variant='contained'
                         href={`/user/gameHost?kahutId=${index}`}
                         target='_blank'
+                        style={{
+                          outline: 'none'
+                        }}
                         sx={{
                           color: 'white',
                           textTransform: 'none',
                           align: 'center',
                           size: 'small',
                           '&:hover': {
-                            color: 'black',
-                            bgcolor: 'yellow',
+                            color: 'white',
                             fontWeight: 'bold',
                           }
                         }}
                       >
                         Play
                       </Button>
+                      <Button
+                        variant='contained'
+                        color='warning'
+                        href={`/user/details/${eachRoom._id}`}
+                        style={{
+                          outline: 'none'
+                        }}
+                        sx={{
+                          mx: 2,
+                          textTransform: 'none',
+                          align: 'center',
+                          size: 'small',
+                          '&:hover': {
+                            color: 'white',
+                            fontWeight: 'bold',
+                          }
+                        }}
+                      >
+                        Details
+                      </Button>
                       <Divider orientation="vertical" flexItem />
-                      <IconButton edge="end" aria-label="edit">
-                        <EditIcon />
-                      </IconButton>
-                      <IconButton edge="end" aria-label="settings">
-                        <MoreVertIcon />
-                      </IconButton>
+                      <LightTooltip title="Edit this quiz" placement="top" >
+                        <IconButton
+                          style={{ outline: 'none' }}
+                          sx={{
+                            mx: 0.5,
+                            '&:hover': {
+                              backgroundColor: 'plum',
+                            }
+                          }}
+                          edge="end" aria-label="edit">
+                          <EditIcon />
+                        </IconButton>
+                      </LightTooltip >
+                      <LightTooltip title="Settings" placement="top" >
+                        <IconButton
+                          style={{ outline: 'none' }}
+                          sx={{
+                            mx: 0.5,
+                            '&:hover': {
+                              backgroundColor: 'plum',
+                            }
+                          }}
+                          edge="end" aria-label="settings">
+                          <MoreVertIcon />
+                        </IconButton>
+                      </LightTooltip >
+
                     </Stack>
                   }
                   disablePadding
@@ -194,27 +268,29 @@ const Library = () => {
                       width: '8rem',
                       height: '8rem',
                     }}>
-                      <Avatar sx={{ width: '100%', height: '100%', borderRadius: 2 }} alt="Image alt" src={room.img} variant="square" />
+                      <Avatar sx={{ width: '100%', height: '100%', borderRadius: 2 }} alt="Image alt" src={eachRoom.quizImage} variant="square" />
                     </ListItemAvatar>
-                    {/* <ListSubheader>
-                        <Chip label={room.num_question + " questions"} variant='filled' color="success" sx={{ mx: 2, px: 1 }} />
-                      </ListSubheader> */}
-                    <ListItemText sx={{ px: 2, }} id={labelId}
-                      primary={
-                        <Typography
-                          sx={{ display: 'inline' }}
-                          component="span"
-                          variant="h5"
-                          color="text.primary"
-                          fontWeight='bold'
-                        >
-                          {room.room_title}
-                        </Typography>
-                      }
-                      secondary={
-                        <Chip label={room.num_question + " questions"} variant='outlined' color="info" sx={{ mt: 1, px: 1, fontWeight: 'bold', fontSize: 15 }} />
-                      }
-                    />
+                    <Stack
+                      sx={{
+                        px: 2,
+                        width: '100%',
+                        height: '100%'
+                      }}
+                    >
+                      <Typography
+                        sx={{ display: 'inline' }}
+                        component="span"
+                        variant="h5"
+                        color="text.primary"
+                        fontWeight='bold'
+                      >
+                        {eachRoom.quizTitle}
+                      </Typography>
+                      <Stack spacing={1} direction='row' sx={{ mt: 3 }}>
+                        <Chip label={eachRoom.questions.length + " questions"} variant='outlined' size="medium" color="info" sx={{ px: 1, fontWeight: 'bold', fontSize: 15 }} />
+                        <Chip label={eachRoom.plays ? eachRoom.plays + " plays" : "0 plays"} variant='outlined' size="medium" color="secondary" sx={{ px: 1, fontWeight: 'bold', fontSize: 15 }} />
+                      </Stack>
+                    </Stack>
                   </ListItemButton>
                 </ListItem>
               );
