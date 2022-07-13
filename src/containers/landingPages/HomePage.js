@@ -28,7 +28,7 @@ import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import Home from "@mui/icons-material/Home";
-
+import { Link } from 'react-router-dom';
 
 const itemData = [
     {
@@ -121,7 +121,8 @@ export const HomePage = () => {
                                             fontWeight: 'bold',
                                         }
                                     }}
-                                    href={eachItem.linkTo ? eachItem.linkTo : "#"}
+                                    component={Link}
+                                    to={eachItem.linkTo ? eachItem.linkTo : "#"}
                                 >
                                     {eachItem.actionTitle}
                                 </Button>

@@ -36,7 +36,7 @@ import Logout from '@mui/icons-material/Logout';
 import ViewInArIcon from '@mui/icons-material/ViewInAr';
 import { green } from '@mui/material/colors';
 import { useNavigate } from 'react-router-dom';
-
+import { Link } from 'react-router-dom';
 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 const pagesLeft = ['Home', 'Discover', 'Library', 'Reports'];
@@ -48,12 +48,18 @@ const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 export const ProtectedLayout = () => {
   const dispatch = useDispatch();
 
-  // const { isFetching, isSuccess, isError, errorMessage } = useSelector(
-  //   roomSelector
-  // );
+  const { listRoom } = useSelector(
+    roomSelector
+  );
+
+  // if (!listRoom) {
+  //   dispatch(getAllRoom())
+  // }
 
   useEffect(() => {
-    console.log('hi');
+    if (!listRoom) {
+      dispatch(getAllRoom())
+    }
   }, []);
 
 
@@ -126,8 +132,8 @@ export const ProtectedLayout = () => {
             <Typography
               variant="h6"
               noWrap
-              component="a"
-              href="/user/home"
+              component={Link}
+              to="/user/home"
               sx={{
                 mr: 2,
                 display: { xs: 'none', md: 'flex' },
@@ -190,8 +196,8 @@ export const ProtectedLayout = () => {
             <Typography
               variant="h5"
               noWrap
-              component="a"
-              href="/dashboard"
+              component={Link}
+              to="/dashboard"
               sx={{
                 mr: 2,
                 display: { xs: 'flex', md: 'none' },
@@ -211,7 +217,8 @@ export const ProtectedLayout = () => {
                   key={page}
                   onClick={handleCloseNavMenu}
                   sx={{ my: 2, display: 'block' }}
-                  href={'/user/' + page.toLowerCase().replace(/\s/g, "")}
+                  component={Link}
+                  to={'/user/' + page.toLowerCase().replace(/\s/g, "")}
                   // variant='text'
                   color={curPage.toUpperCase() == page.toUpperCase() ? 'secondary' : 'inherit'}
                 >
@@ -221,15 +228,6 @@ export const ProtectedLayout = () => {
 
             </Box>
             <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
-              {/* <Button
-              variant="variant"
-              href={'/user/' + page.toLowerCase().replace(/\s/g, "")}
-              key={page}
-              onClick={handleCloseNavMenu}
-              sx={{ my: 2, color: 'inherit', display: 'block', backgroundColor: 'yellow' }}
-            >
-              {page}
-            </Button> */}
               <Button
                 variant="outlined"
                 startIcon={<AddIcon color='success' />}
@@ -243,6 +241,7 @@ export const ProtectedLayout = () => {
                 Create
               </Button>
               <Menu
+                onClick={handleCloseCreateBtn}
                 id='resources-menu'
                 anchorEl={anchorElCreate}
                 open={openCreate}
@@ -258,8 +257,8 @@ export const ProtectedLayout = () => {
                 MenuListProps={{
                   'aria-labelledby': 'resources-button'
                 }}>
-                <MenuItem component='button' href='/user/create/kahut'>Kahut</MenuItem>
-                <MenuItem component='button' href='/user/create/course'>Course</MenuItem>
+                <MenuItem component={Link} to='/user/create/kahut'>Kahut</MenuItem>
+                <MenuItem component={Link} to='/user/create/course'>Course</MenuItem>
               </Menu>
               <Tooltip title="Account settings">
                 <IconButton

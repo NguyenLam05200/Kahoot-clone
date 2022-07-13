@@ -27,7 +27,7 @@ import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import ViewInArIcon from '@mui/icons-material/ViewInAr';
 import { green } from '@mui/material/colors';
-
+import { Link } from 'react-router-dom';
 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 const pagesLeft = ['Home', 'Discover', 'Library', 'Reports', 'Groups', 'Marketplace'];
@@ -86,8 +86,8 @@ const Navbar = () => {
           <Typography
             variant="h6"
             noWrap
-            component="a"
-            href="/user/home"
+            component={Link}
+            to="/user/home"
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -142,8 +142,8 @@ const Navbar = () => {
           <Typography
             variant="h5"
             noWrap
-            component="a"
-            href="/dashboard"
+            component={Link}
+            to="/dashboard"
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -180,7 +180,8 @@ const Navbar = () => {
                   backgroundColor: '#fd6161'
                 }
               }}
-              href='/user/home'
+              component={Link}
+              to='/user/home'
             >
               Exit
             </Button>

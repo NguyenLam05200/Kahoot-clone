@@ -26,7 +26,7 @@ import SaveIcon from '@mui/icons-material/Save';
 
 import { ReactComponent as Logo } from "../../assets/images/icons/social-google.svg";
 import { SvgIcon } from '@mui/material';
-
+import { Link as LinkRoute } from 'react-router-dom';
 const LoginForm = ({ }) => {
   const navigate = useNavigate();
 
@@ -183,7 +183,8 @@ const LoginForm = ({ }) => {
         <Box sx={{ width: '100%', color: 'black', display: 'flex', alignItems: 'center', }}>
           <Typography sx={{ pr: 1, fontSize: 15 }}>Forgot password?</Typography>
           <Link
-            href="#"
+            component={LinkRoute}
+            to="#"
             underline="always"
             sx={{
               fontSize: 15,
@@ -239,7 +240,8 @@ const LoginForm = ({ }) => {
         <Box sx={{ width: '100%', color: 'black', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <Typography sx={{ pr: 1, fontSize: 15 }}>Don't have an account?</Typography>
           <Link
-            href="/signup"
+            component={LinkRoute}
+            to="/signup"
             underline="always"
             sx={{
               fontSize: 15,

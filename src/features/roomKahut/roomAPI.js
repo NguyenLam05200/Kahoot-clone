@@ -72,4 +72,8 @@ export function handleGetRoomByID(roomID) {
       "Content-Type": "application/json",
     }
   })
+}
+
+export function handleDeleteRoomByID(roomID) {
+  return { status: 200 };
 } 

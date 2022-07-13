@@ -30,7 +30,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import { ReactComponent as Logo } from "../../assets/images/icons/social-google.svg";
 import { SvgIcon } from '@mui/material';
-
+import { Link as LinkRoute } from 'react-router-dom';
 
 const SignupForm = () => {
 
@@ -351,7 +351,8 @@ const SignupForm = () => {
         <Box sx={{ width: '100%', color: 'black', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <Typography sx={{ pr: 1, fontSize: 15 }}>Already have an account?</Typography>
           <Link
-            href="/login"
+            component={LinkRoute}
+            to="/login"
             underline="always"
             sx={{
               fontSize: 15,

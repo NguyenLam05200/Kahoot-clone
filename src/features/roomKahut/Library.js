@@ -49,7 +49,7 @@ import {
 import { parseJwt } from '../../utils/axios';
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
-
+import { Link } from 'react-router-dom';
 const LightTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} />
 ))(({ theme }) => ({
@@ -69,8 +69,11 @@ const Library = () => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
+
   useEffect(() => {
-    dispatch(getAllRoom())
+    if (!listRoom || listRoom.length === 0) {
+      dispatch(getAllRoom())
+    }
   }, [])
 
   const [selectedIndex, setSelectedIndex] = useState(2);
@@ -184,7 +187,8 @@ const Library = () => {
                       <Divider orientation="vertical" flexItem />
                       <Button
                         variant='contained'
-                        href={`/user/gameHost?kahutId=${index}`}
+                        component={Link}
+                        to={`/user/gameHost?kahutId=${index}`}
                         target='_blank'
                         style={{
                           outline: 'none'
@@ -205,7 +209,8 @@ const Library = () => {
                       <Button
                         variant='contained'
                         color='warning'
-                        href={`/user/details/${eachRoom._id}`}
+                        component={Link}
+                        to={`/user/details/${eachRoom._id}`}
                         style={{
                           outline: 'none'
                         }}

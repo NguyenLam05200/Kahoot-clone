@@ -248,8 +248,11 @@ const Dashboard = () => {
   const theme = useTheme();
 
   const dispatch = useDispatch();
+
   useEffect(() => {
-    dispatch(getAllRoom())
+    if (!listRoom) {
+      dispatch(getAllRoom())
+    }
   }, [])
 
   return (

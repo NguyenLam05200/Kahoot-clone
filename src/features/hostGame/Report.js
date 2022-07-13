@@ -523,7 +523,7 @@ const Report = ({ }) => {
               }}
             >
               <Link
-                href="#"
+                to="/user/reports"
                 underline="always"
                 color="inherit"
                 variant="body2"

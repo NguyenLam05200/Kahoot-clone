@@ -14,7 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import ViewInArIcon from '@mui/icons-material/ViewInAr';
 import { green } from '@mui/material/colors';
-
+import { Link } from 'react-router-dom';
 const pagesLeft = ['News', 'School', 'Work', 'Home',];
 const pagesRight = ['Play', 'Sign up', 'Login', 'Lang'];
 
@@ -48,8 +48,8 @@ const ResponsiveAppBar = () => {
           <Typography
             variant="h6"
             noWrap
-            component="a"
-            href="/"
+            component={Link}
+            to='/'
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -108,8 +108,8 @@ const ResponsiveAppBar = () => {
           <Typography
             variant="h5"
             noWrap
-            component="a"
-            href="/"
+            component={Link}
+            to="/"
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -137,7 +137,8 @@ const ResponsiveAppBar = () => {
                     fontWeight: 'bold',
                   }
                 }}
-                href={'/' + page.toLowerCase().replace(/\s/g, "")}
+                component={Link}
+                to={'/' + page.toLowerCase().replace(/\s/g, "")}
               >
                 {page}
               </Button>
@@ -148,7 +149,8 @@ const ResponsiveAppBar = () => {
               page === 'Sign up' ?
                 <Button
                   variant="contained"
-                  href={'/' + page.toLowerCase().replace(/\s/g, "")}
+                  component={Link}
+                  to={'/' + page.toLowerCase().replace(/\s/g, "")}
                   key={page}
                   onClick={handleCloseNavMenu}
                   sx={{
@@ -166,8 +168,9 @@ const ResponsiveAppBar = () => {
                   {page}
                 </Button> :
                 <Button
+                  component={Link}
                   key={page}
-                  href={'/' + page.toLowerCase().replace(/\s/g, "")}
+                  to={'/' + page.toLowerCase().replace(/\s/g, "")}
                   onClick={handleCloseNavMenu}
                   sx={{
                     my: 2, color: 'white', display: 'flex',

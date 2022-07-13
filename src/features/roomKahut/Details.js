@@ -55,10 +55,13 @@ import {
   clearState,
   getRoomByID,
   roomSelector,
+  setCurRoom,
+  setIsShowDeleteDialog,
 } from './roomSlice';
 import { useParams } from "react-router-dom";
 import { useEffect } from 'react';
 import { answerUI2 } from '../../components/AnswerUI';
+import DeleteDialog from './DeleteDialog';
 
 const cssIcon = {
   color: '#18bd80',
@@ -90,7 +93,7 @@ function NestedList(props) {
       sx={{
         px: 2,
         width: '100%',
-        height: '100%',
+        // height: '100%',
         position: 'relative',
         overflow: 'auto',
       }}
@@ -214,18 +217,32 @@ function NestedList(props) {
 
 
 const Details = () => {
-  const { curRoom, isError, isSuccess, isFetching } = useSelector(
+  const { listRoom, indexCurRoom, isError, isSuccess, isFetching, status } = useSelector(
     roomSelector
   );
+  console.log('indexcurroom: ', indexCurRoom);
 
+  const tempURL = window.location.href.split('/');
+  const roomID = tempURL[tempURL.indexOf('details') + 1];
   const navigate = useNavigate();
-  const roomID = useParams().roomID;
 
   const [isShowAnswer, setIsShowAnswer] = useState(false);
 
   const dispatch = useDispatch();
+
   useEffect(() => {
-    dispatch(getRoomByID(roomID))
+    let isHaveRoom = false;
+    listRoom.map((eachRoom, index) => {
+      if (eachRoom._id === roomID) {
+        isHaveRoom = true;
+        dispatch(setCurRoom(index))
+      }
+    })
+
+    if (!isHaveRoom) {
+      console.log('here');
+      dispatch(getRoomByID(roomID))
+    }
   }, [])
 
   useEffect(() => {
@@ -236,26 +253,25 @@ const Details = () => {
 
   useEffect(() => {
     if (isError) {
-      // setOpen(true)
       dispatch(clearState());
       navigate('/user/library');
-      // window.setTimeout(function () {
-      //   if (open) {
-      //     setOpen(false)
-      //   }
-      // }, 3000);
     }
 
     if (isSuccess) {
       dispatch(clearState());
     }
-  }, [isError, isSuccess]);
 
+    if (status === 'delete') {
+      navigate('/user/library')
+    }
+  }, [isError, isSuccess, status]);
 
+  const curRoom = listRoom[indexCurRoom]
   return (
     <Grid rowSpacing={2} columnSpacing={0} container my={1}
       sx={{ backgroundColor: '#fafafa' }}
     >
+      {curRoom && <DeleteDialog />}
       <Backdrop
         style={{ marginTop: '0px' }}
         sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -324,7 +340,10 @@ const Details = () => {
               <Stack spacing={1} direction='row' sx={{ mt: 3 }}>
                 <Button variant='contained' color='info'>Play</Button>
                 <Button variant='contained' color='warning'>Edit</Button>
-                <Button variant='contained' color='error'>Delete</Button>
+                <Button
+                  style={{ outline: 'none' }}
+                  onClick={() => dispatch(setIsShowDeleteDialog(true))}
+                  variant='contained' color='error'>Delete</Button>
               </Stack>
               <Stack spacing={1} direction='row'>
                 <PersonOutlineIcon />
@@ -335,7 +354,7 @@ const Details = () => {
               <Stack spacing={2} direction='row'>
                 <Avatar alt="Cindy Baker" src="https://lh3.googleusercontent.com/pw/AM-JKLU1gx79R5oazQQnu0gGe0bzEFnKdSltimeJHOKpScR3hB0qIloTbwe4Ou2ygtKEP_SDr-LZgg3HeK3_a_J-Kzim-99-xqyP9vfAt_Ai9pYz5JfRCx0IOMNNMXlG0eijUCn-I8ZJFq_Gu5v7E93F5K9G=w876-h657-no" />
                 <Box>
-                  <Typography>Nguyễn Lâm</Typography>
+                  <Typography>{parseJwt(localStorage.kahut_app_accessToken).name}</Typography>
                   <Typography color="text.secondary">Updated 6 hours ago</Typography>
                 </Box>
               </Stack>
@@ -381,7 +400,7 @@ const Details = () => {
           </Grid>
         </>
       }
-    </Grid>
+    </Grid >
   );
 };
 
