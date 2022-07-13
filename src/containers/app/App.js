@@ -20,7 +20,7 @@ import Report from "../../features/roomKahut/Report";
 import Discover from "../../features/roomKahut/Discover";
 import CreateKahut from "../../features/roomKahut/CreateKahut";
 import Details from "../../features/roomKahut/Details";
-
+import EditKhut from "../../features/edit kahoot/editKahoot";
 function App() {
   return (
     <Paper
@@ -40,7 +40,7 @@ function App() {
           <Route path="create">
             <Route path="kahut" element={<CreateKahut />} />
           </Route>
-
+          <Route path="editKahut/:idRoom" element={<EditKhut />} />
           {/* http://localhost:3000/user/addKahutQuestion */}
           {/* <Route path="addKahutRoom" element={<ListKahootRoom />} /> */}
           <Route path="addKahutQuestion" element={<CreateListKahootQuestion />} />
