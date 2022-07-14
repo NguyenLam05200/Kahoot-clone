@@ -17,7 +17,6 @@ export const createNewRoom = createAsyncThunk(
         return thunkAPI.rejectWithValue(response.data);
       }
     } catch (error) {
-      console.log('error catch: ', error);
       return thunkAPI.rejectWithValue(error.response.data);
     }
   }
@@ -26,7 +25,7 @@ export const createNewRoom = createAsyncThunk(
 export const getAllRoom = createAsyncThunk(
   'room/getAllRoom',
   async (thunkAPI) => {
-    console.log('here');
+    console.log('call api get all room');
     try {
       const response = await handleGetAll();
       if (response.status === 200) {
@@ -43,6 +42,7 @@ export const getAllRoom = createAsyncThunk(
 export const getRoomByID = createAsyncThunk(
   'room/getRoomByID',
   async (roomID, thunkAPI) => {
+    console.log('call api get room by id');
     try {
       const response = await handleGetRoomByID(roomID);
       if (response.status === 200) {
@@ -78,7 +78,7 @@ export const roomSlice = createSlice({
   initialState: {
     status: 'idle',
     listRoom: [],
-    indexCurRoom: null,
+    curRoom: null,
     isShowDeleteDialog: false,
     isFetching: false,
     isSuccess: false,
@@ -98,7 +98,7 @@ export const roomSlice = createSlice({
       state.isShowDeleteDialog = payload;
     },
     setCurRoom: (state, { payload }) => {
-      state.indexCurRoom = payload
+      state.curRoom = state.listRoom[payload]
     }
   },
   extraReducers: {

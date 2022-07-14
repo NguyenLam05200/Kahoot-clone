@@ -1,5 +1,5 @@
 import {
-  Chip, Box, Stack, Grid, Paper, Button, Typography, Link, Divider, Tooltip,
+  Chip, Box, Stack, Grid, Paper, Button, Typography, Divider, Tooltip,
   ListItem,
   ListItemAvatar,
   Avatar,
@@ -46,12 +46,13 @@ import PhonelinkEraseIcon from '@mui/icons-material/PhonelinkErase';
 import DynamicFeedIcon from '@mui/icons-material/DynamicFeed';
 import CloseIcon from '@mui/icons-material/Close';
 import DoneIcon from '@mui/icons-material/Done';
-
+import { Link } from 'react-router-dom';
 import { parseJwt } from '../../utils/axios';
 
 import { useNavigate, Navigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import {
+  getAllRoom,
   clearState,
   getRoomByID,
   roomSelector,
@@ -217,13 +218,11 @@ function NestedList(props) {
 
 
 const Details = () => {
-  const { listRoom, indexCurRoom, isError, isSuccess, isFetching, status } = useSelector(
+  const { listRoom, curRoom, isError, isSuccess, isFetching, status } = useSelector(
     roomSelector
   );
-  console.log('indexcurroom: ', indexCurRoom);
 
-  const tempURL = window.location.href.split('/');
-  const roomID = tempURL[tempURL.indexOf('details') + 1];
+  const roomID = useParams().roomID
   const navigate = useNavigate();
 
   const [isShowAnswer, setIsShowAnswer] = useState(false);
@@ -232,6 +231,7 @@ const Details = () => {
 
   useEffect(() => {
     let isHaveRoom = false;
+
     listRoom.map((eachRoom, index) => {
       if (eachRoom._id === roomID) {
         isHaveRoom = true;
@@ -240,7 +240,6 @@ const Details = () => {
     })
 
     if (!isHaveRoom) {
-      console.log('here');
       dispatch(getRoomByID(roomID))
     }
   }, [])
@@ -266,7 +265,6 @@ const Details = () => {
     }
   }, [isError, isSuccess, status]);
 
-  const curRoom = listRoom[indexCurRoom]
   return (
     <Grid rowSpacing={2} columnSpacing={0} container my={1}
       sx={{ backgroundColor: '#fafafa' }}
@@ -338,7 +336,12 @@ const Details = () => {
               <Divider />
 
               <Stack spacing={1} direction='row' sx={{ mt: 3 }}>
-                <Button variant='contained' color='info'>Play</Button>
+                <Button
+                  style={{ outline: 'none', color: 'white' }}
+                  component={Link}
+                  to={`/user/gameHost/${curRoom._id}`}
+                  target='_blank'
+                  variant='contained' color='info'>Play</Button>
                 <Button variant='contained' color='warning'>Edit</Button>
                 <Button
                   style={{ outline: 'none' }}

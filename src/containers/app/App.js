@@ -47,7 +47,7 @@ function App() {
           <Route path="kahootDetail/:roomID" element={<KahootDetail />} />
         </Route>
 
-        <Route path="/user/gameHost" element={<GameHost />} />
+        <Route path="/user/gameHost/:roomID" element={<GameHost />} />
 
         <Route element={<AuthLayout />}>
           <Route path="/login" element={<LoginForm />} />

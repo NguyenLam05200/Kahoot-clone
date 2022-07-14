@@ -112,8 +112,11 @@ const schemaTrueOrFalse = {
 const EditKahut = ({ match }) => {
   const dispatch = useDispatch();
 
-  const { curRoom, isFetching, isSuccess, isError, errorMessage } =
+  const { listRoom, indexCurRoom, isFetching, isSuccess, isError, errorMessage } =
     useSelector(roomSelector);
+
+
+  const curRoom = listRoom[indexCurRoom]
 
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -1104,7 +1107,7 @@ const EditKahut = ({ match }) => {
                 role: "listbox",
               }}
             >
-              {optionsQuestionType.map((option, index) =>   (
+              {optionsQuestionType.map((option, index) => (
                 <MenuItem
                   key={"choose quiz " + index}
                   selected={index === listQuestion[curQuestion].type}

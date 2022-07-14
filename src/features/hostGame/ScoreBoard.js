@@ -10,10 +10,11 @@ import ActionUtils from './ActionUtils';
 
 
 const ScoreBoard = () => {
-    const { pin, scoreBoard, curQuestion, listQuestions } = useSelector(
+    const { pin, scoreBoard, curQuestion, curRoom } = useSelector(
         gameSelector
     );
 
+    const totalQuestion = curRoom.questions.length
     return (
         <Box sx={{
             width: '100%',
@@ -33,7 +34,7 @@ const ScoreBoard = () => {
                     justifyContent: 'left',
                     display: 'flex',
                 }}>
-                    <ActionUtils sx={{color: 'white'}}/>
+                    <ActionUtils sx={{ color: 'white' }} />
                 </Box>
                 <Box sx={{
                     width: '70%',
@@ -163,7 +164,7 @@ const ScoreBoard = () => {
                     justifyContent: 'left',
                     display: 'flex',
                 }}>
-                    {curQuestion + 1} / {listQuestions.length}
+                    {curQuestion + 1} / {totalQuestion}
                 </Typography>
                 <Typography sx={{
                     marginLeft: 1,

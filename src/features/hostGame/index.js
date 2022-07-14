@@ -3,6 +3,7 @@ import { useEffect, useCallback, useState } from 'react';
 
 import { useSelector, useDispatch } from "react-redux";
 import {
+    getRoomByID,
     gameSelector,
     setStateLoadingPin,
     getPinSuccess,
@@ -27,31 +28,32 @@ import Sumary from './Sumary';
 import PrepareSumary from './PrepareSumary';
 import Report from './Report';
 
-import { Navigate } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import { parseJwt } from '../../utils/axios';
 
 const GameHost = () => {
-    const { status, listQuestions } = useSelector(
+    const { status } = useSelector(
         gameSelector
     );
     const dispatch = useDispatch();
 
 
-    const requestCreatePin = () => {
+    const getPinOnEmit = (newPin) => {
         window.setTimeout(function () {
-            dispatch(setStateLoadingPin())
-            socket.emit("CREATE_PIN", listQuestions);
+            dispatch(getPinSuccess(newPin))
         }, 3000);
     };
 
-
-
+    const roomID = useParams().roomID
     useEffect(() => {
-        // playSound(-1);
+        window.setTimeout(function () {
+            dispatch(getRoomByID(roomID))
+        }, 3000);
 
         socket.emit('HAND_SHAKE');
-        socket.on('HAND_SHAKE', requestCreatePin);
-        socket.on('CREATE_PIN', (newPin) => dispatch(getPinSuccess(newPin)));
+        // socket.on('HAND_SHAKE', requestCreatePin);
+
+        socket.on('CREATE_PIN', (newPin) => getPinOnEmit(newPin));
         socket.on('PLAYER_JOIN', (msg) => dispatch(joinPlayer(msg)));
         socket.on('PLAYER_LEAVE', (id) => dispatch(leavePlayer(id)));
         socket.on('READ_QUESTION', (msg) => dispatch(readQuestion(msg)))
@@ -60,8 +62,7 @@ const GameHost = () => {
         socket.on('PREPARE_SUMARY', (msg) => dispatch(prepareSumary(msg)))
 
         return () => {
-            socket.off('HAND_SHAKE', requestCreatePin);
-            // playSound(-1);
+            socket.off('CREATE_PIN', getPinOnEmit);
         };
     }, []);
 

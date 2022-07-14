@@ -35,7 +35,7 @@ import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import ViewInArIcon from '@mui/icons-material/ViewInAr';
 import { green } from '@mui/material/colors';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -47,7 +47,6 @@ const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 export const ProtectedLayout = () => {
   const dispatch = useDispatch();
-
   const { listRoom } = useSelector(
     roomSelector
   );
@@ -56,11 +55,11 @@ export const ProtectedLayout = () => {
   //   dispatch(getAllRoom())
   // }
 
-  useEffect(() => {
-    if (!listRoom) {
-      dispatch(getAllRoom())
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!listRoom ) {
+  //     dispatch(getAllRoom())
+  //   }
+  // }, []);
 
 
   const tempURL = window.location.href.split('/');

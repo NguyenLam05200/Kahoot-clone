@@ -250,7 +250,8 @@ const Dashboard = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!listRoom) {
+
+    if (!listRoom || listRoom.length === 0) {
       dispatch(getAllRoom())
     }
   }, [])

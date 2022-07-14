@@ -20,10 +20,11 @@ const Transition = forwardRef(function Transition(props, ref) {
 
 const ShowResult = () => {
     const dispatch = useDispatch();
-    const { listQuestions, curQuestion, countEachAns, pin } = useSelector(
+    const { curRoom, curQuestion, countEachAns, pin } = useSelector(
         gameSelector
     );
     const [isShowMedia, setIsShowMedia] = useState(false);
+    const question = curRoom.questions[curQuestion]
 
     return (
         <Box sx={{
@@ -60,7 +61,7 @@ const ShowResult = () => {
                                 color: 'black',
                             }}
                             variant="h5" align='center' fontWeight='bold'>
-                            {listQuestions[curQuestion].text}
+                            {question.text}
                         </Typography>
                     </Box>
                 </Box>
@@ -111,7 +112,7 @@ const ShowResult = () => {
                                 <Typography sx={{ fontWeight: 'bold' }} >
                                     {total}
                                 </Typography>
-                                {listQuestions[curQuestion].correctAns.includes(index) && <DoneIcon />}
+                                {question.ans[index].isRight && <DoneIcon />}
                             </Stack>
                         </Box>
                     ))}
@@ -150,7 +151,7 @@ const ShowResult = () => {
                                     width: '100%',
                                 }}
                                 alt="Sesame seeds"
-                                src={listQuestions[curQuestion].img}
+                                src={question.img}
                             />
                         </Box>
                     </DialogContent>
@@ -167,7 +168,7 @@ const ShowResult = () => {
                     gridTemplateColumns: 'repeat(2, 1fr)',
                 }}
             >
-                {listQuestions[curQuestion].ans.map((content, index) => (
+                {question.ans.map((eachAns, index) => (
                     <Box
                         key={index}
                         sx={{
@@ -178,7 +179,7 @@ const ShowResult = () => {
                             display: 'flex',
                             borderRadius: 1,
                             px: 2,
-                            opacity: listQuestions[curQuestion].correctAns.includes(index) ? 2 : 0.3,
+                            opacity: eachAns.isRight ? 2 : 0.3,
                         }}
                     >
                         <Box sx={{
@@ -198,11 +199,11 @@ const ShowResult = () => {
                                     ].join(','),
                                 }}
                                 variant="h5" align='left' fontWeight='bold'>
-                                {content}
+                                {eachAns.text}
                             </Typography>
                         </Box>
                         <Box sx={{ display: 'flex', width: 'auto', justifyContent: 'flex-end' }}>
-                            {listQuestions[curQuestion].correctAns.includes(index) ? <DoneIcon fontSize='large' /> : <ClearIcon fontSize='large' />}
+                            {eachAns.isRight ? <DoneIcon fontSize='large' /> : <ClearIcon fontSize='large' />}
                         </Box>
                     </Box>
                 ))}
@@ -224,7 +225,7 @@ const ShowResult = () => {
                     justifyContent: 'left',
                     display: 'flex',
                 }}>
-                    {curQuestion + 1} / {listQuestions.length}
+                    {curQuestion + 1} / {curRoom.questions.length}
                 </Typography>
                 <Typography sx={{
                     marginLeft: 1,

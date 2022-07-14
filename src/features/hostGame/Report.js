@@ -60,7 +60,7 @@ import StarBorder from '@mui/icons-material/StarBorder';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import { parseJwt } from '../../utils/axios';
-
+import { Link as LinkRoute } from 'react-router-dom'
 
 function CircularProgressWithLabel(props) {
   const size = '6.5rem';
@@ -148,10 +148,10 @@ function CircularProgressListItem(props) {
   );
 }
 function NestedList(props) {
-  const { listQuestions } = useSelector(
+  const { curRoom } = useSelector(
     gameSelector
   );
-
+  const listQuestions = curRoom.questions;
   const [open, setOpen] = useState(true);
 
   const handleClick = () => {
@@ -523,7 +523,9 @@ const Report = ({ }) => {
               }}
             >
               <Link
+                component={LinkRoute}
                 to="/user/reports"
+                target="_blank"
                 underline="always"
                 color="inherit"
                 variant="body2"

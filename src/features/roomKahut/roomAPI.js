@@ -30,7 +30,6 @@ export async function formatInputCreate(dataInput) {
     dataInputDeepCopy.roomImage = 'https://images.unsplash.com/photo-1513151233558-d860c5398176?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80'
   }
   for (let i = 0; i < dataInput.listQuestion.length; i++) {
-    // console.log('eachQuestion: ', dataInput[i].img);
     if (dataInput.listQuestion[i].img) {
       dataInputDeepCopy.listQuestion[i].img = await onFileUpload(dataInput.listQuestion[i].img)
     } else {

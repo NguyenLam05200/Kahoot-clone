@@ -188,7 +188,7 @@ const Library = () => {
                       <Button
                         variant='contained'
                         component={Link}
-                        to={`/user/gameHost?kahutId=${index}`}
+                        to={`/user/gameHost/${eachRoom._id}`}
                         target='_blank'
                         style={{
                           outline: 'none'

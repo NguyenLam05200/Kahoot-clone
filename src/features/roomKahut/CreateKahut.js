@@ -88,12 +88,12 @@ const schemaQuiz = {
   type: 0, //0: Quiz, 1: True or False, 2: Multi selections
   img: null,
   time: 20,
-  text: 'XXX',
+  text: '',
   ans: [
-    { text: 'a', isRight: true },
-    { text: 's', isRight: false },
-    { text: 'd', isRight: false },
-    { text: 'f', isRight: false },
+    { text: '', isRight: false },
+    { text: '', isRight: false },
+    { text: '', isRight: false },
+    { text: '', isRight: false },
   ],
   points: 1 //0: no points, 1: standard, 2: double
 }

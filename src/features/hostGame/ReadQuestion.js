@@ -23,10 +23,10 @@ const ReadQuestion = () => {
     const [progress, setProgress] = useState(0);
 
     const dispatch = useDispatch();
-    const { isFullScreen, timeReadQuestion, listQuestions, curQuestion } = useSelector(
+    const { isFullScreen, timeReadQuestion, curRoom, curQuestion } = useSelector(
         gameSelector
     );
-
+    const listQuestions = curRoom.questions;
     useEffect(() => {
         const interval1 = setInterval(() => {
             setProgress((old) => old + 0.01);

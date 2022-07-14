@@ -1,52 +1,41 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import socket from '../../utils/socket';
 import { requestFullScreen } from '../../utils/utilities';
 import { playSound, changeVolume } from './sound/sound';
+import { handleGetRoomByID } from '../roomKahut/roomAPI';
+
+export const getRoomByID = createAsyncThunk(
+  'gameHost/getRoomByID',
+  async (roomID, thunkAPI) => {
+    console.log('call api get room by id');
+    try {
+      const response = await handleGetRoomByID(roomID);
+      console.log('list question: ', response.data.questions);
+      response.data.questions.map(eachQuestion => {
+        if (eachQuestion.type === 0) {
+          eachQuestion.type = 'Quiz';
+        } else if (eachQuestion.type === 1) {
+          eachQuestion.type = 'True or False'
+        } else if (eachQuestion.type === 2) {
+          eachQuestion.type = 'Multi selections'
+        }
+      })
+
+      if (response.status === 200) {
+        return response.data;
+      } else {
+        return thunkAPI.rejectWithValue(response.data);
+      }
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
 
 const initialState = {
   status: 'idle',
-  listQuestions: [
-    {
-      type: "Quiz",
-      img: "https://images.unsplash.com/photo-1569504275728-9350b4c55fee?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1027&q=80",
-      time: 10,
-      text: "Con gà có trước hay quả trứng có trước?",
-      ans: ['Con gà trước', 'Quả trứng trước', 'Cả 2 cùng lúc', 'Bó tay .com'],
-      correctAns: [1],
-    },
-    {
-      type: "Quiz",
-      img: "https://images.unsplash.com/photo-1586343061001-b61e47c9b7cf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-      time: 10,
-      text: "Bao lâu bán đuợc 1 tỉ gói mè 😐?",
-      ans: ['1 tỉ năm', 'Mùa quýt năm sau', '2 triệu năm Đen Vâu', 'a thousand years - Christina Perri'],
-      correctAns: [1],
-    },
-    {
-      type: "Multi selections",
-      img: "https://hocluat.vn/wp-content/uploads/2017/06/cac-nuoc-xa-hoi-chu-nghia.jpg",
-      time: 10,
-      text: "Những nước Xã hội chủ nghĩa là:",
-      ans: ['Việt Nam', 'Anh', 'Lào', 'Trung Quốc', 'Cuba', 'Nga'],
-      correctAns: [0, 2, 3, 4],
-    },
-    // {
-    //   type: "True or False",
-    //   img: "https://images.unsplash.com/reserve/Af0sF2OS5S5gatqrKzVP_Silhoutte.jpg?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-    //   time: 10,
-    //   text: "Làm nguời yêu nhé em 💜🧡💚💛🤍",
-    //   ans: ['Hong bé ơi', 'Friend zones forever 🍉🍍🍏🍓'],
-    //   correctAns: [0],
-    // },
-    {
-      type: "Quiz",
-      img: "https://images.unsplash.com/reserve/Af0sF2OS5S5gatqrKzVP_Silhoutte.jpg?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-      time: 20,
-      text: "Nên yêu bao nhiêu người một lúc 😏",
-      ans: ['1 🙎', '2 🙎🙎', '3 🙎🙎🙎', 'Bao nhiêu cũng được, miễn là thật lòng 👌'],
-      correctAns: [0],
-    },
-  ],
+  curRoom: null,
   pin: null,
   listPlayers: [],
   curQuestion: 0,
@@ -113,7 +102,7 @@ export const gameSlice = createSlice({
       state.timeReadQuestion = payload.timeReadQuestion;
       state.curQuestion = payload.indexQuestion;
       state.countAnswer = 0;
-      state.countEachAns = new Array(state.listQuestions[state.curQuestion].ans.length).fill(0);
+      state.countEachAns = new Array(state.curRoom.questions[state.curQuestion].ans.length).fill(0);
       state.isSkip = false;
       state.status = 'readQuestion';
     },
@@ -141,14 +130,14 @@ export const gameSlice = createSlice({
     },
     skip: (state) => {
       socket.emit('SKIP');
-      state.countEachAns = new Array(state.listQuestions[state.curQuestion].ans.length).fill(0);
+      state.countEachAns = new Array(state.curRoom.questions[state.curQuestion].ans.length).fill(0);
       state.isSkip = true;
       playSound(1)
       state.status = 'showResult';
     },
     requestScoreboard: (state) => {
       playSound(2)
-      state.isSkip && state.curQuestion < state.listQuestions.length - 1 ? state.status = 'scoreBoard' : socket.emit('SCORE_BOARD')
+      state.isSkip && state.curQuestion < state.curRoom.questions.length - 1 ? state.status = 'scoreBoard' : socket.emit('SCORE_BOARD')
     },
     getScoreBoard: (state, { payload }) => {
       state.scoreBoard = payload;
@@ -184,6 +173,23 @@ export const gameSlice = createSlice({
       state.volume = payload;
     },
   },
+  extraReducers: {
+    [getRoomByID.fulfilled]: (state, { payload }) => {
+      socket.emit('CREATE_PIN', payload.questions)
+      state.status = 'loadingPin';
+      state.curRoom = payload;
+      state.isFetching = false;
+      state.isSuccess = true;
+    },
+    [getRoomByID.pending]: (state) => {
+      state.isFetching = true;
+    },
+    [getRoomByID.rejected]: (state, { payload }) => {
+      state.isFetching = false;
+      state.isError = true;
+      state.errorMessage = payload.error;
+    },
+  }
 });
 
 export const {

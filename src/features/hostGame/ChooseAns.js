@@ -14,11 +14,11 @@ import ActionUtils from './ActionUtils';
 
 const ChooseAns = () => {
     const dispatch = useDispatch();
-    const { listQuestions, curQuestion, countAnswer, pin } = useSelector(
+    const { curRoom, curQuestion, countAnswer, pin } = useSelector(
         gameSelector
     );
-
-    const [countDown, setCountDown] = useState(listQuestions[curQuestion].time);
+    const question = curRoom.questions[curQuestion]
+    const [countDown, setCountDown] = useState(question.time);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -66,7 +66,7 @@ const ChooseAns = () => {
                                 color: 'black',
                             }}
                             variant="h5" align='center' fontWeight='bold'>
-                            {listQuestions[curQuestion].text}
+                            {question.text}
                         </Typography>
                     </Box>
                 </Box>
@@ -130,7 +130,7 @@ const ChooseAns = () => {
                                 width: '50vw',
                             }}
                             alt="Sesame seeds"
-                            src={listQuestions[curQuestion].img}
+                            src={question.img}
                         />
                     </Box>
                 </Box>
@@ -170,7 +170,7 @@ const ChooseAns = () => {
                     gridTemplateColumns: 'repeat(2, 1fr)',
                 }}
             >
-                {listQuestions[curQuestion].ans.map((content, index) => (
+                {question.ans.map((eachAns, index) => (
                     <Box
                         key={index}
                         sx={{
@@ -194,7 +194,7 @@ const ChooseAns = () => {
                                 ].join(','),
                             }}
                             variant="h5" align='left' fontWeight='bold'>
-                            {content}
+                            {eachAns.text}
                         </Typography>
                     </Box>
                 ))}
@@ -216,7 +216,7 @@ const ChooseAns = () => {
                     justifyContent: 'left',
                     display: 'flex',
                 }}>
-                    {curQuestion + 1} / {listQuestions.length}
+                    {curQuestion + 1} / {curRoom.questions.length}
                 </Typography>
                 <Typography sx={{
                     marginLeft: 1,

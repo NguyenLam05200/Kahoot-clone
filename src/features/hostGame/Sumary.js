@@ -94,10 +94,10 @@ const generateMedal = (rating, point, correct, total) => {
 const Sumary = ({ }) => {
   const containerRef = useRef(null);
   const dispatch = useDispatch();
-  const { scoreBoard, listQuestions } = useSelector(
+  const { scoreBoard, curRoom } = useSelector(
     gameSelector
   );
-  const total = listQuestions.length;
+  const total = curRoom.questions.length;
 
   return (
     <Box

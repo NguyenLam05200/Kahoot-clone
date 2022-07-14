@@ -69,10 +69,9 @@ function stringAvatar(name) {
 
 
 const DeleteDialog = (props) => {
-    const { listRoom, indexCurRoom, isShowDeleteDialog } = useSelector(
+    const { listRoom, curRoom, isShowDeleteDialog } = useSelector(
         roomSelector
     );
-    const curRoom = listRoom[indexCurRoom]
     const dispatch = useDispatch();
 
     const handleCloseDialogSave = () => {
