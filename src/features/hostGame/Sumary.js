@@ -185,7 +185,7 @@ const Sumary = ({ }) => {
           ref={containerRef}
           component="div"
           style={{
-            height: '90%',
+            height: '100%',
             width: '60%',
             position: 'relative',
             justifyContent: 'center',
@@ -203,9 +203,13 @@ const Sumary = ({ }) => {
             >
               <Zoom in={true} timeout={13000}>
                 <Typography
-                  textAlign='center'
+                  textAlign='-webkit-center'
                   sx={{
-                    height: '13%',
+                    pb: 1,
+                    display: 'flex',
+                    alignItems: 'flex-end',
+                    justifyContent: 'center',
+                    height: '25%',
                     fontSize: 40,
                     fontWeight: 'bold',
                     fontFamily: [
@@ -219,7 +223,7 @@ const Sumary = ({ }) => {
               <Box sx={{
                 borderTopLeftRadius: 5,
                 borderTopRightRadius: 5,
-                height: '87%',
+                height: '75%',
                 backgroundColor: '#1368CE',
                 boxShadow: 15,
                 py: 5,
@@ -243,9 +247,14 @@ const Sumary = ({ }) => {
             >
               <Zoom in={true} timeout={6000}>
                 <Typography
-                  textAlign='center'
+                  textAlign='-webkit-center'
                   sx={{
-                    height: '12%',
+                    px: 4,
+                    pb: 1,
+                    display: 'flex',
+                    alignItems: 'flex-end',
+                    justifyContent: 'center',
+                    height: '25%',
                     fontSize: 32,
                     fontWeight: 'bold',
                     fontFamily: [
@@ -259,7 +268,7 @@ const Sumary = ({ }) => {
               <Box sx={{
                 borderTopLeftRadius: 5,
                 borderTopRightRadius: 5,
-                height: '88%',
+                height: '75%',
                 backgroundColor: '#1368CE',
                 boxShadow: 15,
                 py: 5,
@@ -279,9 +288,14 @@ const Sumary = ({ }) => {
             >
               <Grow in={true} timeout={3000}>
                 <Typography
-                  textAlign='center'
+                  textAlign='-webkit-center'
                   sx={{
-                    height: '12%',
+                    px: 4,
+                    pb: 1,
+                    display: 'flex',
+                    alignItems: 'flex-end',
+                    justifyContent: 'center',
+                    height: '25%',
                     fontSize: 28,
                     fontWeight: 'bold',
                     fontFamily: [
@@ -295,7 +309,7 @@ const Sumary = ({ }) => {
               <Box sx={{
                 borderTopLeftRadius: 5,
                 borderTopRightRadius: 5,
-                height: '88%',
+                height: '75%',
                 backgroundColor: '#1368CE',
                 boxShadow: 15,
                 py: 5,

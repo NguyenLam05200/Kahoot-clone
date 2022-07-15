@@ -62,6 +62,11 @@ import Avatar from '@mui/material/Avatar';
 import { parseJwt } from '../../utils/axios';
 import { Link as LinkRoute } from 'react-router-dom'
 
+import { answerUI2 } from '../../components/AnswerUI';
+
+import CloseIcon from '@mui/icons-material/Close';
+import DoneIcon from '@mui/icons-material/Done';
+
 function CircularProgressWithLabel(props) {
   const size = '6.5rem';
   const thick = 6;
@@ -151,13 +156,15 @@ function NestedList(props) {
   const { curRoom } = useSelector(
     gameSelector
   );
-  const listQuestions = curRoom.questions;
-  const [open, setOpen] = useState(true);
-
-  const handleClick = () => {
-    setOpen(!open);
-  };
   const reportDataAnalyst = props.reportDataAnalyst;
+  const listQuestions = curRoom.questions;
+
+  const [open, setOpen] = useState(new Array(reportDataAnalyst.length).fill(false));
+  const handleClick = (event, index) => {
+    open[index] = !open[index]
+    setOpen([...open]);
+  };
+  console.log('open: ', open);
   return (
     <List
       sx={{
@@ -172,96 +179,126 @@ function NestedList(props) {
     >
       {reportDataAnalyst.map((eachReport, index) => {
         return (
-          <ListItem
-            alignItems='flex-start'
-            key={index}
-            sx={{
-              height: 120,
-              my: 2,
-              bgcolor: 'white',
-              borderRadius: 0.5,
-              p: 0.3,
-            }}
-          >
-            <ListItemAvatar sx={{ p: 0, m: 0, width: 170, height: '100%', }}>
-              <Avatar sx={{ width: '100%', height: '100%', borderRadius: 0.5 }} alt="Image alt" src={listQuestions[eachReport[0]].img} variant="square" />
-            </ListItemAvatar>
-            <Box sx={{ py: 1, px: 1, width: '100%', height: '100%' }}>
-              <Stack sx={{ height: 'calc(100% - 40px)' }}>
-                <Typography
-                  sx={{
-                    fontSize: 13,
-                    color: 'grey',
-                  }}>
-                  {eachReport[0] + 1 + ' -  ' + listQuestions[eachReport[0]].type}
-                </Typography>
-                <Typography
-                  sx={{ fontSize: 18, color: 'black', fontWeight: 'bold' }}
-                  component="span"
-                >
-                  {listQuestions[eachReport[0]].text}
-                </Typography>
-              </Stack>
-              <Box
-                sx={{
-                  width: ' 100%',
-                  height: 40,
-                  display: 'flex'
-                }}
-              >
-                <Stack
-                  textAlign='center'
-                  direction='row'
-                  spacing={1}
-                  sx={{
-                    width: '50%',
-                    height: '100%',
-                  }}
-                >
-                  <CircularProgressListItem value={eachReport[1]} size={40} />
-                  <Typography sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    fontSize: 15,
-                  }}>
-                    {eachReport[1]} % correct.
+          <Box key={index} sx={{ boxShadow: 5, backgroundColor: 'white', px: 1 }}>
+            <ListItem
+              alignItems='flex-start'
+              key={index}
+              sx={{
+                height: 120,
+                my: 2,
+                bgcolor: 'white',
+                borderRadius: 0.5,
+                p: 0.3,
+              }}
+            >
+              <ListItemAvatar sx={{ p: 0, m: 0, width: 170, height: '100%', }}>
+                <Avatar sx={{ width: '100%', height: '100%', borderRadius: 0.5 }} alt="Image alt" src={listQuestions[eachReport[0]].img} variant="square" />
+              </ListItemAvatar>
+              <Box sx={{ py: 1, pl: 1, width: '100%', height: '100%' }}>
+                <Stack sx={{ height: 'calc(100% - 40px)' }}>
+                  <Typography
+                    sx={{
+                      fontSize: 13,
+                      color: 'grey',
+                    }}>
+                    {eachReport[0] + 1 + ' -  ' + listQuestions[eachReport[0]].type}
+                  </Typography>
+                  <Typography
+                    sx={{ fontSize: 18, color: 'black', fontWeight: 'bold' }}
+                    component="span"
+                  >
+                    {listQuestions[eachReport[0]].text}
                   </Typography>
                 </Stack>
-                <Stack
-                  textAlign='center'
-                  direction='row-reverse'
-                  spacing={1}
+                <Box
                   sx={{
-                    width: '50%',
-                    height: '100%',
+                    width: ' 100%',
+                    height: 40,
+                    display: 'flex'
                   }}
                 >
-                  <Typography
-                    onClick={() => setOpen(!open)}
+                  <Stack
+                    textAlign='center'
+                    direction='row'
+                    spacing={1}
                     sx={{
+                      width: '50%',
+                      height: '100%',
+                    }}
+                  >
+                    <CircularProgressListItem value={eachReport[1]} size={40} />
+                    <Typography sx={{
                       display: 'flex',
                       alignItems: 'center',
                       fontSize: 15,
-                      cursor: 'pointer'
                     }}>
-                    Show answers
-                    {open ? <ExpandMore /> : < ExpandLess />}
-                  </Typography>
-                </Stack>
-                <Collapse in={open} timeout="auto" unmountOnExit>
-                  {/* <List component="div" disablePadding>
-                    <ListItemButton sx={{ pl: 4 }}>
-                      <ListItemIcon>
-                        <StarBorder />
-                      </ListItemIcon>
-                      <ListItemText primary="Starred" />
-                    </ListItemButton>
-                  </List> */}
-                </Collapse>
+                      {eachReport[1]} % correct.
+                    </Typography>
+                  </Stack>
+                  <Stack
+                    textAlign='center'
+                    direction='row-reverse'
+                    spacing={1}
+                    sx={{
+                      width: '50%',
+                      height: '100%',
+                    }}
+                  >
+                    <Typography
+                      onClick={(event) => handleClick(event, index)}
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        fontSize: 15,
+                        cursor: 'pointer'
+                      }}>
+                      Show answers
+                      {open[index] ? <ExpandLess /> : < ExpandMore />}
+                    </Typography>
+                  </Stack>
+                </Box>
               </Box>
-            </Box>
+            </ListItem>
+            <Collapse in={open[index]} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding >
+                {listQuestions[eachReport[0]].ans.map((eachAns, i) => (
+                  <Stack
+                    key={'ans ' + i}
+                    direction='row'
+                    spacing={1}
+                    alignItems='center'
+                    sx={{
+                      my: 0.5,
+                      py: 1,
+                      px: 1,
+                      borderRadius: 1,
+                      backgroundColor: answerUI2[i].bgColor,
+                      boxShadow: 2,
+                      width: '100%',
+                      color: 'white'
+                    }}
+                  >
+                    {answerUI2[i].icon}
+                    <Typography sx={{ flexGrow: 1, px: 1, fontSize: 18 }}>{eachAns.text}</Typography>
+                    <Box sx={{
+                      backgroundColor: 'white',
+                      borderRadius: 1,
+                      width: '30px',
+                      height: '30px',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center'
+                    }}>
+                      {eachAns.isRight ?
+                        <DoneIcon sx={{ fontSize: 28, color: 'green', stroke: 'green' }} /> :
+                        <CloseIcon sx={{ fontSize: 28, color: 'red', stroke: 'red' }} />}
+                    </Box>
+                  </Stack>
+                ))}
+              </List>
+            </Collapse>
 
-          </ListItem>
+          </Box>
         )
       })}
     </List>

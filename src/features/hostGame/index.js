@@ -59,7 +59,7 @@ const GameHost = () => {
         socket.on('READ_QUESTION', (msg) => dispatch(readQuestion(msg)))
         socket.on('SEND_ANSWER', (ans) => dispatch(sendAnswer(ans)))
         socket.on('SCORE_BOARD', (listScoreBoard) => dispatch(getScoreBoard(listScoreBoard)))
-        socket.on('PREPARE_SUMARY', (msg) => dispatch(prepareSumary(msg)))
+        socket.on('PREPARE_SUMARY', (reportDataAnalyst) => dispatch(prepareSumary(reportDataAnalyst)))
 
         return () => {
             socket.off('CREATE_PIN', getPinOnEmit);
