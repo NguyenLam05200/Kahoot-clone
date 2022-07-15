@@ -126,7 +126,7 @@ export const roomSlice = createSlice({
   },
   extraReducers: {
     [createNewRoom.fulfilled]: (state, { payload }) => {
-      // state.listRoom = [...state.listRoom, payload];
+      state.listRoom = [];
       state.isFetching = false;
       state.isSuccess = true;
     },

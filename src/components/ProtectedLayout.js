@@ -228,6 +228,7 @@ export const ProtectedLayout = () => {
             </Box>
             <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
               <Button
+                style={{ outline: 'none' }}
                 variant="outlined"
                 startIcon={<AddIcon color='success' />}
                 sx={{ my: 2, color: 'inherit', display: 'inherit' }}

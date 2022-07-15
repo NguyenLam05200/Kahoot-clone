@@ -2,6 +2,7 @@ import { Navigate, useOutlet } from "react-router-dom";
 import ResponsiveAppBar from "./AppBar";
 import { parseJwt } from '../utils/axios';
 
+import { Paper } from "@mui/material";
 export const HomeLayout = () => {
   const outlet = useOutlet();
 
@@ -16,7 +17,7 @@ export const HomeLayout = () => {
   }
 
   return (
-    <div>
+    <Paper sx={{ width: '100%', height: '100%' }}>
       <ResponsiveAppBar
         pages={[
           { label: "Home", path: "/" },
@@ -25,6 +26,6 @@ export const HomeLayout = () => {
       />
       {outlet}
       {/* <Footer /> */}
-    </div>
+    </Paper>
   );
 };
