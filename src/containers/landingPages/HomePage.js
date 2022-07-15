@@ -83,15 +83,16 @@ export const HomePage = () => {
             },
         },
     });
+
     return (
-        <Box sx={{ width: '100%', mx: 0, px: 10, justifyContent: 'center', display: "flex", backgroundColor: 'snow' }}>
+        <Box sx={{ width: '100%', mx: 0, px: 1, justifyContent: 'center', display: "flex", backgroundColor: 'snow' }}>
             <Masonry columns={2} spacing={4} sx={{ marginTop: 2 }} width='100%'>
                 {/* {Array.from(Array(6)).map((_, index) => ( */}
                 {itemData.map((eachItem, index) => (
                     <Card
                         key={index}
                         // sx={{ gridArea: 'sidebar', bgcolor: 'error.main' }}
-                        sx={{ bgcolor: '#767676', color: 'white', boxShadow: 15, border: 2, borderColor: 'purple', borderRadius: 3 }}
+                        sx={{ bgcolor: '#767676', color: 'white', boxShadow: 15, border: 5, borderRadius: 2, borderColor: 'peru' }}
                     >
                         <CardMedia
                             component='img'

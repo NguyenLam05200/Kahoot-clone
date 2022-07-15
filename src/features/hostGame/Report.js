@@ -479,7 +479,11 @@ const Report = ({ }) => {
                 p: 0.9
               }}
             >
-              <Button variant='contained' sx={{ textTransform: 'none', py: 0.5, px: 1, boxShadow: 4, fontSize: '0.7em' }} disableElevation>Play new game</Button>
+              <Button
+                style={{ color: 'white' }}
+                component={LinkRoute}
+                to='/user/library'
+                variant='contained' sx={{ textTransform: 'none', py: 0.5, px: 1, boxShadow: 4, fontSize: '0.7em' }} disableElevation>Play new game</Button>
             </Box>
           </Box>
         </Stack>

@@ -79,36 +79,18 @@ import { useSnackbar } from 'notistack';
 
 import { answerUI2 } from '../../components/AnswerUI';
 
+import {
+  schemaQuiz,
+  schemaTrueOrFalse,
+  optionsPoints,
+  optionsQuestionType,
+  optionsTimeLimit
+} from '../../utils/utilities'
+
 import { styled } from '@mui/material/styles';
 const Input = styled('input')({
   display: 'none',
 });
-
-const schemaQuiz = {
-  type: 0, //0: Quiz, 1: True or False, 2: Multi selections
-  img: null,
-  time: 20,
-  text: '',
-  ans: [
-    { text: '', isRight: false },
-    { text: '', isRight: false },
-    { text: '', isRight: false },
-    { text: '', isRight: false },
-  ],
-  points: 1 //0: no points, 1: standard, 2: double
-}
-
-const schemaTrueOrFalse = {
-  type: 1, //0: Quiz, 1: True or False, 2: Multi selections
-  img: '',
-  time: 20,
-  text: '',
-  ans: [
-    { text: '', isRight: false },
-    { text: '', isRight: false },
-  ],
-  points: 1 //0: no points, 1: standard, 2: double
-}
 
 const CreateKahut = () => {
   const dispatch = useDispatch();
@@ -169,21 +151,29 @@ const CreateKahut = () => {
   };
 
   const handleChangeAns = (event, index) => {
-    listQuestion[curQuestion].ans[index].text = event.target.value;
-    setListQuestion([...listQuestion])
+    if (listQuestion[curQuestion].type !== 1) {
+      listQuestion[curQuestion].ans[index].text = event.target.value;
+      setListQuestion([...listQuestion])
+    }
   };
 
 
   const handleChangeCorrectAns = (event, value) => {
     let QuestionPersist = listQuestion[curQuestion]
-    QuestionPersist.ans[value].isRight = !QuestionPersist.ans[value].isRight
-    let i = 0;
-    QuestionPersist.ans.map(eachAns => {
-      eachAns.isRight && i++;
-    })
-    if (i > 1) QuestionPersist.type = 2
-    else if (i === 1) QuestionPersist.type = 0
-    if (i === 1 && QuestionPersist.ans.length === 2) QuestionPersist.type = 1
+    if (QuestionPersist.type !== 1) {
+      QuestionPersist.ans[value].isRight = !QuestionPersist.ans[value].isRight
+      let i = 0;
+      QuestionPersist.ans.map(eachAns => {
+        eachAns.isRight && i++;
+      })
+      if (i > 1) QuestionPersist.type = 2
+      else if (i === 1) QuestionPersist.type = 0
+      if (i === 1 && QuestionPersist.ans.length === 2) QuestionPersist.type = 1
+    } else {
+      QuestionPersist.ans.map((eachAns, i) => {
+        eachAns.isRight = !eachAns.isRight;
+      })
+    }
     setListQuestion([...listQuestion])
   };
 
@@ -212,19 +202,7 @@ const CreateKahut = () => {
     setIsAddMore(!isAddMore)
   }
 
-  // choose type ques
-  const cssIcon = {
-    color: '#18bd80',
-    fontSize: 25,
-    fontWeight: 'bold'
-  }
-  const optionsQuestionType = [
-    { text: 'Quiz', icon: <QuizIcon sx={cssIcon} /> },
-    {
-      text: 'True or False', icon: <PhonelinkEraseIcon sx={cssIcon} />
-    },
-    { text: 'Multi selections', icon: <DynamicFeedIcon sx={cssIcon} /> },
-  ];
+  // choose type ques 
   const [anchorElQuestionType, setAnchorElQuestionType] = useState(null);
 
   const openQuestionType = Boolean(anchorElQuestionType);
@@ -235,7 +213,7 @@ const CreateKahut = () => {
   const handleMenuItemClickQuestionType = (event, index) => {
     if (index === 1) { // True or False
       if (listQuestion[curQuestion].ans.length >= 2) {
-        listQuestion[curQuestion].ans.splice(2);
+        listQuestion[curQuestion].ans = JSON.parse(JSON.stringify(schemaTrueOrFalse.ans))
       }
     } else { // Quiz || Multi selections 
       if (listQuestion[curQuestion].ans.length === 2) {
@@ -253,7 +231,6 @@ const CreateKahut = () => {
   };
 
   // choose time limit 
-  const optionsTimeLimit = [5, 10, 15, 20, 30, 60, 90, 120, 240];
   const [anchorElTimeLimit, setAnchorElTimeLimit] = useState(null);
   const openTimeLimit = Boolean(anchorElTimeLimit);
 
@@ -271,14 +248,7 @@ const CreateKahut = () => {
     setAnchorElTimeLimit(null);
   };
 
-  // choose points 
-  const optionsPoints = [
-    { text: 'No points', icon: <LocationDisabledIcon sx={cssIcon} /> },
-    {
-      text: 'Standard', icon: <GpsFixedIcon sx={cssIcon} />
-    },
-    { text: 'Double points', icon: <AutoAwesomeIcon sx={cssIcon} /> },
-  ];
+  // choose points  
   const [anchorElPoints, setAnchorElPoints] = useState(null);
   // const [selectedIndexPoints, setSelectedIndexPoints] = useState(1);
   const openPoints = Boolean(anchorElPoints);
@@ -331,6 +301,11 @@ const CreateKahut = () => {
   const handleClickSaveKahut = () => {
     let isOK = true;
     listQuestion.map((eachQuestion, index) => {
+      if (!eachQuestion.text) {
+        isOK = false;
+        enqueueSnackbar('Quiz ' + (index + 1) + ' : Please typing your question', { variant: 'error' });
+      }
+
       let isChooseAnswerCorrect = false;
       let isErrorAddanswer = false;
       // let msgError = '';
@@ -874,6 +849,7 @@ const CreateKahut = () => {
                 {answerUI2[index].icon}
               </Box>
               <InputBase
+                readOnly={listQuestion[curQuestion].type === 1}
                 multiline
                 maxRows={1}
                 value={eachAns.text}

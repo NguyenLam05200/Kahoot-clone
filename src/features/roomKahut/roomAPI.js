@@ -49,6 +49,7 @@ export async function formatInputCreate(dataInput) {
   }
   return newKahutRoom;
 }
+
 export async function handleCreate(newKahutRoom) {
   return instance.post('quiz', newKahutRoom)
 }
@@ -74,5 +75,51 @@ export function handleGetRoomByID(roomID) {
 }
 
 export function handleDeleteRoomByID(roomID) {
-  return { status: 200 };
-} 
+  return axios.delete(`${process.env.REACT_APP_BACK_END_OTHER}quiz/${roomID}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("kahut_app_accessToken")}`,
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    }
+  })
+}
+
+
+
+export async function formatInputUpdate(dataInput) {
+  const { curRoom, roomTitle, roomImage, listQuestion } = dataInput;
+
+  console.log('curRoom: ', curRoom);
+  console.log('roomTitle: ', roomTitle);
+  console.log('roomImage: ', roomImage);
+  console.log('listQuestion: ', listQuestion);
+
+  const updatedRoom = JSON.parse(JSON.stringify(curRoom));
+  updatedRoom.quizTitle = roomTitle;
+  if (roomImage) {
+    if (roomImage.name) {
+      updatedRoom.quizImage = await onFileUpload(roomImage)
+    }
+  } else {
+    updatedRoom.quizImage = 'https://images.unsplash.com/photo-1513151233558-d860c5398176?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80'
+  }
+
+
+  updatedRoom.questions = JSON.parse(JSON.stringify(listQuestion));
+
+  for (let i = 0; i < listQuestion.length; i++) {
+    if (listQuestion[i].img) {
+      if (listQuestion[i].img.name) {
+        updatedRoom.questions[i].img = await onFileUpload(listQuestion[i].img)
+      }
+    } else {
+      updatedRoom.questions[i].img = 'https://images.unsplash.com/photo-1499377193864-82682aefed04?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=882&q=80'
+    }
+  }
+
+  return updatedRoom;
+}
+
+export function handleUpdate(updatedRoom) {
+  return instance.post('quiz', updatedRoom)
+}

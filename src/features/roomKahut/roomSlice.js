@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { formatInputCreate, handleCreate, handleGetAll, handleGetRoomByID, handleDeleteRoomByID } from './roomAPI';
+import { formatInputCreate, handleCreate, handleGetAll, handleGetRoomByID, handleDeleteRoomByID, handleUpdate, formatInputUpdate } from './roomAPI';
 import axios from 'axios';
 
 
@@ -56,13 +56,33 @@ export const getRoomByID = createAsyncThunk(
   }
 );
 
+
+export const updateRoomByID = createAsyncThunk(
+  'room/updateRoomByID',
+  async (dataInput, thunkAPI) => {
+    try {
+      const updatedRoom = await formatInputUpdate(dataInput);
+      const response = await handleUpdate(updatedRoom);
+      console.log('response: ', response);
+      if (response.status === 200) {
+        return updatedRoom;
+      } else {
+        return thunkAPI.rejectWithValue(response.data);
+      }
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const deleteRoomByID = createAsyncThunk(
   'room/deleteRoomByID',
   async (roomID, thunkAPI) => {
     try {
       const response = await handleDeleteRoomByID(roomID);
+      console.log('response: ', response);
       if (response.status === 200) {
-        return true;
+        return roomID;
       } else {
         return thunkAPI.rejectWithValue(response.data);
       }
@@ -97,8 +117,11 @@ export const roomSlice = createSlice({
     setIsShowDeleteDialog: (state, { payload }) => {
       state.isShowDeleteDialog = payload;
     },
-    setCurRoom: (state, { payload }) => {
+    setInitCurRoom: (state, { payload }) => {
       state.curRoom = state.listRoom[payload]
+    },
+    setCurRoom: (state, { payload }) => {
+      state.curRoom = payload
     }
   },
   extraReducers: {
@@ -143,6 +166,9 @@ export const roomSlice = createSlice({
     },
     [deleteRoomByID.fulfilled]: (state, { payload }) => {
       state.curRoom = null;
+      state.listRoom = state.listRoom.filter(eachRoom => {
+        return eachRoom._id !== payload;
+      })
       state.status = 'delete';
       state.isFetching = false;
       state.isSuccess = true;
@@ -155,10 +181,25 @@ export const roomSlice = createSlice({
       state.isError = true;
       state.errorMessage = payload.error;
     },
+    [updateRoomByID.fulfilled]: (state, { payload }) => {
+      state.curRoom = null;
+      state.listRoom = [];
+      state.status = 'edit';
+      state.isFetching = false;
+      state.isSuccess = true;
+    },
+    [updateRoomByID.pending]: (state) => {
+      state.isFetching = true;
+    },
+    [updateRoomByID.rejected]: (state, { payload }) => {
+      state.isFetching = false;
+      state.isError = true;
+      state.errorMessage = payload.error;
+    },
   },
 });
 
-export const { clearState, setIsShowDeleteDialog, setCurRoom } = roomSlice.actions;
+export const { clearState, setIsShowDeleteDialog, setInitCurRoom, setCurRoom } = roomSlice.actions;
 
 export const roomSelector = (state) => state.room;
 

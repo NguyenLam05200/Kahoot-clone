@@ -21,6 +21,7 @@ import Discover from "../../features/roomKahut/Discover";
 import CreateKahut from "../../features/roomKahut/CreateKahut";
 import Details from "../../features/roomKahut/Details";
 import EditKhut from "../../features/edit kahoot/editKahoot";
+import Edit from "../../features/roomKahut/Edit";
 function App() {
   return (
     <Paper
@@ -37,6 +38,7 @@ function App() {
           <Route path="reports" element={<Report />} />
           <Route path="discover" element={<Discover />} />
           <Route path="details/:roomID" element={<Details />} />
+          <Route path="edit/:roomID" element={<Edit />} />
           <Route path="create">
             <Route path="kahut" element={<CreateKahut />} />
           </Route>

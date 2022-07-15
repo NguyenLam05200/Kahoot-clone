@@ -230,6 +230,8 @@ const Library = () => {
                       <Divider orientation="vertical" flexItem />
                       <LightTooltip title="Edit this quiz" placement="top" >
                         <IconButton
+                          component={Link}
+                          to={`/user/edit/${eachRoom._id}`}
                           style={{ outline: 'none' }}
                           sx={{
                             mx: 0.5,

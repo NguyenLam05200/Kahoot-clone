@@ -56,7 +56,7 @@ import {
   clearState,
   getRoomByID,
   roomSelector,
-  setCurRoom,
+  setInitCurRoom,
   setIsShowDeleteDialog,
 } from './roomSlice';
 import { useParams } from "react-router-dom";
@@ -235,20 +235,18 @@ const Details = () => {
     listRoom.map((eachRoom, index) => {
       if (eachRoom._id === roomID) {
         isHaveRoom = true;
-        dispatch(setCurRoom(index))
+        dispatch(setInitCurRoom(index))
       }
     })
 
     if (!isHaveRoom) {
       dispatch(getRoomByID(roomID))
     }
-  }, [])
-
-  useEffect(() => {
     return () => {
       dispatch(clearState());
     };
-  }, []);
+  }, [])
+
 
   useEffect(() => {
     if (isError) {
@@ -342,7 +340,11 @@ const Details = () => {
                   to={`/user/gameHost/${curRoom._id}`}
                   target='_blank'
                   variant='contained' color='info'>Play</Button>
-                <Button variant='contained' color='warning'>Edit</Button>
+                <Button
+                  style={{ outline: 'none', color: 'white' }}
+                  component={Link}
+                  to={`/user/edit/${curRoom._id}`}
+                  variant='contained' color='warning'>Edit</Button>
                 <Button
                   style={{ outline: 'none' }}
                   onClick={() => dispatch(setIsShowDeleteDialog(true))}
