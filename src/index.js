@@ -7,6 +7,7 @@ import reportWebVitals from './reportWebVitals';
 import './index.css';
 import { BrowserRouter } from "react-router-dom";
 import { SnackbarProvider } from "notistack";
+import "./i18n";
 
 const container = document.getElementById('root');
 const root = createRoot(container);

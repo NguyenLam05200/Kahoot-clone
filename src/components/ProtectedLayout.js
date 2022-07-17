@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react'
-
+import { useTranslation, Trans } from "react-i18next";
 import { useSelector, useDispatch } from 'react-redux';
 import {
   roomSelector,
@@ -46,6 +46,7 @@ const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 
 export const ProtectedLayout = () => {
+  const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
   const { listRoom } = useSelector(
     roomSelector
@@ -186,7 +187,7 @@ export const ProtectedLayout = () => {
               >
                 {pagesLeft.map((page) => (
                   <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">{page}</Typography>
+                    <Typography textAlign="center">{t(page)}</Typography>
                   </MenuItem>
                 ))}
               </Menu>
@@ -221,7 +222,7 @@ export const ProtectedLayout = () => {
                   // variant='text'
                   color={curPage.toUpperCase() == page.toUpperCase() ? 'secondary' : 'inherit'}
                 >
-                  {page}
+                  {t(page)}
                 </Button>
               ))}
 
@@ -238,7 +239,7 @@ export const ProtectedLayout = () => {
                 aria-expanded={openCreate ? 'true' : undefined}
                 onClick={handleClickCreateBtn}
               >
-                Create
+                {t("Create")}
               </Button>
               <Menu
                 onClick={handleCloseCreateBtn}
@@ -312,17 +313,17 @@ export const ProtectedLayout = () => {
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
               >
                 <MenuItem>
-                  <Avatar /> Profile
+                  <Avatar /> {t("Profile")}
                 </MenuItem>
                 <MenuItem>
-                  <Avatar /> My kahut
+                  <Avatar /> {t("My kahut")}
                 </MenuItem>
                 <Divider />
                 <MenuItem>
                   <ListItemIcon>
                     <Settings fontSize="small" />
                   </ListItemIcon>
-                  Settings
+                  {t("Settings")}
                 </MenuItem>
                 <MenuItem
                   onClick={handleClickLogout}
@@ -330,7 +331,7 @@ export const ProtectedLayout = () => {
                   <ListItemIcon>
                     <Logout fontSize="small" />
                   </ListItemIcon>
-                  Logout
+                  {t("Logout")}
                 </MenuItem>
               </Menu>
             </Box>

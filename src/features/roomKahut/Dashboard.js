@@ -1,6 +1,7 @@
 import { Chip, Box, Stack, Grid, Paper, Button, Typography, Link, Divider } from '@mui/material'
 import Navbar from "../user/Navbar";
 import AddIcon from '@mui/icons-material/Add';
+import { useTranslation, Trans } from "react-i18next";
 import {
   useEffect,
   useState
@@ -240,6 +241,7 @@ const itemData2 = [
 ]
 
 const Dashboard = () => {
+  const { t, i18n } = useTranslation();
   const { listRoom } = useSelector(
     roomSelector
   );
@@ -279,8 +281,7 @@ const Dashboard = () => {
               textTransform: 'none',
             }}
             endIcon={<AddIcon />}>
-            Add name
-          </Button>
+            {t("Add name")}          </Button>
           <Typography variant="subtitle2" sx={{ py: 1 }}>
             {parseJwt(localStorage.kahut_app_accessToken).name}
           </Typography>
@@ -294,7 +295,7 @@ const Dashboard = () => {
             color: '#6e6e83',
           }}>
             <Typography variant="subtitle2" sx={{ width: '50%', py: 1 }}>
-              Plan:
+            {t("Plan")}:
             </Typography>
 
             <Link
@@ -317,7 +318,7 @@ const Dashboard = () => {
             color: '#6e6e83',
           }}>
             <Typography variant="subtitle2" sx={{ width: '50%', py: 1 }}>
-              My interests:
+              {t("My interests:")}
             </Typography>
 
             <Link
@@ -328,7 +329,7 @@ const Dashboard = () => {
               }}
               sx={{ width: '50%', py: 1, textAlign: 'right', color: '#6e6e83', fontWeight: 'bold', cursor: 'pointer' }}
             >
-              Add interests
+              {t("Add interests")}
             </Link>
           </Box>
         </Box>
@@ -342,7 +343,7 @@ const Dashboard = () => {
           }}
         >
           <Typography variant="subtitle1" sx={{ py: 1, fontWeight: 'bold' }}>
-            Assignments
+            {t("Assignments")}
           </Typography>
           <Divider />
           <Box textAlign='center' sx={{
@@ -355,10 +356,10 @@ const Dashboard = () => {
             color: '#6e6e83',
           }}>
             <Typography variant="subtitle2" sx={{ width: '100%', p: 3, textAlign: 'center' }}>
-              Self-paced kahoots are perfect for e-learning as remote workers play independently at a time that suits them.
+              {t("Self-paced kahoots are perfect for e-learning as remote workers play independently at a time that suits them.")}
             </Typography>
 
-            <Button variant='contained' size='small' sx={{ mb: 2 }}>Learn more</Button>
+            <Button variant='contained' size='small' sx={{ mb: 2 }}>{t("Learn more")}</Button>
           </Box>
         </Box>
         <Box
@@ -371,7 +372,7 @@ const Dashboard = () => {
           }}
         >
           <Typography variant="subtitle1" sx={{ py: 1, fontWeight: 'bold' }}>
-            My kahuts
+           {t(" My kahuts")}
           </Typography>
           <Divider />
           {listRoom.map((eachRoom, index) => {
@@ -425,7 +426,7 @@ const Dashboard = () => {
               onClick={() => navigate('/user/library')}
               sx={{ my: 5, textAlign: 'right', color: 'info', fontWeight: 'bold', cursor: 'pointer' }}
             >
-              See all ({listRoom.length})
+              {t("See all")} ({listRoom.length})
             </Link>
           </Box>
         </Box>
@@ -438,7 +439,7 @@ const Dashboard = () => {
             backgroundColor: 'pink',
             borderRadius: 1,
           }} >
-          <Button color='inherit'>Quảng cáo</Button>
+          <Button color='inherit'>{t("Advertisement")}</Button>
         </Box>
         <Box p={3} bgcolor='success.light' justifyContent='center' display={'flex'}
           sx={{
@@ -452,14 +453,14 @@ const Dashboard = () => {
             <Stepper alternativeLabel activeStep={1} connector={<QontoConnector />}>
               {steps.map((label) => (
                 <Step key={label}>
-                  <StepLabel StepIconComponent={QontoStepIcon}>{label}</StepLabel>
+                  <StepLabel StepIconComponent={QontoStepIcon}>{t(label)}</StepLabel>
                 </Step>
               ))}
             </Stepper>
             <Stepper alternativeLabel activeStep={1} connector={<ColorlibConnector />}>
               {steps.map((label) => (
                 <Step key={label}>
-                  <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
+                  <StepLabel StepIconComponent={ColorlibStepIcon}>{t(label)}</StepLabel>
                 </Step>
               ))}
             </Stepper>
