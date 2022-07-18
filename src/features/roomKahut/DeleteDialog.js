@@ -22,7 +22,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import IconButton from '@mui/material/IconButton';
 
-
+import { useTranslation, Trans } from "react-i18next";
 import { parseJwt } from '../../utils/axios';
 
 import { useNavigate, Navigate } from "react-router-dom";
@@ -69,6 +69,7 @@ function stringAvatar(name) {
 
 
 const DeleteDialog = (props) => {
+    const { t, i18n } = useTranslation();
     const { listRoom, curRoom, isShowDeleteDialog } = useSelector(
         roomSelector
     );
@@ -117,14 +118,14 @@ const DeleteDialog = (props) => {
                         }
                         <Box>
                             <Typography>{userName}</Typography>
-                            <Typography color="text.secondary">Updated 6 hours ago</Typography>
+                            <Typography color="text.secondary">{t("Updated 6 hours ago")}</Typography>
                         </Box>
                     </Stack>
                 </Stack>
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleCloseDialogSave}>Cancel</Button>
-                <Button onClick={handleDeleteDialog}>Delete</Button>
+                <Button onClick={handleCloseDialogSave}>{t("Cancel")}</Button>
+                <Button onClick={handleDeleteDialog}>{t("Delete")}</Button>
             </DialogActions>
         </Dialog >
     );

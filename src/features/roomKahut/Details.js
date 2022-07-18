@@ -418,7 +418,7 @@ const Details = () => {
               </Stack>
               <Stack spacing={1} direction="row">
                 <PersonOutlineIcon />
-                <Typography>{t("A private kahut")}}</Typography>
+                <Typography>{t("A private kahut")}</Typography>
               </Stack>
               <Divider />
 
