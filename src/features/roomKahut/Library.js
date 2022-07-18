@@ -39,7 +39,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import DirectionsIcon from '@mui/icons-material/Directions';
 import CommentIcon from '@mui/icons-material/Comment';
-
+import { useTranslation, Trans } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -63,6 +63,7 @@ const LightTooltip = styled(({ className, ...props }) => (
 }));
 
 const Library = () => {
+  const { t, i18n } = useTranslation();
   const { listRoom } = useSelector(
     roomSelector
   );
@@ -108,7 +109,7 @@ const Library = () => {
             <ListItemIcon>
               <TableRowsIcon />
             </ListItemIcon>
-            <ListItemText primary="Kahuts"
+            <ListItemText primary={t("Kahuts")}
               sx={{ color: 'black', fontWeight: 'bold' }}
             />
           </ListItemButton>
@@ -121,7 +122,7 @@ const Library = () => {
             <ListItemIcon>
               <BusinessCenterIcon />
             </ListItemIcon>
-            <ListItemText primary="Courses" />
+            <ListItemText primary={t("Courses")} />
           </ListItemButton>
 
           <ListItemButton
@@ -132,7 +133,7 @@ const Library = () => {
             <ListItemIcon>
               <AccountCircleIcon />
             </ListItemIcon>
-            <ListItemText primary="My folders" />
+            <ListItemText primary={t("My folders")} />
             <AddIcon onClick={(e) => { e.preventDefault(); alert('click me') }} />
           </ListItemButton>
         </List>
@@ -141,10 +142,10 @@ const Library = () => {
         <Box sx={{ bgcolor: '#f9f9f9', height: '98.5%', mt: 0, ml: 1, px: 2 }}>
           <Stack direction='row' spacing={2} display='-webkit-inline-box' sx={{ mt: 4 }}>
             <ButtonGroup variant="outlined" aria-label="outlined button group" size='medium'>
-              <Button>Recent</Button>
-              <Button>Draft(4)</Button>
-              <Button>Favorites</Button>
-              <Button>Shared with me</Button>
+              <Button>{t("Recent")}</Button>
+              <Button>{t("Draft")}(4)</Button>
+              <Button>{t("Favotite")}</Button>
+              <Button>{t("Shared with me")}</Button>
             </ButtonGroup>
             <Button variant="outlined" component="form"
               sx={{
@@ -153,7 +154,7 @@ const Library = () => {
               }} >
               <InputBase
                 sx={{ ml: 1, flex: 1 }}
-                placeholder="Search"
+                placeholder={t("Search")}
                 inputProps={{ 'aria-label': 'Search' }}
                 size='small'
               />
@@ -204,7 +205,7 @@ const Library = () => {
                           }
                         }}
                       >
-                        Play
+                        {t("Play")}
                       </Button>
                       <Button
                         variant='contained'
@@ -225,7 +226,7 @@ const Library = () => {
                           }
                         }}
                       >
-                        Details
+                        {t("Details")}
                       </Button>
                       <Divider orientation="vertical" flexItem />
                       <LightTooltip title="Edit this quiz" placement="top" >
@@ -294,8 +295,8 @@ const Library = () => {
                         {eachRoom.quizTitle}
                       </Typography>
                       <Stack spacing={1} direction='row' sx={{ mt: 3 }}>
-                        <Chip label={eachRoom.questions.length + " questions"} variant='outlined' size="medium" color="info" sx={{ px: 1, fontWeight: 'bold', fontSize: 15 }} />
-                        <Chip label={eachRoom.plays ? eachRoom.plays + " plays" : "0 plays"} variant='outlined' size="medium" color="secondary" sx={{ px: 1, fontWeight: 'bold', fontSize: 15 }} />
+                        <Chip label={eachRoom.questions.length + t(" questions")} variant='outlined' size="medium" color="info" sx={{ px: 1, fontWeight: 'bold', fontSize: 15 }} />
+                        <Chip label={eachRoom.plays ? eachRoom.plays + t(" plays") : "0" + t("plays")} variant='outlined' size="medium" color="secondary" sx={{ px: 1, fontWeight: 'bold', fontSize: 15 }} />
                       </Stack>
                     </Stack>
                   </ListItemButton>

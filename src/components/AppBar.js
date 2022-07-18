@@ -17,7 +17,6 @@ import { green } from "@mui/material/colors";
 import { Link } from "react-router-dom";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
-import { useTranslation, Trans } from "react-i18next";
 
 const pagesLeft = ["News", "School", "Work", "Home"];
 const pagesRight = ["Play", "Sign up", "Login"];
@@ -25,20 +24,9 @@ const pagesRight = ["Play", "Sign up", "Login"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const ResponsiveAppBar = () => {
-  const { t, i18n } = useTranslation();
-
-  const changeLanguage = (lng) => {
-    i18n.changeLanguage(lng);
-  };
-
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [lang, setLang] = React.useState("");
-
-  const handleChange = (event) => {
-    console.log(event.target.value);
-    changeLanguage(event.target.value);
-  };
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -117,7 +105,7 @@ const ResponsiveAppBar = () => {
             >
               {pagesLeft.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{t(page)}</Typography>
+                  <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -158,7 +146,7 @@ const ResponsiveAppBar = () => {
                 component={Link}
                 to={"/" + page.toLowerCase().replace(/\s/g, "")}
               >
-                {t(page)}
+                {page}
               </Button>
             ))}
           </Box>
@@ -183,7 +171,7 @@ const ResponsiveAppBar = () => {
                     },
                   }}
                 >
-                  {t(page)}
+                  {page}
                 </Button>
               ) : (
                 <Button
@@ -201,60 +189,10 @@ const ResponsiveAppBar = () => {
                     },
                   }}
                 >
-                  {t(page)}
+                  {page}
                 </Button>
               )
             )}
-
-            <InputLabel
-              id="language"
-              sx={{
-                my: 2,
-                color: "white",
-                display: "flex",
-                "&:hover": {
-                  color: "yellow",
-                  fontWeight: "bold",
-                },
-              }}
-            >
-              Lang
-            </InputLabel>
-            <Select
-              labelId="language"
-              id="language"
-              value={lang}
-              onChange={handleChange}
-            >
-              <MenuItem
-                value={"vn"}
-                sx={{
-                  my: 2,
-                  color: "white",
-                  display: "flex",
-                  "&:hover": {
-                    color: "yellow",
-                    fontWeight: "bold",
-                  },
-                }}
-              >
-                VN
-              </MenuItem>
-              <MenuItem
-                value={"en"}
-                sx={{
-                  my: 2,
-                  color: "white",
-                  display: "flex",
-                  "&:hover": {
-                    color: "yellow",
-                    fontWeight: "bold",
-                  },
-                }}
-              >
-                Eng
-              </MenuItem>
-            </Select>
           </Box>
 
           {/* <Box sx={{ flexGrow: 0 }}>

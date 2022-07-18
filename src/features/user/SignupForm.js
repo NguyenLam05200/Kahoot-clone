@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useTranslation, Trans } from "react-i18next";
 import {
   signupUser,
   userSelector,
@@ -33,7 +34,7 @@ import { SvgIcon } from '@mui/material';
 import { Link as LinkRoute } from 'react-router-dom';
 
 const SignupForm = () => {
-
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
 
   const [values, setValues] = useState({
@@ -174,7 +175,7 @@ const SignupForm = () => {
             'Chilanka',
             'cursive',
           ].join(','),
-        }}>Sign up</Typography>
+        }}>{t("Sign up")}</Typography>
         {
           open &&
           <Collapse in={open}>
@@ -209,7 +210,7 @@ const SignupForm = () => {
           <DialogActions>
             <Button onClick={handleCloseDialog}>Cancel</Button>
             <Button onClick={() => navigate('/login')} autoFocus>
-              Log in
+              {t("Log in")}
             </Button>
           </DialogActions>
         </Dialog>
@@ -219,7 +220,7 @@ const SignupForm = () => {
           width: '100%',
         }}>
           <FormControl fullWidth sx={{ m: 1 }} variant="outlined">
-            <InputLabel htmlFor="outlined-adornment-email">Full name</InputLabel>
+            <InputLabel htmlFor="outlined-adornment-email">{t("Full name")}</InputLabel>
             <OutlinedInput
               required
               id="outlined-adornment-name"
@@ -250,7 +251,7 @@ const SignupForm = () => {
           width: '100%',
         }}>
           <FormControl fullWidth sx={{ m: 1 }} variant="outlined">
-            <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+            <InputLabel htmlFor="outlined-adornment-password">{t("Password")}</InputLabel>
             <OutlinedInput
               required
               id="outlined-adornment-password"
@@ -274,7 +275,7 @@ const SignupForm = () => {
             <FormHelperText error>{helperTextPassword}</FormHelperText>
           </FormControl>
           <FormControl fullWidth sx={{ m: 1 }} variant="outlined">
-            <InputLabel htmlFor="outlined-adornment-confirm-password">Confirm password</InputLabel>
+            <InputLabel htmlFor="outlined-adornment-confirm-password">{t("Confirm password")}</InputLabel>
             <OutlinedInput
               required
               id="outlined-adornment-confirm-password"
@@ -316,7 +317,7 @@ const SignupForm = () => {
               fontSize: 18,
               width: '50%',
               textTransform: 'none'
-            }}>Sign up</Button>
+            }}>{t("Sign up")}</Button>
           <Backdrop
             sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
             open={isFetching}
@@ -344,12 +345,12 @@ const SignupForm = () => {
               }
             }}
           >
-            Sign up with google
+            {t("Sign up with google")}
           </Button>
         </Stack>
 
         <Box sx={{ width: '100%', color: 'black', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <Typography sx={{ pr: 1, fontSize: 15 }}>Already have an account?</Typography>
+          <Typography sx={{ pr: 1, fontSize: 15 }}>{t("Already have an account")}?</Typography>
           <Link
             component={LinkRoute}
             to="/login"
@@ -359,7 +360,7 @@ const SignupForm = () => {
               color: 'blue'
             }}
           >
-            Login
+            {t("Login")}
           </Link>
         </Box>
 

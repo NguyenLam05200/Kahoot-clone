@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { loginUser, userSelector, clearState } from './userSlice';
+import { useTranslation, initReactI18next } from "react-i18next";
 import {
   Snackbar,
   Alert,
@@ -29,6 +30,7 @@ import { SvgIcon } from '@mui/material';
 import { Link as LinkRoute } from 'react-router-dom';
 const LoginForm = ({ }) => {
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
 
   const [values, setValues] = useState({
     email: '',
@@ -133,7 +135,7 @@ const LoginForm = ({ }) => {
             'Chilanka',
             'cursive',
           ].join(','),
-        }}>Log in</Typography>
+        }}>{t("Log in")}</Typography>
         {
           open &&
           <Collapse in={open}>
@@ -181,7 +183,7 @@ const LoginForm = ({ }) => {
         </FormControl>
 
         <Box sx={{ width: '100%', color: 'black', display: 'flex', alignItems: 'center', }}>
-          <Typography sx={{ pr: 1, fontSize: 15 }}>Forgot password?</Typography>
+          <Typography sx={{ pr: 1, fontSize: 15 }}>{t("Forgot password")}?</Typography>
           <Link
             component={LinkRoute}
             to="#"
@@ -191,7 +193,7 @@ const LoginForm = ({ }) => {
               color: 'blue'
             }}
           >
-            Reset your password
+            {t("Reset your password")}
           </Link>
         </Box>
         <Button
@@ -206,7 +208,7 @@ const LoginForm = ({ }) => {
             fontSize: 18,
             width: '100%',
             textTransform: 'none'
-          }}>Log in</Button>
+          }}>{t("Log in")}</Button>
 
         <Backdrop
           style={{ marginTop: '0px' }}
@@ -235,10 +237,10 @@ const LoginForm = ({ }) => {
             }
           }}
         >
-          Log in with google
+          {t("Log in with google")}
         </Button>
         <Box sx={{ width: '100%', color: 'black', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <Typography sx={{ pr: 1, fontSize: 15 }}>Don't have an account?</Typography>
+          <Typography sx={{ pr: 1, fontSize: 15 }}>{t("Don't have an account")}?</Typography>
           <Link
             component={LinkRoute}
             to="/signup"
@@ -248,7 +250,7 @@ const LoginForm = ({ }) => {
               color: 'blue'
             }}
           >
-            Sign up
+            {t("Sign up")}
           </Link>
         </Box>
       </Stack>

@@ -1,5 +1,13 @@
 import {
-  Chip, Box, Stack, Grid, Paper, Button, Typography, Divider, Tooltip,
+  Chip,
+  Box,
+  Stack,
+  Grid,
+  Paper,
+  Button,
+  Typography,
+  Divider,
+  Tooltip,
   ListItem,
   ListItemAvatar,
   Avatar,
@@ -31,16 +39,16 @@ import {
   DialogTitle,
   DialogContent,
   DialogContentText,
-  DialogActions
-} from '@mui/material'
+  DialogActions,
+} from "@mui/material";
 
-import QuizIcon from '@mui/icons-material/Quiz';
-import PhonelinkEraseIcon from '@mui/icons-material/PhonelinkErase';
-import DynamicFeedIcon from '@mui/icons-material/DynamicFeed';
-import DoneIcon from '@mui/icons-material/Done';
+import QuizIcon from "@mui/icons-material/Quiz";
+import PhonelinkEraseIcon from "@mui/icons-material/PhonelinkErase";
+import DynamicFeedIcon from "@mui/icons-material/DynamicFeed";
+import DoneIcon from "@mui/icons-material/Done";
 
 import { useNavigate, Navigate } from "react-router-dom";
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from "react-redux";
 import {
   getAllRoom,
   clearState,
@@ -50,56 +58,54 @@ import {
   setIsShowDeleteDialog,
   setCurRoom,
   updateRoomByID,
-} from './roomSlice';
+} from "./roomSlice";
 import {
   schemaQuiz,
   schemaTrueOrFalse,
   optionsPoints,
   optionsQuestionType,
-  optionsTimeLimit
-} from '../../utils/utilities'
+  optionsTimeLimit,
+} from "../../utils/utilities";
 
 import { useParams } from "react-router-dom";
 
+import PhotoCamera from "@mui/icons-material/PhotoCamera";
+import CloseIcon from "@mui/icons-material/Close";
 
-import PhotoCamera from '@mui/icons-material/PhotoCamera';
-import CloseIcon from '@mui/icons-material/Close';
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import ShareIcon from "@mui/icons-material/Share";
 
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
+import React, { useEffect, useState, useRef } from "react";
 
-import React, { useEffect, useState, useRef } from 'react'
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import DeleteIcon from "@mui/icons-material/Delete";
+import PhotoSizeSelectActualIcon from "@mui/icons-material/PhotoSizeSelectActual";
+import MergeTypeIcon from "@mui/icons-material/MergeType";
 
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import DeleteIcon from '@mui/icons-material/Delete';
-import PhotoSizeSelectActualIcon from '@mui/icons-material/PhotoSizeSelectActual';
-import MergeTypeIcon from '@mui/icons-material/MergeType';
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import AccessAlarmsIcon from "@mui/icons-material/AccessAlarms";
 
-import AccessAlarmsIcon from '@mui/icons-material/AccessAlarms';
+import AssistantIcon from "@mui/icons-material/Assistant";
+import LocationDisabledIcon from "@mui/icons-material/LocationDisabled";
+import GpsFixedIcon from "@mui/icons-material/GpsFixed";
+import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
+import { useSnackbar } from "notistack";
 
-import AssistantIcon from '@mui/icons-material/Assistant';
-import LocationDisabledIcon from '@mui/icons-material/LocationDisabled';
-import GpsFixedIcon from '@mui/icons-material/GpsFixed';
-import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
-import { useSnackbar } from 'notistack';
-
-import { answerUI2 } from '../../components/AnswerUI';
-
-import { styled } from '@mui/material/styles';
-const Input = styled('input')({
-  display: 'none',
+import { answerUI2 } from "../../components/AnswerUI";
+import { useTranslation, Trans } from "react-i18next";
+import { styled } from "@mui/material/styles";
+const Input = styled("input")({
+  display: "none",
 });
 
-
 const Edit = () => {
-  const { listRoom, curRoom, isError, isSuccess, isFetching, status } = useSelector(
-    roomSelector
-  );
+  const { t, i18n } = useTranslation();
+  const { listRoom, curRoom, isError, isSuccess, isFetching, status } =
+    useSelector(roomSelector);
 
-  const roomID = useParams().roomID
+  const roomID = useParams().roomID;
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -109,40 +115,37 @@ const Edit = () => {
     listRoom.map((eachRoom, index) => {
       if (eachRoom._id === roomID) {
         isHaveRoom = true;
-        dispatch(setInitCurRoom(index))
+        dispatch(setInitCurRoom(index));
       }
-    })
+    });
 
     if (!isHaveRoom) {
-      dispatch(getRoomByID(roomID))
+      dispatch(getRoomByID(roomID));
     }
     return () => {
       dispatch(clearState());
     };
-  }, [])
-
+  }, []);
 
   useEffect(() => {
     if (isError) {
       dispatch(clearState());
-      navigate('/user/library');
+      navigate("/user/library");
     }
 
     if (isSuccess) {
       dispatch(clearState());
     }
 
-    if (status === 'edit') {
-      navigate('/user/library')
+    if (status === "edit") {
+      navigate("/user/library");
     }
   }, [isError, isSuccess, status]);
 
+  const [listQuestion, setListQuestion] = useState([]);
 
-
-  const [listQuestion, setListQuestion] = useState([])
-
-  const [roomTitle, setRoomTile] = useState('');
-  const [roomImage, setRoomImage] = useState('');
+  const [roomTitle, setRoomTile] = useState("");
+  const [roomImage, setRoomImage] = useState("");
   const [isAddMore, setIsAddMore] = useState(null);
 
   useEffect(() => {
@@ -150,18 +153,18 @@ const Edit = () => {
       setListQuestion(JSON.parse(JSON.stringify(curRoom.questions)));
     }
 
-    if (roomTitle === '' && curRoom) {
-      setRoomTile(curRoom.quizTitle)
+    if (roomTitle === "" && curRoom) {
+      setRoomTile(curRoom.quizTitle);
     }
 
-    if (roomImage === '' && curRoom) {
-      setRoomImage(curRoom.quizImage)
+    if (roomImage === "" && curRoom) {
+      setRoomImage(curRoom.quizImage);
     }
 
     if (!isAddMore && curRoom) {
-      setIsAddMore(curRoom.questions[curQuestion].ans.length <= 4)
+      setIsAddMore(curRoom.questions[curQuestion].ans.length <= 4);
     }
-  }, [curRoom])
+  }, [curRoom]);
 
   // Left side:
   const [curQuestion, setCurQuestion] = useState(0);
@@ -186,18 +189,23 @@ const Edit = () => {
   const openAddQuestion = Boolean(anchorElAddQuestion);
   const handleMenuItemClickAddQuestion = (event, type) => {
     if (type === 0) {
-      setListQuestion([...listQuestion, JSON.parse(JSON.stringify(schemaQuiz))])
+      setListQuestion([
+        ...listQuestion,
+        JSON.parse(JSON.stringify(schemaQuiz)),
+      ]);
     } else if (type === 1) {
-      setListQuestion([...listQuestion, JSON.parse(JSON.stringify(schemaTrueOrFalse))])
+      setListQuestion([
+        ...listQuestion,
+        JSON.parse(JSON.stringify(schemaTrueOrFalse)),
+      ]);
     }
-    setCurQuestion(listQuestion.length)
+    setCurQuestion(listQuestion.length);
     setAnchorElAddQuestion(null);
-  }
+  };
 
   // save kahut:
   const [openDialogSave, setOpenDialogSave] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
-
 
   const handleCloseDialogSave = () => {
     setOpenDialogSave(false);
@@ -209,7 +217,10 @@ const Edit = () => {
     listQuestion.map((eachQuestion, index) => {
       if (!eachQuestion.text) {
         isOK = false;
-        enqueueSnackbar('Quiz ' + (index + 1) + ' : Please typing your question', { variant: 'error' });
+        enqueueSnackbar(
+          "Quiz " + (index + 1) + " : Please typing your question",
+          { variant: "error" }
+        );
       }
 
       let isChooseAnswerCorrect = false;
@@ -223,100 +234,105 @@ const Edit = () => {
         if (eachAns.isRight) {
           isChooseAnswerCorrect = true;
         }
-      })
+      });
       if (isErrorAddanswer) {
         isOK = false;
-        enqueueSnackbar('Quiz ' + (index + 1) + ' : Please add all answer', { variant: 'error' });
+        enqueueSnackbar("Quiz " + (index + 1) + " : Please add all answer", {
+          variant: "error",
+        });
       }
       if (!isChooseAnswerCorrect) {
         isOK = false;
-        enqueueSnackbar('Quiz ' + (index + 1) + ' : Please choose at least 1 correct answer', { variant: 'error' });
+        enqueueSnackbar(
+          "Quiz " + (index + 1) + " : Please choose at least 1 correct answer",
+          { variant: "error" }
+        );
       }
-    })
+    });
     if (isOK) {
       setOpenDialogSave(true);
     }
-  }
+  };
 
   const [openErrorDialog, setOpenErrorDialog] = useState(false);
 
   const handleSaveDialogSave = () => {
     if (roomTitle) {
       setOpenDialogSave(false);
-      dispatch(updateRoomByID({
-        curRoom,
-        roomTitle,
-        roomImage,
-        listQuestion
-      }))
+      dispatch(
+        updateRoomByID({
+          curRoom,
+          roomTitle,
+          roomImage,
+          listQuestion,
+        })
+      );
     } else {
-      setOpenErrorDialog(true)
+      setOpenErrorDialog(true);
       window.setTimeout(function () {
         if (openErrorDialog) {
-          setOpenErrorDialog(false)
+          setOpenErrorDialog(false);
         }
       }, 3000);
     }
-  }
+  };
 
   const handleChangeRoomTitle = (event) => {
     setRoomTile(event.target.value);
-  }
+  };
 
   const handleChangeRoomImage = (event) => {
-    setRoomImage(event.target.files[0])
-  }
+    setRoomImage(event.target.files[0]);
+  };
   // End left side.
-
 
   // Center
   const handleChangeImageUpload = (event) => {
-    listQuestion[curQuestion].img = event.target.files[0]
-    setListQuestion([...listQuestion])
-  }
+    listQuestion[curQuestion].img = event.target.files[0];
+    setListQuestion([...listQuestion]);
+  };
   const handleDeleteImageUpload = (event) => {
-    listQuestion[curQuestion].img = ''
-    setListQuestion([...listQuestion])
-  }
+    listQuestion[curQuestion].img = "";
+    setListQuestion([...listQuestion]);
+  };
 
   const handleChangeQuestionTitle = (event) => {
     listQuestion[curQuestion].text = event.target.value;
-    setListQuestion([...listQuestion])
+    setListQuestion([...listQuestion]);
   };
 
   const handleChangeAns = (event, index) => {
     if (listQuestion[curQuestion].type !== 1) {
       listQuestion[curQuestion].ans[index].text = event.target.value;
-      setListQuestion([...listQuestion])
+      setListQuestion([...listQuestion]);
     }
   };
 
-
   const handleChangeCorrectAns = (event, value) => {
-    let QuestionPersist = listQuestion[curQuestion]
+    let QuestionPersist = listQuestion[curQuestion];
 
     if (QuestionPersist.type !== 1) {
-      QuestionPersist.ans[value].isRight = !QuestionPersist.ans[value].isRight
+      QuestionPersist.ans[value].isRight = !QuestionPersist.ans[value].isRight;
       let i = 0;
-      QuestionPersist.ans.map(eachAns => {
+      QuestionPersist.ans.map((eachAns) => {
         eachAns.isRight && i++;
-      })
-      if (i > 1) QuestionPersist.type = 2
-      else if (i === 1) QuestionPersist.type = 0
-      if (i === 1 && QuestionPersist.ans.length === 2) QuestionPersist.type = 1
+      });
+      if (i > 1) QuestionPersist.type = 2;
+      else if (i === 1) QuestionPersist.type = 0;
+      if (i === 1 && QuestionPersist.ans.length === 2) QuestionPersist.type = 1;
     } else {
       QuestionPersist.ans.map((eachAns, i) => {
         eachAns.isRight = !eachAns.isRight;
-      })
+      });
     }
 
-    setListQuestion([...listQuestion])
+    setListQuestion([...listQuestion]);
   };
 
   // End center
 
   // Right side
-  // choose type ques 
+  // choose type ques
   const [anchorElQuestionType, setAnchorElQuestionType] = useState(null);
 
   const openQuestionType = Boolean(anchorElQuestionType);
@@ -325,18 +341,22 @@ const Edit = () => {
   };
 
   const handleMenuItemClickQuestionType = (event, index) => {
-    if (index === 1) { // True or False
+    if (index === 1) {
+      // True or False
       if (listQuestion[curQuestion].ans.length >= 2) {
-        listQuestion[curQuestion].ans = JSON.parse(JSON.stringify(schemaTrueOrFalse.ans))
+        listQuestion[curQuestion].ans = JSON.parse(
+          JSON.stringify(schemaTrueOrFalse.ans)
+        );
       }
-    } else { // Quiz || Multi selections 
+    } else {
+      // Quiz || Multi selections
       if (listQuestion[curQuestion].ans.length === 2) {
-        listQuestion[curQuestion].ans.push({ text: '', isRight: false })
-        listQuestion[curQuestion].ans.push({ text: '', isRight: false })
+        listQuestion[curQuestion].ans.push({ text: "", isRight: false });
+        listQuestion[curQuestion].ans.push({ text: "", isRight: false });
       }
     }
-    listQuestion[curQuestion].type = index
-    setListQuestion([...listQuestion])
+    listQuestion[curQuestion].type = index;
+    setListQuestion([...listQuestion]);
     setAnchorElQuestionType(null);
   };
 
@@ -344,7 +364,7 @@ const Edit = () => {
     setAnchorElQuestionType(null);
   };
 
-  // choose time limit 
+  // choose time limit
   const [anchorElTimeLimit, setAnchorElTimeLimit] = useState(null);
   const openTimeLimit = Boolean(anchorElTimeLimit);
 
@@ -354,7 +374,7 @@ const Edit = () => {
 
   const handleMenuItemClickTimeLimit = (event, index) => {
     listQuestion[curQuestion].time = optionsTimeLimit[index];
-    setListQuestion([...listQuestion])
+    setListQuestion([...listQuestion]);
     setAnchorElTimeLimit(null);
   };
 
@@ -362,7 +382,7 @@ const Edit = () => {
     setAnchorElTimeLimit(null);
   };
 
-  // choose points 
+  // choose points
   const [anchorElPoints, setAnchorElPoints] = useState(null);
   // const [selectedIndexPoints, setSelectedIndexPoints] = useState(1);
   const openPoints = Boolean(anchorElPoints);
@@ -372,7 +392,7 @@ const Edit = () => {
 
   const handleMenuItemClickPoints = (event, index) => {
     listQuestion[curQuestion].points = index;
-    setListQuestion([...listQuestion])
+    setListQuestion([...listQuestion]);
     setAnchorElPoints(null);
   };
 
@@ -382,87 +402,110 @@ const Edit = () => {
 
   useEffect(() => {
     if (listQuestion.length !== 0) {
-      setIsAddMore(listQuestion[curQuestion].ans.length <= 4)
+      setIsAddMore(listQuestion[curQuestion].ans.length <= 4);
     }
   }, [curQuestion]);
 
   const handleClickAddMoreAnswer = () => {
     if (isAddMore) {
-      listQuestion[curQuestion].ans.push({ text: '', isRight: false })
-      listQuestion[curQuestion].ans.push({ text: '', isRight: false })
+      listQuestion[curQuestion].ans.push({ text: "", isRight: false });
+      listQuestion[curQuestion].ans.push({ text: "", isRight: false });
       if (listQuestion[curQuestion].type === 1) {
-        listQuestion[curQuestion].type = 0
+        listQuestion[curQuestion].type = 0;
       }
       // listQuestion[curQuestion].type === 1 && setSelectedIndexQuestionType(0)
     } else {
       listQuestion[curQuestion].ans.splice(-2, 2);
       if (listQuestion[curQuestion].ans.length === 2) {
-        listQuestion[curQuestion].type = 0
+        listQuestion[curQuestion].type = 0;
         // setSelectedIndexQuestionType(1)
       }
     }
-    setListQuestion(listQuestion)
+    setListQuestion(listQuestion);
 
-    setIsAddMore(!isAddMore)
-  }
+    setIsAddMore(!isAddMore);
+  };
 
   // End right side
   return (
-    <Grid container height='calc(100% - 70px)' sx={{ pt: 0.5 }}>
+    <Grid container height="calc(100% - 70px)" sx={{ pt: 0.5 }}>
       {/* {curRoom && <DeleteDialog />} */}
-      <Dialog open={openDialogSave} onClose={handleCloseDialogSave} sx={{ width: '100%' }}>
-        <DialogTitle>Enter title:</DialogTitle>
+      <Dialog
+        open={openDialogSave}
+        onClose={handleCloseDialogSave}
+        sx={{ width: "100%" }}
+      >
+        <DialogTitle>{t("Enter title")}:</DialogTitle>
         <DialogContent>
           <Stack
-            alignItems='center'
-            justifyContent='center'
+            alignItems="center"
+            justifyContent="center"
             spacing={2}
             sx={{
-              width: '100%',
-              height: '100%',
-            }}>
-            {
-              openErrorDialog &&
+              width: "100%",
+              height: "100%",
+            }}
+          >
+            {openErrorDialog && (
               <Collapse in={openErrorDialog}>
-                <Alert severity="error">Please fill in title field!</Alert>
+                <Alert severity="error">
+                  {t("Please fill in title field")}!
+                </Alert>
               </Collapse>
-            }
+            )}
             <TextField
               autoFocus
               value={roomTitle}
               onChange={handleChangeRoomTitle}
               margin="dense"
               id="name"
-              label="Kahut title"
+              label={t("Kahut title")}
               type="text"
               fullWidth
               variant="standard"
             />
-            <Box sx={{
-              width: '80%',
-              height: '70%',
-              border: '1px dashed',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-              {roomImage ?
+            <Box
+              sx={{
+                width: "80%",
+                height: "70%",
+                border: "1px dashed",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              {roomImage ? (
                 <Box
                   component="img"
                   sx={{
-                    width: '100%',
-                    height: '100%',
+                    width: "100%",
+                    height: "100%",
                     p: 1,
                   }}
-                  src={roomImage.name ? URL.createObjectURL(roomImage) : roomImage}
+                  src={
+                    roomImage.name ? URL.createObjectURL(roomImage) : roomImage
+                  }
                 />
-                :
-                <PhotoSizeSelectActualIcon sx={{ color: '#5a5a5a', fontSize: 200 }} />
-              }
+              ) : (
+                <PhotoSizeSelectActualIcon
+                  sx={{ color: "#5a5a5a", fontSize: 200 }}
+                />
+              )}
             </Box>
-            {roomImage && roomImage.name ? <Typography><u>File name:</u> {roomImage.name}</Typography> : <></>}
-            <Stack direction='row' alignItems='center' justifyContent='center' spacing={2}>
-              <label htmlFor="contained-button-file-room-image" >
+            {roomImage && roomImage.name ? (
+              <Typography>
+                <u>File name:</u> {roomImage.name}
+              </Typography>
+            ) : (
+              <></>
+            )}
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="center"
+              spacing={2}
+            >
+              <label htmlFor="contained-button-file-room-image">
                 <Input
                   // value={imageUpload}
                   onChange={handleChangeRoomImage}
@@ -470,60 +513,70 @@ const Edit = () => {
                   id="contained-button-file-room-image"
                   type="file"
                 />
-                <Button variant="contained" component="span" startIcon={<PhotoCamera />}
+                <Button
+                  variant="contained"
+                  component="span"
+                  startIcon={<PhotoCamera />}
                   sx={{
-                    textTransform: 'none'
+                    textTransform: "none",
                   }}
                 >
-                  {roomImage ? 'Change image' : 'Upload image'}
+                  {roomImage ? t("Change image") : t("Upload image")}
                 </Button>
               </label>
-              {roomImage &&
+              {roomImage && (
                 <Button
-                  onClick={() => setRoomImage('')}
-                  variant="contained" color='error' sx={{ textTransform: 'none', bottom: '3px' }} startIcon={<DeleteIcon />}>
-                  Delete
+                  onClick={() => setRoomImage("")}
+                  variant="contained"
+                  color="error"
+                  sx={{ textTransform: "none", bottom: "3px" }}
+                  startIcon={<DeleteIcon />}
+                >
+                  {t("Delete")}
                 </Button>
-              }
+              )}
             </Stack>
           </Stack>
           <DialogContentText>
-            You will use the image cover default if not choose any image!
+            {t("You will use the image cover default if not choose any image")}!
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDialogSave}>Cancel</Button>
-          <Button onClick={handleSaveDialogSave}>Save</Button>
+          <Button onClick={handleCloseDialogSave}>{t("Cancel")}</Button>
+          <Button onClick={handleSaveDialogSave}>{t("Save")}</Button>
         </DialogActions>
       </Dialog>
 
       <Backdrop
-        style={{ marginTop: '0px' }}
-        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        style={{ marginTop: "0px" }}
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={isFetching}
       >
         <CircularProgress color="inherit" />
       </Backdrop>
-      {curRoom &&
+      {curRoom && (
         <React.Fragment>
-
           {/* left side */}
           <Box
-            width='20%'
-            height='100%'
+            width="20%"
+            height="100%"
             boxShadow={5}
-            sx={{ justifyContent: 'center' }}
+            sx={{ justifyContent: "center" }}
           >
-            <List component="nav" sx={{
-              p: 0, m: 0,
-              width: '100%',
-              height: 'calc(100% - 90px)',
-              position: 'relative',
-              overflow: 'auto',
-            }}>
+            <List
+              component="nav"
+              sx={{
+                p: 0,
+                m: 0,
+                width: "100%",
+                height: "calc(100% - 90px)",
+                position: "relative",
+                overflow: "auto",
+              }}
+            >
               {listQuestion.map((eachQuestion, index) => (
                 <ListItemButton
-                  key={'question ' + index}
+                  key={"question " + index}
                   divider={true}
                   selected={curQuestion === index}
                   onClick={(event) => handleListQuestionNav(event, index)}
@@ -531,150 +584,182 @@ const Edit = () => {
                   onMouseOver={() => setCurHover(index)}
                   onMouseOut={() => setCurHover(-1)}
                 >
-                  <Box sx={{
-                    width: '100%',
-                    height: 140,
-                    mb: 1
-                  }}>
-                    <Typography sx={{
-                      height: '23px',
-                      pl: 2,
-                      fontSize: 13,
-                      fontWeight: 'bold'
-                    }}>{index + 1}. {optionsQuestionType[eachQuestion.type].text}</Typography>
-                    <Box sx={{
-                      height: 'calc(100% - 23px)',
-                      width: '100%',
-                      display: 'flex'
-                    }}>
-                      <Stack justifyContent='flex-end' alignItems='center' spacing={1}
+                  <Box
+                    sx={{
+                      width: "100%",
+                      height: 140,
+                      mb: 1,
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        height: "23px",
+                        pl: 2,
+                        fontSize: 13,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {index + 1}. {optionsQuestionType[eachQuestion.type].text}
+                    </Typography>
+                    <Box
+                      sx={{
+                        height: "calc(100% - 23px)",
+                        width: "100%",
+                        display: "flex",
+                      }}
+                    >
+                      <Stack
+                        justifyContent="flex-end"
+                        alignItems="center"
+                        spacing={1}
                         sx={{
                           pr: 0.5,
-                          width: '18px',
-                          height: '100%',
+                          width: "18px",
+                          height: "100%",
                         }}
                       >
-                        {curHover === index || curQuestion === index ?
+                        {curHover === index || curQuestion === index ? (
                           <>
-                            <ContentCopyIcon sx={{ fontSize: '1rem' }} />
-                            <DeleteIcon sx={{ fontSize: '1rem' }} />
-                          </> : <></>}
+                            <ContentCopyIcon sx={{ fontSize: "1rem" }} />
+                            <DeleteIcon sx={{ fontSize: "1rem" }} />
+                          </>
+                        ) : (
+                          <></>
+                        )}
                       </Stack>
                       <Box
                         sx={{
                           boxShadow: 3,
                           px: 1,
                           py: 0.5,
-                          width: 'calc(100% - 18px)',
-                          height: '100%',
-                          backgroundColor: curQuestion === index ? '#fff' : '#f2f2f2',
+                          width: "calc(100% - 18px)",
+                          height: "100%",
+                          backgroundColor:
+                            curQuestion === index ? "#fff" : "#f2f2f2",
                           borderRadius: 1,
-                          border: curHover === index && '2px solid',
-                          borderColor: curHover === index && '#92a8d1',
-                          borderCollapse: curHover === index && 'separate'
+                          border: curHover === index && "2px solid",
+                          borderColor: curHover === index && "#92a8d1",
+                          borderCollapse: curHover === index && "separate",
                         }}
                       >
                         <Typography
                           noWrap
                           sx={{
-                            width: '100%',
-                            height: '20px',
+                            width: "100%",
+                            height: "20px",
                             fontSize: 14,
                           }}
                           textAlign="center"
                         >
-                          {eachQuestion.text ? eachQuestion.text : 'Question'}
+                          {eachQuestion.text ? eachQuestion.text : "Question"}
                         </Typography>
                         <Box
                           sx={{
-                            width: '100%',
-                            height: '55px',
-                            display: 'flex',
-                            alignItems: 'center',
+                            width: "100%",
+                            height: "55px",
+                            display: "flex",
+                            alignItems: "center",
                           }}
                         >
                           <Box
                             sx={{
-                              width: '25px',
-                              height: '25px',
-                              borderRadius: '50%',
-                              backgroundColor: curQuestion === index ? '#f2b4ff' : '#fddddd',
-                              display: 'flex',
-                              justifyContent: 'center',
-                              alignItems: 'center',
-                              color: 'black',
+                              width: "25px",
+                              height: "25px",
+                              borderRadius: "50%",
+                              backgroundColor:
+                                curQuestion === index ? "#f2b4ff" : "#fddddd",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              color: "black",
                               fontSize: 11,
-                              fontWeight: 'bold'
+                              fontWeight: "bold",
                             }}
                           >
                             {eachQuestion.time}
                           </Box>
                           <Box
                             sx={{
-                              height: '100%',
-                              width: 'calc(100% - 25px - 25px)',
-                              display: 'flex',
-                              justifyContent: 'center',
-                              alignItems: 'center',
+                              height: "100%",
+                              width: "calc(100% - 25px - 25px)",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
                             }}
                           >
-                            {eachQuestion.img ?
-
+                            {eachQuestion.img ? (
                               <Box
                                 component="img"
                                 sx={{
-                                  width: '70px',
-                                  height: '40px',
+                                  width: "70px",
+                                  height: "40px",
                                 }}
-                                src={eachQuestion.img.name ? URL.createObjectURL(eachQuestion.img) : eachQuestion.img}
+                                src={
+                                  eachQuestion.img.name
+                                    ? URL.createObjectURL(eachQuestion.img)
+                                    : eachQuestion.img
+                                }
                               />
-                              :
-                              <Box sx={{
-                                width: '70px',
-                                height: '40px',
-                                border: '0.5px dashed',
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                              }}>
-                                <PhotoSizeSelectActualIcon sx={{ color: '#5a5a5a' }} />
+                            ) : (
+                              <Box
+                                sx={{
+                                  width: "70px",
+                                  height: "40px",
+                                  border: "0.5px dashed",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <PhotoSizeSelectActualIcon
+                                  sx={{ color: "#5a5a5a" }}
+                                />
                               </Box>
-                            }
+                            )}
                           </Box>
                         </Box>
                         <Box
                           sx={{
                             pb: 1,
-                            height: 'calc(100% - 75px)',
-                            width: '100%',
-                            display: 'grid',
+                            height: "calc(100% - 75px)",
+                            width: "100%",
+                            display: "grid",
                             gap: 0.3,
-                            gridTemplateColumns: 'repeat(2, 1fr)',
+                            gridTemplateColumns: "repeat(2, 1fr)",
                           }}
                         >
                           {eachQuestion.ans.map((eachAns, i) => (
                             <Box
-                              key={index + ' ' + i}
+                              key={index + " " + i}
                               sx={{
                                 px: 1,
-                                border: '1px solid grey',
+                                border: "1px solid grey",
                                 borderRadius: 1,
-                                display: 'flex',
-                                justifyContent: 'flex-end',
-                                alignItems: 'center',
+                                display: "flex",
+                                justifyContent: "flex-end",
+                                alignItems: "center",
                               }}
                             >
-                              {eachAns.isRight ?
-                                <DoneIcon sx={{
-                                  fontSize: eachQuestion.ans.length <= 4 ? 13 : 7,
-                                  color: '#07BA66'
-                                }} />
-                                :
-                                <DoneIcon sx={{
-                                  fontSize: eachQuestion.ans.length <= 4 ? 13 : 7,
-                                  color: curQuestion === index ? 'white' : '#f2f2f2'
-                                }} />
-                              }
+                              {eachAns.isRight ? (
+                                <DoneIcon
+                                  sx={{
+                                    fontSize:
+                                      eachQuestion.ans.length <= 4 ? 13 : 7,
+                                    color: "#07BA66",
+                                  }}
+                                />
+                              ) : (
+                                <DoneIcon
+                                  sx={{
+                                    fontSize:
+                                      eachQuestion.ans.length <= 4 ? 13 : 7,
+                                    color:
+                                      curQuestion === index
+                                        ? "white"
+                                        : "#f2f2f2",
+                                  }}
+                                />
+                              )}
                             </Box>
                           ))}
                         </Box>
@@ -684,24 +769,26 @@ const Edit = () => {
                 </ListItemButton>
               ))}
             </List>
-            <Stack spacing={1} margin={2}  >
+            <Stack spacing={1} margin={2}>
               <Button
                 onClick={handleClickAddQuestion}
                 style={{
-                  border: 'none',
-                  outline: 'none'
+                  border: "none",
+                  outline: "none",
                 }}
-                variant='contained'
-                size='small'
+                variant="contained"
+                size="small"
                 sx={{
                   boxShadow: 8,
-                  textTransform: 'none',
-                  '&:hover': {
-                    fontWeight: 'bold',
+                  textTransform: "none",
+                  "&:hover": {
+                    fontWeight: "bold",
                     boxShadow: 2,
-                  }
+                  },
                 }}
-              >Add question</Button>
+              >
+                {t("Add question")}
+              </Button>
               <Menu
                 id="add-new-question-menu"
                 anchorEl={anchorElAddQuestion}
@@ -709,82 +796,76 @@ const Edit = () => {
                 onClose={handleCloseAddQuestion}
                 // getContentAnchorEl={null}
                 anchorOrigin={{
-                  vertical: 'center',
-                  horizontal: 'right',
+                  vertical: "center",
+                  horizontal: "right",
                 }}
                 transformOrigin={{
-                  vertical: 'center',
-                  horizontal: 'left',
+                  vertical: "center",
+                  horizontal: "left",
                 }}
                 MenuListProps={{
-                  'aria-labelledby': 'lock-button',
-                  role: 'listbox',
+                  "aria-labelledby": "lock-button",
+                  role: "listbox",
                 }}
               >
                 <MenuItem
                   onClick={(event) => handleMenuItemClickAddQuestion(event, 0)}
                 >
-                  <ListItemIcon>
-                    {optionsQuestionType[0].icon}
-                  </ListItemIcon>
-                  <ListItemText>
-                    {optionsQuestionType[0].text}
-                  </ListItemText>
+                  <ListItemIcon>{optionsQuestionType[0].icon}</ListItemIcon>
+                  <ListItemText>{t(optionsQuestionType[0].text)}</ListItemText>
                 </MenuItem>
                 <MenuItem
                   onClick={(event) => handleMenuItemClickAddQuestion(event, 1)}
                 >
-                  <ListItemIcon>
-                    {optionsQuestionType[1].icon}
-                  </ListItemIcon>
-                  <ListItemText>
-                    {optionsQuestionType[1].text}
-                  </ListItemText>
+                  <ListItemIcon>{optionsQuestionType[1].icon}</ListItemIcon>
+                  <ListItemText>{t(optionsQuestionType[1].text)}</ListItemText>
                 </MenuItem>
               </Menu>
 
               <Button
                 onClick={handleClickSaveKahut}
-                color='success'
+                color="success"
                 style={{
-                  border: 'none',
-                  outline: 'none'
+                  border: "none",
+                  outline: "none",
                 }}
-                variant='contained'
-                size='small'
+                variant="contained"
+                size="small"
                 sx={{
                   boxShadow: 8,
-                  textTransform: 'none',
-                  '&:hover': {
-                    fontWeight: 'bold',
+                  textTransform: "none",
+                  "&:hover": {
+                    fontWeight: "bold",
                     boxShadow: 2,
-                  }
+                  },
                 }}
-              >Save changes</Button>
+              >
+                {t("Save changes")}
+              </Button>
             </Stack>
           </Box>
 
           {/* center */}
-          {listQuestion[curQuestion] &&
+          {listQuestion[curQuestion] && (
             <Stack
               spacing={2}
-              alignItems='center'
-              width='60%'
-              height='100%'
+              alignItems="center"
+              width="60%"
+              height="100%"
               sx={{
                 px: 2,
                 py: 1,
-                backgroundColor: '#F2F2F1'
+                backgroundColor: "#F2F2F1",
               }}
             >
               <Paper
                 component="form"
                 elevation={3}
                 sx={{
-                  p: '2px 4px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  width: '100%'
+                  p: "2px 4px",
+                  display: "flex",
+                  alignItems: "center",
+                  width: "100%",
                 }}
               >
                 <InputBase
@@ -793,15 +874,15 @@ const Edit = () => {
                   value={listQuestion[curQuestion].text}
                   onChange={handleChangeQuestionTitle}
                   sx={{
-                    width: '100%',
+                    width: "100%",
                     mx: 1,
                     fontSize: 25,
                   }}
                   placeholder="Start typing your question"
                   inputProps={{
                     style: {
-                      textAlign: 'center'
-                    }
+                      textAlign: "center",
+                    },
                   }}
                 />
               </Paper>
@@ -809,43 +890,64 @@ const Edit = () => {
                 elevation={3}
                 sx={{
                   m: 2,
-                  width: '60%',
-                  flex: '1 1 auto',
+                  width: "60%",
+                  flex: "1 1 auto",
                 }}
               >
                 <Stack
-                  alignItems='center'
-                  justifyContent='center'
+                  alignItems="center"
+                  justifyContent="center"
                   spacing={1}
                   sx={{
-                    width: '100%',
-                    height: '100%',
-                  }}>
-                  <Box sx={{
-                    width: '80%',
-                    height: '70%',
-                    border: '1px dashed',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
-                    {listQuestion[curQuestion].img ?
+                    width: "100%",
+                    height: "100%",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      width: "80%",
+                      height: "70%",
+                      border: "1px dashed",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    {listQuestion[curQuestion].img ? (
                       <Box
                         component="img"
                         sx={{
-                          width: '100%',
-                          height: '100%',
+                          width: "100%",
+                          height: "100%",
                           p: 1,
                         }}
-                        src={listQuestion[curQuestion].img.name ? URL.createObjectURL(listQuestion[curQuestion].img) : listQuestion[curQuestion].img}
+                        src={
+                          listQuestion[curQuestion].img.name
+                            ? URL.createObjectURL(listQuestion[curQuestion].img)
+                            : listQuestion[curQuestion].img
+                        }
                       />
-                      :
-                      <PhotoSizeSelectActualIcon sx={{ color: '#5a5a5a', fontSize: 200 }} />
-                    }
+                    ) : (
+                      <PhotoSizeSelectActualIcon
+                        sx={{ color: "#5a5a5a", fontSize: 200 }}
+                      />
+                    )}
                   </Box>
-                  {listQuestion[curQuestion].img && listQuestion[curQuestion].img.name ? <Typography><u>File name:</u> {listQuestion[curQuestion].img.name}</Typography> : <></>}
-                  <Stack direction='row' alignItems='center' justifyContent='center' spacing={2}>
-                    <label htmlFor="contained-button-file" >
+                  {listQuestion[curQuestion].img &&
+                  listQuestion[curQuestion].img.name ? (
+                    <Typography>
+                      <u>File name:</u> {listQuestion[curQuestion].img.name}
+                    </Typography>
+                  ) : (
+                    <></>
+                  )}
+                  <Stack
+                    direction="row"
+                    alignItems="center"
+                    justifyContent="center"
+                    spacing={2}
+                  >
+                    <label htmlFor="contained-button-file">
                       <Input
                         // value={imageUpload}
                         onChange={handleChangeImageUpload}
@@ -853,57 +955,66 @@ const Edit = () => {
                         id="contained-button-file"
                         type="file"
                       />
-                      <Button variant="contained" component="span" startIcon={<PhotoCamera />}
+                      <Button
+                        variant="contained"
+                        component="span"
+                        startIcon={<PhotoCamera />}
                         sx={{
-                          textTransform: 'none'
+                          textTransform: "none",
                         }}
                       >
-                        {listQuestion[curQuestion].img ? 'Change image' : 'Upload image'}
+                        {listQuestion[curQuestion].img
+                          ? t("Change image")
+                          : t("Upload image")}
                       </Button>
                     </label>
-                    {listQuestion[curQuestion].img &&
+                    {listQuestion[curQuestion].img && (
                       <Button
                         onClick={handleDeleteImageUpload}
-                        variant="contained" color='error' sx={{ textTransform: 'none', bottom: '3px' }} startIcon={<DeleteIcon />}>
+                        variant="contained"
+                        color="error"
+                        sx={{ textTransform: "none", bottom: "3px" }}
+                        startIcon={<DeleteIcon />}
+                      >
                         Delete
                       </Button>
-                    }
+                    )}
                   </Stack>
-
-
                 </Stack>
               </Paper>
               <Box
                 sx={{
-                  width: '100%',
-                  height: '30%',
-                  display: 'grid',
+                  width: "100%",
+                  height: "30%",
+                  display: "grid",
                   gap: 1,
-                  gridTemplateColumns: 'repeat(2, 1fr)',
-                }}>
+                  gridTemplateColumns: "repeat(2, 1fr)",
+                }}
+              >
                 {listQuestion[curQuestion].ans.map((eachAns, index) => (
                   <Stack
-                    key={'ans ' + index}
-                    direction='row'
+                    key={"ans " + index}
+                    direction="row"
                     spacing={1}
-                    alignItems='center'
+                    alignItems="center"
                     sx={{
                       p: 1,
                       borderRadius: 1,
-                      backgroundColor: eachAns === '' ? 'white' : answerUI2[index].bgColor,
+                      backgroundColor:
+                        eachAns === "" ? "white" : answerUI2[index].bgColor,
                       boxShadow: 2,
                     }}
                   >
                     <Box
                       sx={{
                         borderRadius: 1,
-                        height: '100%',
+                        height: "100%",
                         width: 40,
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
                         backgroundColor: answerUI2[index].bgColor,
-                        color: 'white'
+                        color: "white",
                       }}
                     >
                       {answerUI2[index].icon}
@@ -919,83 +1030,89 @@ const Edit = () => {
                         // width: '100%',
                         mx: 1,
                         fontSize: 17,
-                        color: 'white'
+                        color: "white",
                       }}
-                      placeholder={"Add answer " + (index + 1)}
+                      placeholder={t("Add answer ") + (index + 1)}
                       inputProps={{
                         style: {
-                          textAlign: 'left'
-                        }
+                          textAlign: "left",
+                        },
                       }}
                     />
                     <IconButton
                       component="span"
                       onClick={(event) => handleChangeCorrectAns(event, index)}
                       onMouseOver={() => {
-                        !eachAns.isRight && setCurHoverAnscheck(index)
+                        !eachAns.isRight && setCurHoverAnscheck(index);
                       }}
                       onMouseOut={() => setCurHoverAnscheck(-1)}
-                      size='large'
+                      size="large"
                       style={{
-                        outline: 'none'
+                        outline: "none",
                       }}
                       sx={{
                         p: 0,
                         m: 1,
-                        border: '3px solid white',
-                        backgroundColor: eachAns.isRight && '#59B32C'
+                        border: "3px solid white",
+                        backgroundColor: eachAns.isRight && "#59B32C",
                       }}
                     >
-                      {curHoverAnscheck === index ?
-                        <DoneIcon sx={{ color: 'white' }} /> :
+                      {curHoverAnscheck === index ? (
+                        <DoneIcon sx={{ color: "white" }} />
+                      ) : (
                         <DoneIcon
                           sx={{
-                            color: eachAns.isRight ? '#fff' : answerUI2[index].bgColor
+                            color: eachAns.isRight
+                              ? "#fff"
+                              : answerUI2[index].bgColor,
                           }}
-                        />}
+                        />
+                      )}
                     </IconButton>
                   </Stack>
                 ))}
               </Box>
             </Stack>
-          }
+          )}
 
           {/* right side */}
-          {listQuestion[curQuestion] &&
-            <Box
-              width='20%'
-              height='100%'
-              boxShadow={5}
-              sx={{ px: 2, pt: 2 }}
-            >
+          {listQuestion[curQuestion] && (
+            <Box width="20%" height="100%" boxShadow={5} sx={{ px: 2, pt: 2 }}>
               <Box
                 sx={{
-                  height: 'calc(100% - 120px)',
-                  width: '100%',
+                  height: "calc(100% - 120px)",
+                  width: "100%",
                 }}
               >
                 <Stack
-                  direction='row'
+                  direction="row"
                   alignItems="center"
                   spacing={1}
                   sx={{
-                    width: '100%'
-                  }}>
-                  <MergeTypeIcon sx={{ color: '#ff5959', fontSize: 30, fontWeight: 'bold' }} />
-                  <Typography sx={{
-                    color: 'black',
-                    fontWeight: 'bold',
-                    fontSize: 20
-                  }}>
-                    Question type
+                    width: "100%",
+                  }}
+                >
+                  <MergeTypeIcon
+                    sx={{ color: "#ff5959", fontSize: 30, fontWeight: "bold" }}
+                  />
+                  <Typography
+                    sx={{
+                      color: "black",
+                      fontWeight: "bold",
+                      fontSize: 20,
+                    }}
+                  >
+                    {t("Question type")}
                   </Typography>
                 </Stack>
-                <Box sx={{
-                  width: '100%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'flex-start',
-                }}>
+                <Box
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "flex-start",
+                  }}
+                >
                   <Fab
                     onClick={handleClickListItemQuestionType}
                     variant="extended"
@@ -1007,21 +1124,33 @@ const Edit = () => {
                     size="small"
                     sx={{
                       my: 1,
-                      width: '100%',
-                      textTransform: 'none',
-                      color: 'black',
-                      backgroundColor: 'white',
-                      justifyContent: 'flex-start'
-                    }}>
+                      width: "100%",
+                      textTransform: "none",
+                      color: "black",
+                      backgroundColor: "white",
+                      justifyContent: "flex-start",
+                    }}
+                  >
                     {/* <LanguageIcon fontSize="medium" sx={{ mr: 1, color: 'black' }} /> */}
                     {optionsQuestionType[listQuestion[curQuestion].type].icon}
                     <Typography noWrap sx={{ px: 2 }}>
-                      {optionsQuestionType[listQuestion[curQuestion].type].text}
+                      {t(
+                        optionsQuestionType[listQuestion[curQuestion].type].text
+                      )}
                     </Typography>
                     <Box
-                      sx={{ flexGrow: 1, justifyContent: 'flex-end', display: 'flex', alignItems: 'center' }}
+                      sx={{
+                        flexGrow: 1,
+                        justifyContent: "flex-end",
+                        display: "flex",
+                        alignItems: "center",
+                      }}
                     >
-                      {openQuestionType ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                      {openQuestionType ? (
+                        <ExpandLessIcon />
+                      ) : (
+                        <ExpandMoreIcon />
+                      )}
                     </Box>
                   </Fab>
                   <Menu
@@ -1030,50 +1159,57 @@ const Edit = () => {
                     open={openQuestionType}
                     onClose={handleCloseQuestionType}
                     MenuListProps={{
-                      'aria-labelledby': 'lock-button',
-                      role: 'listbox',
+                      "aria-labelledby": "lock-button",
+                      role: "listbox",
                     }}
                   >
                     {optionsQuestionType.map((option, index) => (
                       <MenuItem
-                        key={'choose quiz ' + index}
+                        key={"choose quiz " + index}
                         selected={index === listQuestion[curQuestion].type}
-                        onClick={(event) => handleMenuItemClickQuestionType(event, index)}
+                        onClick={(event) =>
+                          handleMenuItemClickQuestionType(event, index)
+                        }
                       >
                         <ListItemIcon>
                           {/* <ContentCut fontSize="small" /> */}
                           {option.icon}
                         </ListItemIcon>
-                        <ListItemText>
-                          {option.text}
-                        </ListItemText>
+                        <ListItemText>{t(option.text)}</ListItemText>
                       </MenuItem>
                     ))}
                   </Menu>
                 </Box>
                 <Divider sx={{ my: 2 }} />
                 <Stack
-                  direction='row'
+                  direction="row"
                   alignItems="center"
                   spacing={1}
                   sx={{
-                    width: '100%'
-                  }}>
-                  <AccessAlarmsIcon sx={{ color: '#ff5959', fontSize: 30, fontWeight: 'bold' }} />
-                  <Typography sx={{
-                    color: 'black',
-                    fontWeight: 'bold',
-                    fontSize: 20
-                  }}>
+                    width: "100%",
+                  }}
+                >
+                  <AccessAlarmsIcon
+                    sx={{ color: "#ff5959", fontSize: 30, fontWeight: "bold" }}
+                  />
+                  <Typography
+                    sx={{
+                      color: "black",
+                      fontWeight: "bold",
+                      fontSize: 20,
+                    }}
+                  >
                     Time limit
                   </Typography>
                 </Stack>
-                <Box sx={{
-                  width: '100%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'flex-start',
-                }}>
+                <Box
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "flex-start",
+                  }}
+                >
                   <Fab
                     onClick={handleClickListItemTimeLimit}
                     variant="extended"
@@ -1085,19 +1221,30 @@ const Edit = () => {
                     size="small"
                     sx={{
                       my: 1,
-                      width: '100%',
-                      textTransform: 'none',
-                      color: 'black',
-                      backgroundColor: 'white',
-                      justifyContent: 'flex-start'
-                    }}>
+                      width: "100%",
+                      textTransform: "none",
+                      color: "black",
+                      backgroundColor: "white",
+                      justifyContent: "flex-start",
+                    }}
+                  >
                     <Typography noWrap sx={{ px: 1 }}>
-                      {listQuestion[curQuestion].time / 60 >= 2 && Math.floor(listQuestion[curQuestion].time / 60) + ' minutes '}
-                      {listQuestion[curQuestion].time / 60 === 1 && Math.floor(listQuestion[curQuestion].time / 60) + ' minute '}
-                      {listQuestion[curQuestion].time % 60 >= 1 && listQuestion[curQuestion].time % 60 + ' seconds'}
+                      {listQuestion[curQuestion].time / 60 >= 2 &&
+                        Math.floor(listQuestion[curQuestion].time / 60) +
+                          t(" minutes ")}
+                      {listQuestion[curQuestion].time / 60 === 1 &&
+                        Math.floor(listQuestion[curQuestion].time / 60) +
+                          t(" minute ")}
+                      {listQuestion[curQuestion].time % 60 >= 1 &&
+                        (listQuestion[curQuestion].time % 60) + t(" seconds")}
                     </Typography>
                     <Box
-                      sx={{ flexGrow: 1, justifyContent: 'flex-end', display: 'flex', alignItems: 'center' }}
+                      sx={{
+                        flexGrow: 1,
+                        justifyContent: "flex-end",
+                        display: "flex",
+                        alignItems: "center",
+                      }}
                     >
                       {openTimeLimit ? <ExpandLessIcon /> : <ExpandMoreIcon />}
                     </Box>
@@ -1108,20 +1255,29 @@ const Edit = () => {
                     open={openTimeLimit}
                     onClose={handleCloseTimeLimit}
                     MenuListProps={{
-                      'aria-labelledby': 'lock-button',
-                      role: 'listbox',
+                      "aria-labelledby": "lock-button",
+                      role: "listbox",
                     }}
                   >
                     {optionsTimeLimit.map((option, index) => (
                       <MenuItem
-                        key={'choose quiz ' + index}
-                        selected={index === optionsTimeLimit.indexOf(listQuestion[curQuestion].time)}
-                        onClick={(event) => handleMenuItemClickTimeLimit(event, index)}
+                        key={"choose quiz " + index}
+                        selected={
+                          index ===
+                          optionsTimeLimit.indexOf(
+                            listQuestion[curQuestion].time
+                          )
+                        }
+                        onClick={(event) =>
+                          handleMenuItemClickTimeLimit(event, index)
+                        }
                       >
                         <ListItemText>
-                          {option / 60 >= 2 && Math.floor(option / 60) + ' minutes '}
-                          {option / 60 === 1 && Math.floor(option / 60) + ' minute '}
-                          {option % 60 >= 1 && option % 60 + ' seconds'}
+                          {option / 60 >= 2 &&
+                            Math.floor(option / 60) + t(" minutes ")}
+                          {option / 60 === 1 &&
+                            Math.floor(option / 60) + t(" minute ")}
+                          {option % 60 >= 1 && (option % 60) + t(" seconds")}
                         </ListItemText>
                       </MenuItem>
                     ))}
@@ -1129,27 +1285,34 @@ const Edit = () => {
                 </Box>
                 <Divider sx={{ my: 2 }} />
                 <Stack
-                  direction='row'
+                  direction="row"
                   alignItems="center"
                   spacing={1}
                   sx={{
-                    width: '100%'
-                  }}>
-                  <AssistantIcon sx={{ color: '#ff5959', fontSize: 30, fontWeight: 'bold' }} />
-                  <Typography sx={{
-                    color: 'black',
-                    fontWeight: 'bold',
-                    fontSize: 20
-                  }}>
+                    width: "100%",
+                  }}
+                >
+                  <AssistantIcon
+                    sx={{ color: "#ff5959", fontSize: 30, fontWeight: "bold" }}
+                  />
+                  <Typography
+                    sx={{
+                      color: "black",
+                      fontWeight: "bold",
+                      fontSize: 20,
+                    }}
+                  >
                     Points
                   </Typography>
                 </Stack>
-                <Box sx={{
-                  width: '100%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'flex-start',
-                }}>
+                <Box
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "flex-start",
+                  }}
+                >
                   <Fab
                     onClick={handleClickListItemPoints}
                     variant="extended"
@@ -1161,19 +1324,25 @@ const Edit = () => {
                     size="small"
                     sx={{
                       my: 1,
-                      width: '100%',
-                      textTransform: 'none',
-                      color: 'black',
-                      backgroundColor: 'white',
-                      justifyContent: 'flex-start'
-                    }}>
+                      width: "100%",
+                      textTransform: "none",
+                      color: "black",
+                      backgroundColor: "white",
+                      justifyContent: "flex-start",
+                    }}
+                  >
                     {/* <LanguageIcon fontSize="medium" sx={{ mr: 1, color: 'black' }} /> */}
                     {optionsPoints[listQuestion[curQuestion].points].icon}
                     <Typography noWrap sx={{ px: 2 }}>
-                      {optionsPoints[listQuestion[curQuestion].points].text}
+                      {t(optionsPoints[listQuestion[curQuestion].points].text)}
                     </Typography>
                     <Box
-                      sx={{ flexGrow: 1, justifyContent: 'flex-end', display: 'flex', alignItems: 'center' }}
+                      sx={{
+                        flexGrow: 1,
+                        justifyContent: "flex-end",
+                        display: "flex",
+                        alignItems: "center",
+                      }}
                     >
                       {openPoints ? <ExpandLessIcon /> : <ExpandMoreIcon />}
                     </Box>
@@ -1184,72 +1353,76 @@ const Edit = () => {
                     open={openPoints}
                     onClose={handleClosePoints}
                     MenuListProps={{
-                      'aria-labelledby': 'lock-button',
-                      role: 'listbox',
+                      "aria-labelledby": "lock-button",
+                      role: "listbox",
                     }}
                   >
                     {optionsPoints.map((option, index) => (
                       <MenuItem
-                        key={'choose quiz ' + index}
+                        key={"choose quiz " + index}
                         selected={index === listQuestion[curQuestion].points}
-                        onClick={(event) => handleMenuItemClickPoints(event, index)}
+                        onClick={(event) =>
+                          handleMenuItemClickPoints(event, index)
+                        }
                       >
                         <ListItemIcon>
                           {/* <ContentCut fontSize="small" /> */}
                           {option.icon}
                         </ListItemIcon>
-                        <ListItemText>
-                          {option.text}
-                        </ListItemText>
+                        <ListItemText>{t(option.text)}</ListItemText>
                       </MenuItem>
                     ))}
                   </Menu>
                 </Box>
               </Box>
 
-              <Stack spacing={1} height='120px' justifyContent='flex-end' p={1}>
+              <Stack spacing={1} height="120px" justifyContent="flex-end" p={1}>
                 <Button
                   onClick={handleClickAddMoreAnswer}
                   disabled={!isAddMore}
-                  color='info'
+                  color="info"
                   style={{
-                    outline: 'none'
+                    outline: "none",
                   }}
-                  variant='contained'
-                  size='small'
+                  variant="contained"
+                  size="small"
                   sx={{
                     boxShadow: 8,
-                    textTransform: 'none',
-                    '&:hover': {
-                      fontWeight: 'bold',
+                    textTransform: "none",
+                    "&:hover": {
+                      fontWeight: "bold",
                       boxShadow: 2,
-                    }
+                    },
                   }}
-                >Add more answer</Button>
+                >
+                  {t("Add more answer")}
+                </Button>
                 <Button
                   onClick={handleClickAddMoreAnswer}
                   disabled={isAddMore}
-                  color='error'
+                  color="error"
                   style={{
-                    outline: 'none'
+                    outline: "none",
                   }}
-                  variant='contained'
-                  size='small'
+                  variant="contained"
+                  size="small"
                   sx={{
                     boxShadow: 8,
-                    textTransform: 'none',
-                    '&:hover': {
-                      fontWeight: 'bold',
+                    textTransform: "none",
+                    "&:hover": {
+                      fontWeight: "bold",
                       boxShadow: 2,
-                    }
+                    },
                   }}
-                >Remove additional answers</Button>
+                >
+                  {t("Remove additional answers")}
+                </Button>
               </Stack>
             </Box>
-          }
+          )}
         </React.Fragment>
-      }
-    </Grid >
+      )}
+    </Grid>
   );
 };
 

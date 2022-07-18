@@ -1,4 +1,5 @@
-import * as React from 'react';
+import * as React from "react";
+import { useTranslation, Trans } from "react-i18next";
 
 import {
   Box,
@@ -13,30 +14,22 @@ import {
   Menu,
   MenuItem,
 } from "@mui/material";
-import LanguageIcon from '@mui/icons-material/Language';
+import LanguageIcon from "@mui/icons-material/Language";
 
 import { Navigate, useOutlet, useNavigate } from "react-router-dom";
-import { parseJwt } from '../utils/axios';
+import { parseJwt } from "../utils/axios";
 
-
-const options = [
-  'Vietnamese',
-  'English',
-  'Chinese',
-  'France',
-  'Japanese',
-];
+const options = ["Vietnamese", "English"];
 
 export const AuthLayout = () => {
-
-
+  const { t, i18n } = useTranslation();
   const outlet = useOutlet();
   const navigate = useNavigate();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [selectedIndex, setSelectedIndex] = React.useState(1);
 
-  const token = localStorage.kahut_app_accessToken
+  const token = localStorage.kahut_app_accessToken;
 
   if (token) {
     const tokenParse = parseJwt(token);
@@ -51,10 +44,18 @@ export const AuthLayout = () => {
   const handleClickListItem = (event) => {
     setAnchorEl(event.currentTarget);
   };
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+  };
 
   const handleMenuItemClick = (event, index) => {
     setSelectedIndex(index);
     setAnchorEl(null);
+    if (index === 0) {
+      changeLanguage("Vietnamese");
+    } else {
+      changeLanguage("English");
+    }
   };
 
   const handleClose = () => {
@@ -64,63 +65,66 @@ export const AuthLayout = () => {
   return (
     <Box
       sx={{
-        width: '100%',
-        height: '100%',
+        width: "100%",
+        height: "100%",
       }}
     >
       <Box
         sx={{
-          width: '100%',
-          height: '55px',
-          backgroundColor: 'white',
-          display: 'flex',
+          width: "100%",
+          height: "55px",
+          backgroundColor: "white",
+          display: "flex",
           px: 2,
           boxShadow: 10,
         }}
       >
-        <Box sx={{
-          width: '50%',
-          height: '100%',
-          display: 'flex',
-          alignItems: 'center'
-        }}>
+        <Box
+          sx={{
+            width: "50%",
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
           <Typography
-            onClick={() => navigate('/')}
+            onClick={() => navigate("/")}
             sx={{
-              color: 'purple',
+              color: "purple",
               fontSize: 30,
-              fontWeight: 'bold',
-              fontFamily: [
-                'Chilanka',
-                'cursive',
-              ].join(','),
-              cursor: 'pointer'
-            }}>
+              fontWeight: "bold",
+              fontFamily: ["Chilanka", "cursive"].join(","),
+              cursor: "pointer",
+            }}
+          >
             Kahut!
           </Typography>
         </Box>
-        <Box sx={{
-          width: '50%',
-          height: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'flex-end',
-        }}>
+        <Box
+          sx={{
+            width: "50%",
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-end",
+          }}
+        >
           <Fab
             onClick={handleClickListItem}
-            aria-expanded={open ? 'true' : undefined}
+            aria-expanded={open ? "true" : undefined}
             variant="extended"
             style={{
               border: "none",
-              outline: "none"
+              outline: "none",
             }}
             size="small"
             sx={{
-              textTransform: 'none',
-              color: 'black',
-              backgroundColor: 'white'
-            }}>
-            <LanguageIcon fontSize="medium" sx={{ mr: 1, color: 'black' }} />
+              textTransform: "none",
+              color: "black",
+              backgroundColor: "white",
+            }}
+          >
+            <LanguageIcon fontSize="medium" sx={{ mr: 1, color: "black" }} />
             {options[selectedIndex]}
           </Fab>
           <Menu
@@ -129,13 +133,14 @@ export const AuthLayout = () => {
             open={open}
             onClose={handleClose}
             MenuListProps={{
-              'aria-labelledby': 'lock-button',
-              role: 'listbox',
+              "aria-labelledby": "lock-button",
+              role: "listbox",
             }}
           >
             {options.map((option, index) => (
               <MenuItem
                 key={option}
+                value={option}
                 selected={index === selectedIndex}
                 onClick={(event) => handleMenuItemClick(event, index)}
               >
@@ -148,17 +153,17 @@ export const AuthLayout = () => {
       <Box
         sx={{
           py: 5,
-          width: '100%',
-          minHeight: 'calc(100vh - 55px)',
-          backgroundColor: '#f2f2f2',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          background: 'linear-gradient(to right bottom, #430089, #82ffa1)'
+          width: "100%",
+          minHeight: "calc(100vh - 55px)",
+          backgroundColor: "#f2f2f2",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          background: "linear-gradient(to right bottom, #430089, #82ffa1)",
         }}
       >
         {outlet}
       </Box>
-    </Box >
+    </Box>
   );
 };
