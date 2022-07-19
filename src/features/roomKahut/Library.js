@@ -5,7 +5,6 @@ import {
   Stack,
   Grid,
   Divider,
-  ButtonGroup,
   Button,
   ListItem,
   Checkbox,
@@ -54,7 +53,7 @@ const LightTooltip = styled(({ className, ...props }) => (
 }));
 
 const Library = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { listRoom } = useSelector(
     roomSelector
   );
@@ -68,7 +67,7 @@ const Library = () => {
     return () => {
       dispatch(clearState());
     };
-  }, [])
+  }, [dispatch, listRoom])
 
   const [selectedIndex, setSelectedIndex] = useState(2);
   const [checked, setChecked] = useState([]);
@@ -90,6 +89,20 @@ const Library = () => {
 
     setChecked(newChecked);
   };
+
+  const [query, setQuery] = useState('')
+  const [searchQuery, setSearchQuery] = useState('')
+
+  const onClickSearch = () => {
+    setQuery(searchQuery);
+  }
+
+  const txtQuery_KeyUp = (event) => {
+    if (event.keyCode === 13) {
+      onClickSearch();
+    }
+  }
+
   return (
     <Grid container minHeight='calc(100% - 70px)' style={{ backgroundColor: 'white' }} sx={{ mt: 0.5 }}>
       <Grid item xs={2.5} sx={{ boxShadow: 5, py: 4, backgroundColor: 'inherit' }}>
@@ -133,170 +146,180 @@ const Library = () => {
       </Grid>
       <Grid item xs={9.5} >
         <Box sx={{ bgcolor: '#f9f9f9', height: '98.5%', mt: 0, ml: 1, px: 2 }}>
-          <Stack direction='row' spacing={2} display='-webkit-inline-box' sx={{ mt: 4 }}>
-            <ButtonGroup variant="outlined" aria-label="outlined button group" size='medium'>
-              <Button>{t("Recent")}</Button>
-              <Button>{t("Draft")}(4)</Button>
-              <Button>{t("Favotite")}</Button>
-              <Button>{t("Shared with me")}</Button>
-            </ButtonGroup>
-            <Button variant="outlined" component="form"
+          <Stack direction='row' spacing={2} display='-webkit-inline-box' sx={{ mt: 4, width: '100%' }}>
+            <Stack direction='row' aria-label="outlined button group" size='medium'>
+              <Button color='secondary' variant='outlined' style={{ outline: 'none' }}>{t("Recent")}</Button>
+              <Button color='secondary' variant='outlined' style={{ outline: 'none' }}>{t("Draft")}(4)</Button>
+              <Button color='secondary' variant='outlined' style={{ outline: 'none' }}>{t("Favotite")}</Button>
+              <Button color='secondary' variant='outlined' style={{ outline: 'none' }}>{t("Shared with me")}</Button>
+            </Stack>
+            <Box variant="outlined"
               sx={{
+                borderRadius: 1,
+                border: '1px solid purple',
                 display: 'inline-flex',
-                width: '25%'
+                width: '40%'
               }} >
               <InputBase
+                value={searchQuery}
+                onChange={(event) => setSearchQuery(event.target.value)}
+                onKeyUp={txtQuery_KeyUp}
                 sx={{ ml: 1, flex: 1 }}
                 placeholder={t("Search")}
                 inputProps={{ 'aria-label': 'Search' }}
                 size='small'
               />
-              <IconButton type="submit" size='small' aria-label="search">
+              <IconButton
+                onClick={onClickSearch}
+                style={{ outline: 'none' }} size='medium' aria-label="search">
                 <SearchIcon />
               </IconButton>
-            </Button>
+            </Box>
           </Stack>
-          <Divider sx={{ py: 3 }} orientation="horizontal" flexItem />
+          <Divider sx={{ py: 0.5 }} orientation="horizontal" flexItem />
           <List sx={{ width: '100%' }}>
-            {listRoom.map((eachRoom, index) => {
-              const labelId = `checkbox-list-label-${index}`;
-              return (
-                <ListItem
-                  sx={{ py: 1 }}
-                  divider={true}
-                  key={index}
-                  secondaryAction={
-                    <Stack direction='row' display='-webkit-inline-box'>
-                      <Button
-                        variant='text'
-                        sx={{
-                          color: 'black',
-                          textTransform: 'none',
-                          align: 'center'
-                        }}
-                        startIcon={<PersonIcon sx={{ color: 'green' }} />}
-                      >
-                        {parseJwt(localStorage.kahut_app_accessToken).name}
-                      </Button>
-                      <Divider orientation="vertical" flexItem />
-                      <Button
-                        startIcon={<PlayCircleOutlineIcon />}
-                        variant='contained'
-                        component={Link}
-                        to={`/user/gameHost/${eachRoom._id}`}
-                        target='_blank'
-                        style={{
-                          outline: 'none'
-                        }}
-                        sx={{
-                          color: 'white',
-                          textTransform: 'none',
-                          align: 'center',
-                          size: 'small',
-                          '&:hover': {
-                            color: 'white',
-                            fontWeight: 'bold',
-                          }
-                        }}
-                      >
-                        {t("Play")}
-                      </Button>
-                      <Button
-                        variant='contained'
-                        color='warning'
-                        component={Link}
-                        to={`/user/details/${eachRoom._id}`}
-                        style={{
-                          outline: 'none'
-                        }}
-                        sx={{
-                          mx: 2,
-                          textTransform: 'none',
-                          align: 'center',
-                          size: 'small',
-                          '&:hover': {
-                            color: 'white',
-                            fontWeight: 'bold',
-                          }
-                        }}
-                      >
-                        {t("Details")}
-                      </Button>
-                      <Divider orientation="vertical" flexItem />
-                      <LightTooltip title="Edit this quiz" placement="top" >
-                        <IconButton
+            {listRoom
+              .filter(function (eachRoom1) {
+                return eachRoom1.quizTitle.toLowerCase().includes(query.toLowerCase());
+              }).map((eachRoom, index) => {
+                const labelId = `checkbox-list-label-${index}`;
+                return (
+                  <ListItem
+                    sx={{ py: 1 }}
+                    divider={true}
+                    key={eachRoom._id}
+                    secondaryAction={
+                      <Stack direction='row' display='-webkit-inline-box'>
+                        <Button
+                          variant='text'
+                          sx={{
+                            color: 'black',
+                            textTransform: 'none',
+                            align: 'center'
+                          }}
+                          startIcon={<PersonIcon sx={{ color: 'green' }} />}
+                        >
+                          {parseJwt(localStorage.kahut_app_accessToken).name}
+                        </Button>
+                        <Divider orientation="vertical" flexItem />
+                        <Button
+                          startIcon={<PlayCircleOutlineIcon />}
+                          variant='contained'
                           component={Link}
-                          to={`/user/edit/${eachRoom._id}`}
-                          style={{ outline: 'none' }}
+                          to={`/user/gameHost/${eachRoom._id}`}
+                          target='_blank'
+                          style={{
+                            outline: 'none'
+                          }}
                           sx={{
-                            mx: 0.5,
+                            color: 'white',
+                            textTransform: 'none',
+                            align: 'center',
+                            size: 'small',
                             '&:hover': {
-                              backgroundColor: 'plum',
+                              color: 'white',
+                              fontWeight: 'bold',
                             }
                           }}
-                          edge="end" aria-label="edit">
-                          <EditIcon />
-                        </IconButton>
-                      </LightTooltip >
-                      <LightTooltip title="Settings" placement="top" >
-                        <IconButton
-                          style={{ outline: 'none' }}
+                        >
+                          {t("Play")}
+                        </Button>
+                        <Button
+                          variant='contained'
+                          color='warning'
+                          component={Link}
+                          to={`/user/details/${eachRoom._id}`}
+                          style={{
+                            outline: 'none'
+                          }}
                           sx={{
-                            mx: 0.5,
+                            mx: 2,
+                            textTransform: 'none',
+                            align: 'center',
+                            size: 'small',
                             '&:hover': {
-                              backgroundColor: 'plum',
+                              color: 'white',
+                              fontWeight: 'bold',
                             }
                           }}
-                          edge="end" aria-label="settings">
-                          <MoreVertIcon />
-                        </IconButton>
-                      </LightTooltip >
+                        >
+                          {t("Details")}
+                        </Button>
+                        <Divider orientation="vertical" flexItem />
+                        <LightTooltip title="Edit this quiz" placement="top" >
+                          <IconButton
+                            component={Link}
+                            to={`/user/edit/${eachRoom._id}`}
+                            style={{ outline: 'none' }}
+                            sx={{
+                              mx: 0.5,
+                              '&:hover': {
+                                backgroundColor: 'plum',
+                              }
+                            }}
+                            edge="end" aria-label="edit">
+                            <EditIcon />
+                          </IconButton>
+                        </LightTooltip >
+                        <LightTooltip title="Settings" placement="top" >
+                          <IconButton
+                            style={{ outline: 'none' }}
+                            sx={{
+                              mx: 0.5,
+                              '&:hover': {
+                                backgroundColor: 'plum',
+                              }
+                            }}
+                            edge="end" aria-label="settings">
+                            <MoreVertIcon />
+                          </IconButton>
+                        </LightTooltip >
 
-                    </Stack>
-                  }
-                  disablePadding
-                >
-                  <ListItemButton role={undefined} onClick={handleToggle(index)} dense>
-                    <ListItemIcon>
-                      <Checkbox
-                        edge="start"
-                        checked={checked.indexOf(index) !== -1}
-                        tabIndex={-1}
-                        disableRipple
-                        inputProps={{ 'aria-labelledby': labelId }}
-                      />
-                    </ListItemIcon>
-                    <ListItemAvatar sx={{
-                      width: '8rem',
-                      height: '8rem',
-                    }}>
-                      <Avatar sx={{ width: '100%', height: '100%', borderRadius: 2 }} alt="Image alt" src={eachRoom.quizImage} variant="square" />
-                    </ListItemAvatar>
-                    <Stack
-                      sx={{
-                        px: 2,
-                        width: '100%',
-                        height: '100%'
-                      }}
-                    >
-                      <Typography
-                        sx={{ display: 'inline' }}
-                        component="span"
-                        variant="h5"
-                        color="text.primary"
-                        fontWeight='bold'
-                      >
-                        {eachRoom.quizTitle}
-                      </Typography>
-                      <Stack spacing={1} direction='row' sx={{ mt: 3 }}>
-                        <Chip label={eachRoom.questions.length + t(" questions")} variant='outlined' size="medium" color="info" sx={{ px: 1, fontWeight: 'bold', fontSize: 15 }} />
-                        <Chip label={eachRoom.plays ? eachRoom.plays + t(" plays") : "0" + t("plays")} variant='outlined' size="medium" color="secondary" sx={{ px: 1, fontWeight: 'bold', fontSize: 15 }} />
                       </Stack>
-                    </Stack>
-                  </ListItemButton>
-                </ListItem>
-              );
-            })}
+                    }
+                    disablePadding
+                  >
+                    <ListItemButton role={undefined} onClick={handleToggle(index)} dense>
+                      <ListItemIcon>
+                        <Checkbox
+                          edge="start"
+                          checked={checked.indexOf(index) !== -1}
+                          tabIndex={-1}
+                          disableRipple
+                          inputProps={{ 'aria-labelledby': labelId }}
+                        />
+                      </ListItemIcon>
+                      <ListItemAvatar sx={{
+                        width: '8rem',
+                        height: '8rem',
+                      }}>
+                        <Avatar sx={{ width: '100%', height: '100%', borderRadius: 2 }} alt="Image alt" src={eachRoom.quizImage} variant="square" />
+                      </ListItemAvatar>
+                      <Stack
+                        sx={{
+                          px: 2,
+                          width: '100%',
+                          height: '100%'
+                        }}
+                      >
+                        <Typography
+                          sx={{ display: 'inline' }}
+                          component="span"
+                          variant="h5"
+                          color="text.primary"
+                          fontWeight='bold'
+                        >
+                          {eachRoom.quizTitle}
+                        </Typography>
+                        <Stack spacing={1} direction='row' sx={{ mt: 3 }}>
+                          <Chip label={eachRoom.questions.length + t(" questions")} variant='outlined' size="medium" color="info" sx={{ px: 1, fontWeight: 'bold', fontSize: 15 }} />
+                          <Chip label={eachRoom.plays ? eachRoom.plays + t(" plays") : "0" + t("plays")} variant='outlined' size="medium" color="secondary" sx={{ px: 1, fontWeight: 'bold', fontSize: 15 }} />
+                        </Stack>
+                      </Stack>
+                    </ListItemButton>
+                  </ListItem>
+                );
+              })}
           </List>
         </Box>
       </Grid>

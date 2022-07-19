@@ -107,7 +107,7 @@ const SignupForm = () => {
     return () => {
       dispatch(clearState());
     };
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (isError) {
@@ -125,7 +125,7 @@ const SignupForm = () => {
       setOpenDialog(true);
 
     }
-  }, [isError, isSuccess]);
+  }, [isError, isSuccess, dispatch, open]);
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
@@ -152,6 +152,12 @@ const SignupForm = () => {
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
+
+  const txtQuery_KeyUp = (event) => {
+    if (event.keyCode === 13) {
+      onSubmit();
+    }
+  }
 
   return (
     <Box
@@ -226,6 +232,7 @@ const SignupForm = () => {
               id="outlined-adornment-name"
               value={values.name}
               onChange={handleChange('name')}
+              onKeyUp={txtQuery_KeyUp}
               aria-describedby="outlined-email-helper-text"
               label="Full name"
             />
@@ -239,6 +246,7 @@ const SignupForm = () => {
               id="outlined-adornment-email"
               value={values.email}
               onChange={handleChange('email')}
+              onKeyUp={txtQuery_KeyUp}
               endAdornment={<InputAdornment position="end">@gmail.com</InputAdornment>}
               aria-describedby="outlined-email-helper-text"
               label="Email"
@@ -258,6 +266,7 @@ const SignupForm = () => {
               type={values.showPassword ? 'text' : 'password'}
               value={values.password}
               onChange={handleChange('password')}
+              onKeyUp={txtQuery_KeyUp}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
@@ -282,6 +291,7 @@ const SignupForm = () => {
               type={values.showConfirmPassword ? 'text' : 'password'}
               value={values.confirmPassword}
               onChange={handleChange('confirmPassword')}
+              onKeyUp={txtQuery_KeyUp}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton

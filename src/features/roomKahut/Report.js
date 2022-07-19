@@ -133,6 +133,26 @@ const Report = () => {
         setSelectedIndex(index);
     };
 
+    const [query, setQuery] = useState([])
+    const [searchQuery, setSearchQuery] = useState('')
+
+    const onClickSearch = () => {
+        setQuery([])
+        if (listRoomMap.length !== 0 && listReport.length !== 0 && listRoom.length !== 0) {
+            for (const [index, eachRoomIndex] of listRoomMap.entries()) {
+                if (!listRoom[eachRoomIndex].quizTitle.toLowerCase().includes(searchQuery.toLowerCase())) {
+                    setQuery(old => [...old, listReport[index]._id])
+                }
+            }
+        }
+    }
+
+    const txtQuery_KeyUp = (event) => {
+        if (event.keyCode === 13) {
+            onClickSearch();
+        }
+    }
+
     return (
         <Grid container minHeight='calc(100% - 70px)' style={{ backgroundColor: 'white' }} sx={{ mt: 0.5 }}>
             <Grid item xs={2.5} sx={{ boxShadow: 5, py: 4, backgroundColor: 'inherit' }}>
@@ -185,10 +205,14 @@ const Report = () => {
                         <Stack direction='row' spacing={2} display='-webkit-inline-box' sx={{
                             backgroundColor: 'white',
                             borderRadius: 1,
+                            border: '1px solid grey',
                             boxShadow: 2,
                             p: 1,
                         }} >
                             <InputBase
+                                value={searchQuery}
+                                onChange={(event) => setSearchQuery(event.target.value)}
+                                onKeyUp={txtQuery_KeyUp}
                                 variant='outline'
                                 sx={{ ml: 1, flex: 1 }}
                                 placeholder="Search"
@@ -196,6 +220,7 @@ const Report = () => {
                                 size='small'
                             />
                             <IconButton
+                                onClick={onClickSearch}
                                 style={{ outline: 'none' }}
                                 type="submit" size='small' aria-label="search">
                                 <SearchIcon />
@@ -219,228 +244,232 @@ const Report = () => {
 
                     <Divider sx={{ py: 1 }} orientation="horizontal" flexItem />
                     <List sx={{ width: '100%' }}>
-                        {listReport.map((eachReport, index) => {
-                            const room = listRoom[listRoomMap[index]]
+                        {listReport
+                            .filter(function (eachReport1) {
+                                return !query.includes(eachReport1._id);
+                            })
+                            .map((eachReport, index) => {
+                                const room = listRoom[listRoomMap[index]]
 
-                            var a = new Date(eachReport.timeStart);
-                            var year = a.getFullYear();
-                            var month = a.getMonth()
-                            var date = a.getDate();
-                            var hour = a.getHours();
-                            var min = a.getMinutes();
-                            var formattedTime = hour + ':' + min + ' ' + date + '/' + month + '/' + year;
+                                var a = new Date(eachReport.timeStart);
+                                var year = a.getFullYear();
+                                var month = a.getMonth()
+                                var date = a.getDate();
+                                var hour = a.getHours();
+                                var min = a.getMinutes();
+                                var formattedTime = hour + ':' + min + ' ' + date + '/' + month + '/' + year;
 
-                            return (
-                                <ListItem
-                                    divider={true}
-                                    key={index}
-                                    disablePadding
-                                    sx={{
-                                        backgroundColor: 'white',
-                                        borderRadius: 1,
-                                        my: 1,
-                                        boxShadow: 2,
-                                    }}
-                                >
-                                    <Stack direction='row' spacing={2} width='100%' height='170px'
+                                return (
+                                    <ListItem
+                                        divider={true}
+                                        key={index}
+                                        disablePadding
                                         sx={{
-                                            p: 1
+                                            backgroundColor: 'white',
+                                            borderRadius: 1,
+                                            my: 1,
+                                            boxShadow: 2,
                                         }}
                                     >
-                                        {room ?
-                                            <React.Fragment>
-                                                <Box
-                                                    component="img"
-                                                    sx={{
+                                        <Stack direction='row' spacing={2} width='100%' height='170px'
+                                            sx={{
+                                                p: 1
+                                            }}
+                                        >
+                                            {room ?
+                                                <React.Fragment>
+                                                    <Box
+                                                        component="img"
+                                                        sx={{
+                                                            width: '30%',
+                                                            borderRadius: 2,
+                                                        }}
+                                                        src={room.quizImage}
+                                                    />
+                                                    <Box sx={{ flexGrow: 1, height: '100%', }}>
+                                                        <Box display='flex' width='100%' height='50px'>
+                                                            <Typography
+                                                                sx={{
+                                                                    color: 'black',
+                                                                    fontWeight: 'bold',
+                                                                    fontSize: 30,
+                                                                    flexGrow: 1
+                                                                }}>
+                                                                {room.quizTitle}
+                                                            </Typography>
+                                                            <Typography
+                                                                sx={{
+                                                                    color: 'grey',
+                                                                    fontSize: 20,
+                                                                    display: 'flex',
+                                                                    alignItems: 'center'
+                                                                }}>
+                                                                Start at {formattedTime}
+                                                            </Typography>
+                                                        </Box>
+                                                        <Stack
+                                                            alignItems='flex-end'
+                                                            spacing={2}
+                                                            direction='row'
+                                                            sx={{
+                                                                height: 'calc(100% - 50px)',
+                                                                width: '100%',
+                                                                // pb: 1
+                                                            }}
+                                                        >
+                                                            <Stack spacing={1}>
+                                                                <Chip label={room.questions.length + " questions"} variant='outlined' size="medium" color="info" sx={{ px: 1, fontWeight: 'bold', fontSize: 18 }} />
+                                                                <Chip label={room.plays ? room.plays + " plays" : "0 plays"} variant='outlined' size="medium" color="secondary" sx={{ px: 1, fontWeight: 'bold', fontSize: 18 }} />
+                                                            </Stack>
+                                                            <CircularProgressWithLabel
+                                                                value={eachReport.percentRightTotal}
+                                                                sx={{
+                                                                    color: "#66BF39",
+                                                                }}
+                                                            />
+                                                            <Divider flexItem orientation='vertical' style={{ marginTop: 'auto' }} sx={{ height: '72px' }} />
+                                                            <Stack spacing={1} sx={{ flexGrow: 1 }}>
+                                                                <Typography
+                                                                    sx={{ fontSize: 18, color: 'black' }}
+                                                                >{eachReport.percentRightTotal}% correct</Typography>
+                                                                <Typography
+                                                                    sx={{ fontSize: 18, color: 'black' }}
+                                                                >{eachReport.players.length} players joined</Typography>
+                                                            </Stack>
+                                                            <Stack spacing={1}>
+                                                                <Button variant='contained' color='warning'
+                                                                    endIcon={<DetailsIcon />}
+                                                                    component={Link}
+                                                                    to={`/user/reports/${eachReport._id}`}
+                                                                    style={{
+                                                                        outline: 'none',
+                                                                        textTransform: 'none',
+                                                                    }}
+                                                                    sx={{
+                                                                        '&:hover': {
+                                                                            color: 'white',
+                                                                            textDecoration: 'none',
+                                                                        }
+                                                                    }}
+                                                                >Details</Button>
+                                                                <Button variant='contained' color='error'
+                                                                    endIcon={<DeleteIcon />}
+                                                                    style={{
+                                                                        outline: 'none',
+                                                                        textTransform: 'none'
+                                                                    }}
+                                                                    sx={{
+                                                                        '&:hover': {
+                                                                            color: 'white',
+                                                                            textDecoration: 'none',
+                                                                        }
+                                                                    }}
+                                                                >Delete</Button>
+                                                            </Stack>
+                                                        </Stack>
+                                                    </Box>
+                                                </React.Fragment>
+                                                :
+                                                <React.Fragment>
+                                                    <Box sx={{
+                                                        border: '2px grey dashed',
                                                         width: '30%',
+                                                        display: 'flex',
+                                                        justifyContent: 'center',
+                                                        alignItems: 'center',
                                                         borderRadius: 2,
-                                                    }}
-                                                    src={room.quizImage}
-                                                />
-                                                <Box sx={{ flexGrow: 1, height: '100%', }}>
-                                                    <Box display='flex' width='100%' height='50px'>
-                                                        <Typography
-                                                            sx={{
-                                                                color: 'black',
-                                                                fontWeight: 'bold',
-                                                                fontSize: 30,
-                                                                flexGrow: 1
-                                                            }}>
-                                                            {room.quizTitle}
-                                                        </Typography>
-                                                        <Typography
-                                                            sx={{
-                                                                color: 'grey',
-                                                                fontSize: 20,
-                                                                display: 'flex',
-                                                                alignItems: 'center'
-                                                            }}>
-                                                            Start at {formattedTime}
-                                                        </Typography>
+                                                    }}>
+                                                        <PhotoSizeSelectActualIcon sx={{
+                                                            fontSize: '10em',
+                                                            color: '#a2aaca',
+                                                        }} />
                                                     </Box>
-                                                    <Stack
-                                                        alignItems='flex-end'
-                                                        spacing={2}
-                                                        direction='row'
-                                                        sx={{
-                                                            height: 'calc(100% - 50px)',
-                                                            width: '100%',
-                                                            // pb: 1
-                                                        }}
-                                                    >
-                                                        <Stack spacing={1}>
-                                                            <Chip label={room.questions.length + " questions"} variant='outlined' size="medium" color="info" sx={{ px: 1, fontWeight: 'bold', fontSize: 18 }} />
-                                                            <Chip label={room.plays ? room.plays + " plays" : "0 plays"} variant='outlined' size="medium" color="secondary" sx={{ px: 1, fontWeight: 'bold', fontSize: 18 }} />
-                                                        </Stack>
-                                                        <CircularProgressWithLabel
-                                                            value={eachReport.percentRightTotal}
+                                                    <Box sx={{ flexGrow: 1, height: '100%', }}>
+                                                        <Box display='flex' width='100%' height='50px'>
+                                                            <Typography
+                                                                sx={{
+                                                                    color: 'black',
+                                                                    fontWeight: 'bold',
+                                                                    fontSize: 30,
+                                                                    flexGrow: 1
+                                                                }}>
+                                                                This quiz was removed!
+                                                            </Typography>
+                                                            <Typography
+                                                                sx={{
+                                                                    color: 'grey',
+                                                                    fontSize: 20,
+                                                                    display: 'flex',
+                                                                    alignItems: 'center'
+                                                                }}>
+                                                                Start at {formattedTime}
+                                                            </Typography>
+                                                        </Box>
+                                                        <Stack
+                                                            alignItems='flex-end'
+                                                            spacing={2}
+                                                            direction='row'
                                                             sx={{
-                                                                color: "#66BF39",
+                                                                height: 'calc(100% - 50px)',
+                                                                width: '100%',
+                                                                // pb: 1
                                                             }}
-                                                        />
-                                                        <Divider flexItem orientation='vertical' style={{ marginTop: 'auto' }} sx={{ height: '72px' }} />
-                                                        <Stack spacing={1} sx={{ flexGrow: 1 }}>
-                                                            <Typography
-                                                                sx={{ fontSize: 18, color: 'black' }}
-                                                            >{eachReport.percentRightTotal}% correct</Typography>
-                                                            <Typography
-                                                                sx={{ fontSize: 18, color: 'black' }}
-                                                            >{eachReport.players.length} players joined</Typography>
-                                                        </Stack>
-                                                        <Stack spacing={1}>
-                                                            <Button variant='contained' color='warning'
-                                                                endIcon={<DetailsIcon />}
-                                                                component={Link}
-                                                                to={`/user/reports/${eachReport._id}`}
-                                                                style={{
-                                                                    outline: 'none',
-                                                                    textTransform: 'none',
-                                                                }}
+                                                        >
+                                                            <CircularProgressWithLabel
+                                                                value={eachReport.percentRightTotal}
                                                                 sx={{
-                                                                    '&:hover': {
-                                                                        color: 'white',
-                                                                        textDecoration: 'none',
-                                                                    }
+                                                                    color: "#66BF39",
                                                                 }}
-                                                            >Details</Button>
-                                                            <Button variant='contained' color='error'
-                                                                endIcon={<DeleteIcon />}
-                                                                style={{
-                                                                    outline: 'none',
-                                                                    textTransform: 'none'
-                                                                }}
-                                                                sx={{
-                                                                    '&:hover': {
-                                                                        color: 'white',
-                                                                        textDecoration: 'none',
-                                                                    }
-                                                                }}
-                                                            >Delete</Button>
+                                                            />
+                                                            <Divider flexItem orientation='vertical' style={{ marginTop: 'auto' }} sx={{ height: '72px' }} />
+                                                            <Stack spacing={1} sx={{ flexGrow: 1 }}>
+                                                                <Typography
+                                                                    sx={{ fontSize: 18, color: 'black' }}
+                                                                >{eachReport.percentRightTotal}% correct</Typography>
+                                                                <Typography
+                                                                    sx={{ fontSize: 18, color: 'black' }}
+                                                                >{eachReport.players.length} players joined</Typography>
+                                                            </Stack>
+                                                            <Stack spacing={1}>
+                                                                <Button variant='contained' color='warning'
+                                                                    endIcon={<DetailsIcon />}
+                                                                    component={Link}
+                                                                    to={`/user/reports/${eachReport._id}`}
+                                                                    style={{
+                                                                        outline: 'none',
+                                                                        textTransform: 'none',
+                                                                    }}
+                                                                    sx={{
+                                                                        '&:hover': {
+                                                                            color: 'white',
+                                                                            textDecoration: 'none',
+                                                                        }
+                                                                    }}
+                                                                >Details</Button>
+                                                                <Button variant='contained' color='error'
+                                                                    endIcon={<DeleteIcon />}
+                                                                    style={{
+                                                                        outline: 'none',
+                                                                        textTransform: 'none'
+                                                                    }}
+                                                                    sx={{
+                                                                        '&:hover': {
+                                                                            color: 'white',
+                                                                            textDecoration: 'none',
+                                                                        }
+                                                                    }}
+                                                                >Delete</Button>
+                                                            </Stack>
                                                         </Stack>
-                                                    </Stack>
-                                                </Box>
-                                            </React.Fragment>
-                                            :
-                                            <React.Fragment>
-                                                <Box sx={{
-                                                    border: '2px grey dashed',
-                                                    width: '30%',
-                                                    display: 'flex',
-                                                    justifyContent: 'center',
-                                                    alignItems: 'center',
-                                                    borderRadius: 2,
-                                                }}>
-                                                    <PhotoSizeSelectActualIcon sx={{
-                                                        fontSize: '10em',
-                                                        color: '#a2aaca',
-                                                    }} />
-                                                </Box>
-                                                <Box sx={{ flexGrow: 1, height: '100%', }}>
-                                                    <Box display='flex' width='100%' height='50px'>
-                                                        <Typography
-                                                            sx={{
-                                                                color: 'black',
-                                                                fontWeight: 'bold',
-                                                                fontSize: 30,
-                                                                flexGrow: 1
-                                                            }}>
-                                                            This quiz was removed!
-                                                        </Typography>
-                                                        <Typography
-                                                            sx={{
-                                                                color: 'grey',
-                                                                fontSize: 20,
-                                                                display: 'flex',
-                                                                alignItems: 'center'
-                                                            }}>
-                                                            Start at {formattedTime}
-                                                        </Typography>
                                                     </Box>
-                                                    <Stack
-                                                        alignItems='flex-end'
-                                                        spacing={2}
-                                                        direction='row'
-                                                        sx={{
-                                                            height: 'calc(100% - 50px)',
-                                                            width: '100%',
-                                                            // pb: 1
-                                                        }}
-                                                    >
-                                                        <CircularProgressWithLabel
-                                                            value={eachReport.percentRightTotal}
-                                                            sx={{
-                                                                color: "#66BF39",
-                                                            }}
-                                                        />
-                                                        <Divider flexItem orientation='vertical' style={{ marginTop: 'auto' }} sx={{ height: '72px' }} />
-                                                        <Stack spacing={1} sx={{ flexGrow: 1 }}>
-                                                            <Typography
-                                                                sx={{ fontSize: 18, color: 'black' }}
-                                                            >{eachReport.percentRightTotal}% correct</Typography>
-                                                            <Typography
-                                                                sx={{ fontSize: 18, color: 'black' }}
-                                                            >{eachReport.players.length} players joined</Typography>
-                                                        </Stack>
-                                                        <Stack spacing={1}>
-                                                            <Button variant='contained' color='warning'
-                                                                endIcon={<DetailsIcon />}
-                                                                component={Link}
-                                                                to={`/user/reports/${eachReport._id}`}
-                                                                style={{
-                                                                    outline: 'none',
-                                                                    textTransform: 'none',
-                                                                }}
-                                                                sx={{
-                                                                    '&:hover': {
-                                                                        color: 'white',
-                                                                        textDecoration: 'none',
-                                                                    }
-                                                                }}
-                                                            >Details</Button>
-                                                            <Button variant='contained' color='error'
-                                                                endIcon={<DeleteIcon />}
-                                                                style={{
-                                                                    outline: 'none',
-                                                                    textTransform: 'none'
-                                                                }}
-                                                                sx={{
-                                                                    '&:hover': {
-                                                                        color: 'white',
-                                                                        textDecoration: 'none',
-                                                                    }
-                                                                }}
-                                                            >Delete</Button>
-                                                        </Stack>
-                                                    </Stack>
-                                                </Box>
-                                            </React.Fragment>
-                                        }
+                                                </React.Fragment>
+                                            }
 
 
-                                    </Stack>
-                                </ListItem>
-                            );
-                        })}
+                                        </Stack>
+                                    </ListItem>
+                                );
+                            })}
                     </List>
                 </Box>
             </Grid>

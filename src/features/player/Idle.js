@@ -23,7 +23,15 @@ const Idle = () => {
     setTimeout(() => {
       dispatch(clearState())
     }, 6000);
-  }, [isError])
+  }, [isError, dispatch])
+
+  const txtQuery_KeyUp = (event) => {
+    if (event.keyCode === 13) {
+      if (pin) {
+        dispatch(sendPin(pin));
+      }
+    }
+  }
 
   return (
     <Box sx={{
@@ -69,6 +77,7 @@ const Idle = () => {
               variant='outlined'
               color="secondary"
               onChange={(e) => setPin(e.target.value)}
+              onKeyUp={txtQuery_KeyUp}
               value={pin ? pin : ""}
               inputProps={{
                 style: { textAlign: 'center', fontWeight: 'bold', fontSize: 20 }

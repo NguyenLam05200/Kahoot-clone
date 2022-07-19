@@ -14,6 +14,13 @@ const RightPin = () => {
       dispatch(sendName(name));
     }
   }
+  const txtQuery_KeyUp = (event) => {
+    if (event.keyCode === 13) {
+      if (name !== '') {
+        dispatch(sendName(name));
+      }
+    }
+  }
   return (
     <Box sx={{
       width: '100%',
@@ -52,6 +59,7 @@ const RightPin = () => {
               variant='outlined'
               color="secondary"
               onChange={(e) => setName(e.target.value)}
+              onKeyUp={txtQuery_KeyUp}
               value={name}
               inputProps={{
                 style: { textAlign: 'center', fontWeight: 'bold', fontSize: 20 }

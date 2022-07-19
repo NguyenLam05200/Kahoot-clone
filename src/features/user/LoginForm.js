@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { loginUser, userSelector, clearState } from './userSlice';
-import { useTranslation, initReactI18next } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import {
   Alert,
   Backdrop,
@@ -28,7 +28,7 @@ import { Link as LinkRoute } from 'react-router-dom';
 
 const LoginForm = () => {
   const navigate = useNavigate();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const [values, setValues] = useState({
     email: '',
@@ -73,7 +73,7 @@ const LoginForm = () => {
     return () => {
       dispatch(clearState());
     };
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (isError) {
@@ -90,7 +90,7 @@ const LoginForm = () => {
       dispatch(clearState());
       navigate(-1);
     }
-  }, [isError, isSuccess]);
+  }, [isError, isSuccess, navigate, open, dispatch]);
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
@@ -106,6 +106,12 @@ const LoginForm = () => {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+
+  const txtQuery_KeyUp = (event) => {
+    if (event.keyCode === 13) {
+      onSubmit();
+    }
+  }
 
   return (
     <Box
@@ -145,6 +151,7 @@ const LoginForm = () => {
             id="outlined-adornment-email"
             value={values.email}
             onChange={handleChange('email')}
+            onKeyUp={txtQuery_KeyUp}
             endAdornment={<InputAdornment position="end">@gmail.com</InputAdornment>}
             aria-describedby="outlined-email-helper-text"
             label="Email"
@@ -158,6 +165,7 @@ const LoginForm = () => {
             id="outlined-adornment-password"
             type={values.showPassword ? 'text' : 'password'}
             value={values.password}
+            onKeyUp={txtQuery_KeyUp}
             onChange={handleChange('password')}
             endAdornment={
               <InputAdornment position="end">
