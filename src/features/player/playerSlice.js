@@ -1,44 +1,9 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { handlePIN, handleNAME } from './playerAPI';
+import { createSlice } from '@reduxjs/toolkit';
 import Socket from '../../utils/socket';
 
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-export const enterPIN = createAsyncThunk(
-  'players/enterPIN',
-  async (inputPin, thunkAPI) => {
-    try {
-      Socket.emit('ENTER_PIN', inputPin)
-
-      Socket.on('ENTER_PIN', (msg) => {
-        if (msg) { return msg } else {
-          return thunkAPI.rejectWithValue("Your pin is incorrect!");
-        }
-      });
-
-    } catch (e) {
-      return thunkAPI.rejectWithValue("Connect to server failed!");
-    }
-  }
-);
-
-export const enterName = createAsyncThunk(
-  'players/enterName',
-  async (inputName, thunkAPI) => {
-    try {
-      let res = await handleNAME(inputName);
-      if (res) {
-        return inputName;
-      } else {
-        return thunkAPI.rejectWithValue("Your pin is incorrect!");
-      }
-    } catch (e) {
-      return thunkAPI.rejectWithValue("Connect to server failed!");
-    }
-  }
-);
+// function sleep(ms) {
+//   return new Promise(resolve => setTimeout(resolve, ms));
+// }
 
 export const playerSlice = createSlice({
   name: 'player',
@@ -155,34 +120,6 @@ export const playerSlice = createSlice({
     }
   },
   extraReducers: {
-    [enterPIN.fulfilled]: (state, { payload }) => {
-      state.questions = payload;
-      state.isFetching = false;
-      state.isSuccess = true;
-      state.status = 'rightPin';
-    },
-    [enterPIN.pending]: (state) => {
-      state.isFetching = true;
-    },
-    [enterPIN.rejected]: (state, { payload }) => {
-      state.isFetching = false;
-      state.isError = true;
-      state.errorMessage = payload;
-    },
-    [enterName.fulfilled]: (state, { payload }) => {
-      state.name = payload;
-      state.isFetching = false;
-      state.isSuccess = true;
-      state.status = 'rightName'
-    },
-    [enterName.rejected]: (state, { payload }) => {
-      state.isFetching = false;
-      state.isError = true;
-      state.errorMessage = payload;
-    },
-    [enterName.pending]: (state) => {
-      state.isFetching = true;
-    },
   },
 });
 

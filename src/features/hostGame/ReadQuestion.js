@@ -1,20 +1,11 @@
-import { Box, Typography, Stack, IconButton, LinearProgress, Button } from '@mui/material'
+import { Box, Typography, Stack, IconButton, Button } from '@mui/material'
 import { useState, useEffect } from 'react';
 
 import { useSelector, useDispatch } from "react-redux";
 import {
     gameSelector,
-    setFullScreen,
     chooseAnswer
 } from './gameSlice';
-
-import SquareIcon from '@mui/icons-material/Square';
-import HexagonIcon from '@mui/icons-material/Hexagon';
-import CircleIcon from '@mui/icons-material/Circle';
-import DarkModeIcon from '@mui/icons-material/DarkMode';
-import FullscreenIcon from '@mui/icons-material/Fullscreen';
-import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
-
 import { logoPhone } from '../../components/AnswerUI';
 import ActionUtils from './ActionUtils';
 
@@ -23,7 +14,7 @@ const ReadQuestion = () => {
     const [progress, setProgress] = useState(0);
 
     const dispatch = useDispatch();
-    const { isFullScreen, timeReadQuestion, curRoom, curQuestion } = useSelector(
+    const { timeReadQuestion, curRoom, curQuestion } = useSelector(
         gameSelector
     );
     const listQuestions = curRoom.questions;
@@ -33,7 +24,7 @@ const ReadQuestion = () => {
         }, (timeReadQuestion + 1000) / 100);
 
         return () => clearInterval(interval1);
-    }, []);
+    }, [timeReadQuestion]);
 
     const [count, setCount] = useState(timeReadQuestion / 1000);
     useEffect(() => {

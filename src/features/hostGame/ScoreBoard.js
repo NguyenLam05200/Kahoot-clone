@@ -1,8 +1,7 @@
 import { Box, Typography, Stack, Button, } from '@mui/material'
-import { useState } from 'react';
 import socket from '../../utils/socket';
 
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import {
     gameSelector,
 } from './gameSlice';

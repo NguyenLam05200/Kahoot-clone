@@ -1,10 +1,8 @@
-import { Chip, Box, Stack, Grid, Paper, Button, Typography, Link, Divider } from '@mui/material'
-import Navbar from "../user/Navbar";
+import { Chip, Box, Stack, Grid, Button, Typography, Link, Divider } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add';
-import { useTranslation, Trans } from "react-i18next";
+import { useTranslation,  } from "react-i18next";
 import {
   useEffect,
-  useState
 } from 'react';
 import PropTypes from 'prop-types';
 import { styled, useTheme } from '@mui/material/styles';
@@ -24,11 +22,11 @@ import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import { parseJwt } from '../../utils/axios';
-import { Link as Linkx } from 'react-router-dom';
 
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import {
+  clearState,
   getAllRoom,
   roomSelector,
 } from './roomSlice';
@@ -252,10 +250,12 @@ const Dashboard = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-
     if (!listRoom || listRoom.length === 0) {
       dispatch(getAllRoom())
     }
+    return () => {
+      dispatch(clearState());
+    };
   }, [])
 
   return (
@@ -412,7 +412,7 @@ const Dashboard = () => {
                     </Typography>
                     <Stack spacing={1} direction='row' sx={{ py: 1, width: '100%' }}>
                       <Chip label={eachRoom.questions.length + " questions"} variant='outlined' size="small" color="info" sx={{ width: '50%', fontWeight: 'bold', fontSize: 14 }} />
-                      <Chip label={eachRoom.plays + " plays"} variant='outlined' size="small" color="secondary" sx={{ width: '50%', fontWeight: 'bold', fontSize: 14 }} />
+                      <Chip label={eachRoom.plays ? eachRoom.plays + " plays" : "0 plays"} variant='outlined' size="small" color="secondary" sx={{ width: '50%', fontWeight: 'bold', fontSize: 14 }} />
                     </Stack>
                   </Box>
                 </Box>
@@ -466,7 +466,7 @@ const Dashboard = () => {
             </Stepper>
           </Stack>
         </Box>
-        <Box p={3} bgcolor='success.light'
+        <Box p={3} bgcolor='#c9c493'
           sx={{
             m: 2,
             boxShadow: 3,
@@ -478,8 +478,8 @@ const Dashboard = () => {
           <Box bgColor='success' width='50%' marginRight={2}>
             <Stack spacing={2} >
               {itemData.map((item, index) => (
-                <Card key={index} sx={{ display: 'flex' }}>
-                  <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                <Card key={index} sx={{ display: 'flex', backgroundImage: 'linear-gradient(90deg, rgba(181,222,231,1) 0%, rgba(2,0,36,1) 100%)' }}>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
                     <CardContent sx={{ flex: '1 0 auto' }}>
                       <Typography component="div" variant="h5">
                         {item.title}
@@ -502,7 +502,7 @@ const Dashboard = () => {
                   </Box>
                   <CardMedia
                     component="img"
-                    sx={{ width: 151 }}
+                    sx={{ width: '60%', p: 0.5, height: 170 }}
                     image={item.img}
                     alt="Live from space album cover"
                   />
@@ -510,11 +510,11 @@ const Dashboard = () => {
               ))}
             </Stack>
           </Box>
-          <Box bgColor='success' width='50%'>
+          <Box width='50%'>
             <Stack spacing={2} >
               {itemData2.map((item, index) => (
-                <Card key={index} sx={{ display: 'flex' }}>
-                  <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                <Card key={index} sx={{ display: 'flex', backgroundImage: 'linear-gradient(90deg, rgba(181,222,231,1) 0%, rgba(2,0,36,1) 100%)' }}>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
                     <CardContent sx={{ flex: '1 0 auto' }}>
                       <Typography component="div" variant="h5">
                         {item.title}
@@ -537,7 +537,7 @@ const Dashboard = () => {
                   </Box>
                   <CardMedia
                     component="img"
-                    sx={{ width: 151 }}
+                    sx={{ width: '60%', p: 0.5, height: 170 }}
                     image={item.img}
                     alt="Live from space album cover"
                   />

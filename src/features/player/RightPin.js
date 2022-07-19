@@ -1,9 +1,9 @@
 import { useDispatch } from 'react-redux';
 import { useState } from 'react'
-import { Tooltip, TextField, Box, Stack, Grid, Paper, Divider, Typography, Container, Button } from '@mui/material'
+import { Tooltip, TextField, Box, Stack, Typography, Button } from '@mui/material'
 import { sendName } from './playerSlice';
 
-const RightPin = ({ }) => {
+const RightPin = () => {
   const [name, setName] = useState('');
   const dispatch = useDispatch();
 
@@ -59,7 +59,6 @@ const RightPin = ({ }) => {
             />
           </Tooltip>
           <Button
-            // onClick={() => dispatch(enterName(name))}
             type='submit'
             variant="contained"
             size='large'

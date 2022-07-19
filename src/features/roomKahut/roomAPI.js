@@ -37,7 +37,7 @@ export async function formatInputCreate(dataInput) {
     }
     dataInputDeepCopy.listQuestion[i].id = '' + i;
     dataInputDeepCopy.listQuestion[i].ans.map((eachAns, index) => {
-      eachAns.id = i + '' + index
+      return eachAns.id = i + '' + index
     })
   }
 
@@ -54,7 +54,7 @@ export async function handleCreate(newKahutRoom) {
   return instance.post('quiz', newKahutRoom)
 }
 
-export function handleGetAll() {
+export function handleGetAllRoom() {
   return axios.get(`${process.env.REACT_APP_BACK_END_OTHER}quiz-all`, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("kahut_app_accessToken")}`,
@@ -89,11 +89,6 @@ export function handleDeleteRoomByID(roomID) {
 export async function formatInputUpdate(dataInput) {
   const { curRoom, roomTitle, roomImage, listQuestion } = dataInput;
 
-  console.log('curRoom: ', curRoom);
-  console.log('roomTitle: ', roomTitle);
-  console.log('roomImage: ', roomImage);
-  console.log('listQuestion: ', listQuestion);
-
   const updatedRoom = JSON.parse(JSON.stringify(curRoom));
   updatedRoom.quizTitle = roomTitle;
   if (roomImage) {
@@ -122,4 +117,100 @@ export async function formatInputUpdate(dataInput) {
 
 export function handleUpdate(updatedRoom) {
   return instance.post('quiz', updatedRoom)
+}
+
+export function handleGetAllReport() {
+  return axios.get(`${process.env.REACT_APP_BACK_END_OTHER}report-all`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("kahut_app_accessToken")}`,
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    }
+  })
+  // return {
+  //   status: 200,
+  //   reports: [
+  //     {
+  //       _id: 'x1',
+  //       author: 'Nguyen Lam',
+  //       quizID: '62ce63ff5c2f1a40a5f4dbcc',
+  //       percentRightTotal: 48,
+  //       timeStart: 1657950168732,
+  //       timeEnd: 1657950256974,
+  //       listCountChooseAns: [
+  //         [0, 9, 0, 0],
+  //         [2, 2, 3, 1],
+  //         [2, 1, 2, 3, 2, 0],
+  //         []
+  //       ],
+  //       players: [
+  //         { name: 'Luffy', score: 1727, correctAns: [0, 1] },
+  //         { name: 'Jhon', score: 1252, correctAns: [0, 1] },
+  //         { name: 'Selena Gomez', score: 853, correctAns: [1] },
+  //         { name: 'Taylor Swift', score: 789, correctAns: [3] },
+  //         { name: 'Alex', score: 722, correctAns: [3] },
+  //         { name: 'Nga', score: 569, correctAns: [2] },
+  //         { name: 'Thanh', score: 488, correctAns: [0] },
+  //         { name: 'Lam', score: 356, correctAns: [2] },
+  //       ],
+  //       analysisResults: [
+  //         [1, 33],
+  //         [2, 50],
+  //         [0, 100],
+  //         [0, 101]
+  //       ]
+  //     },
+  //     {
+  //       _id: 'x2',
+  //       author: 'Nguyen Lam',
+  //       quizID: '62ce63ff5c2f1a40a5f4dbccs',
+  //       percentRightTotal: 48,
+  //       timeStart: 1657950168732,
+  //       timeEnd: 1657950256974,
+  //       listCountChooseAns: [
+  //         [0, 9, 0, 0],
+  //         [2, 2, 3, 1],
+  //         [2, 1, 2, 3, 2, 0],
+  //         []
+  //       ],
+  //       players: [
+  //         { name: 'Luffy', score: 1727, correctAns: [0, 1] },
+  //         { name: 'Jhon', score: 1252, correctAns: [0, 1] },
+  //         { name: 'Selena Gomez', score: 853, correctAns: [1] },
+  //         { name: 'Taylor Swift', score: 789, correctAns: [3] },
+  //         { name: 'Alex', score: 722, correctAns: [3] },
+  //         { name: 'Nga', score: 569, correctAns: [2] },
+  //         { name: 'Thanh', score: 488, correctAns: [0] },
+  //         { name: 'Lam', score: 356, correctAns: [2] },
+  //       ],
+  //       analysisResults: [
+  //         [1, 33],
+  //         [2, 50],
+  //         [0, 100],
+  //         [0, 101]
+  //       ]
+  //     }
+  //   ]
+  // }
+}
+
+
+export function handleGetReportByID(reportID) {
+  return axios.get(`${process.env.REACT_APP_BACK_END_OTHER}report/${reportID}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("kahut_app_accessToken")}`,
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    }
+  })
+}
+
+export function handleAddNewReport(newReport) {
+  return instance.post('report', newReport)
+}
+
+
+
+export function handlePlayQuiz(roomID) {
+  return instance.post(`plays/${roomID}`)
 }

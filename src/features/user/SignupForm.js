@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useTranslation, Trans } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import {
   signupUser,
   userSelector,
@@ -34,7 +34,7 @@ import { SvgIcon } from '@mui/material';
 import { Link as LinkRoute } from 'react-router-dom';
 
 const SignupForm = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const [values, setValues] = useState({

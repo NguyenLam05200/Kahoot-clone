@@ -1,33 +1,16 @@
 import {
-    MenuItem,
-    CardActionArea,
-    IconButton,
     Card,
     CardContent,
     CardActions,
     CardMedia,
-    TextField,
     Box,
-    Stack,
-    Grid,
-    Paper,
-    Divider,
     Typography,
-    Container,
     Button,
 } from '@mui/material'
 import Masonry from '@mui/lab/Masonry';
 
-import { useTheme } from '@mui/material/styles';
-import { styled } from '@mui/material/styles';
-
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { purple } from '@mui/material/colors';
-
-import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import SkipNextIcon from '@mui/icons-material/SkipNext';
-import Home from "@mui/icons-material/Home";
 import { Link } from 'react-router-dom';
 
 const itemData = [

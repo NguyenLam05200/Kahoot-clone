@@ -1,41 +1,20 @@
 import {
-    Chip, Box, Stack, Grid, Paper, Button, Typography, Link, Divider, Tooltip,
-    ListItem,
-    ListItemAvatar,
+    Chip, Box, Stack, Button, Typography, Divider,
     Avatar,
-    ListItemText,
-    List,
-    Collapse,
-    ListItemButton,
-    ListItemIcon,
-    Backdrop,
-    CircularProgress,
-
     Dialog,
     DialogTitle,
     DialogContent,
-    DialogContentText,
     DialogActions
 } from '@mui/material'
-import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
-import EditIcon from '@mui/icons-material/Edit';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import IconButton from '@mui/material/IconButton';
-
-import { useTranslation, Trans } from "react-i18next";
+import { useTranslation, } from "react-i18next";
 import { parseJwt } from '../../utils/axios';
 
-import { useNavigate, Navigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import {
-    clearState,
     deleteRoomByID,
-    getRoomByID,
     roomSelector,
     setIsShowDeleteDialog,
 } from './roomSlice';
-import { useParams } from "react-router-dom";
-import { useEffect, useState } from 'react';
 
 
 function stringToColor(string) {
@@ -113,7 +92,7 @@ const DeleteDialog = (props) => {
 
                     <Stack spacing={2} direction='row'>
                         {userName.split(' ').length > 1 ?
-                            <Avatar {...stringAvatar('Nguyen')} /> :
+                            <Avatar {...stringAvatar(userName)} /> :
                             <Avatar sx={{ bgcolor: '#FF5722' }}>{userName.split(' ')[0][0]}</Avatar>
                         }
                         <Box>

@@ -1,5 +1,5 @@
 import { Box } from '@mui/material'
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Socket from '../../utils/socket';
 
 import { useSelector, useDispatch } from "react-redux";

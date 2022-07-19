@@ -2,27 +2,58 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import socket from '../../utils/socket';
 import { requestFullScreen } from '../../utils/utilities';
 import { playSound, changeVolume } from './sound/sound';
-import { handleGetRoomByID } from '../roomKahut/roomAPI';
+import { handleGetRoomByID, handleAddNewReport, handlePlayQuiz } from '../roomKahut/roomAPI';
 
 export const getRoomByID = createAsyncThunk(
   'gameHost/getRoomByID',
   async (roomID, thunkAPI) => {
-    console.log('call api get room by id');
     try {
       const response = await handleGetRoomByID(roomID);
-      console.log('list question: ', response.data.questions);
       response.data.questions.map(eachQuestion => {
         if (eachQuestion.type === 0) {
-          eachQuestion.type = 'Quiz';
+          return eachQuestion.type = 'Quiz';
         } else if (eachQuestion.type === 1) {
-          eachQuestion.type = 'True or False'
+          return eachQuestion.type = 'True or False'
         } else if (eachQuestion.type === 2) {
-          eachQuestion.type = 'Multi selections'
+          return eachQuestion.type = 'Multi selections'
         }
       })
 
       if (response.status === 200) {
         return response.data;
+      } else {
+        return thunkAPI.rejectWithValue(response.data);
+      }
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const addNewReport = createAsyncThunk(
+  'gameHost/addNewReport',
+  async (newReport, thunkAPI) => {
+    try {
+      const response = await handleAddNewReport(newReport);
+      if (response.status === 200) {
+        return response.data.id;
+      } else {
+        return thunkAPI.rejectWithValue(response.data);
+      }
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
+
+export const playQuiz = createAsyncThunk(
+  'gameHost/playQuiz',
+  async (roomID, thunkAPI) => {
+    try {
+      const response = await handlePlayQuiz(roomID);
+      if (response.status === 200) {
+        return true;
       } else {
         return thunkAPI.rejectWithValue(response.data);
       }
@@ -48,6 +79,7 @@ const initialState = {
   volume: 0.5,
   isSkip: false,
   isBlockJoin: false,
+  reportID: '',
   isFullScreen: false,
   isFetching: false,
   isSuccess: false,
@@ -66,6 +98,7 @@ export const gameSlice = createSlice({
       state.pin = null;
       state.curQuestion = 0;
       state.scoreBoard = [];
+      state.reportID = '';
       state.isSkip = false;
       state.isBlockJoin = false;
       state.isError = false;
@@ -144,11 +177,12 @@ export const gameSlice = createSlice({
       state.status = 'scoreBoard';
     },
     prepareSumary: (state, { payload }) => {
-      console.log('payload report data: ', payload);
       state.percentRightTotal = payload.percentRightTotal;
       state.scoreBoard = payload.rating;
       state.reportData = payload.reportData;
+
       state.status = 'prepareSumary';
+
     },
     sumary: (state) => {
       socket.emit('SUMARY');
@@ -186,6 +220,31 @@ export const gameSlice = createSlice({
       state.isFetching = true;
     },
     [getRoomByID.rejected]: (state, { payload }) => {
+      state.isFetching = false;
+      state.isError = true;
+      state.errorMessage = payload.error;
+    },
+    [addNewReport.fulfilled]: (state, { payload }) => {
+      state.reportID = payload
+      state.isFetching = false;
+      state.isSuccess = true;
+    },
+    [addNewReport.pending]: (state) => {
+      state.isFetching = true;
+    },
+    [addNewReport.rejected]: (state, { payload }) => {
+      state.isFetching = false;
+      state.isError = true;
+      state.errorMessage = payload.error;
+    },
+    [playQuiz.fulfilled]: (state, { payload }) => {
+      state.isFetching = false;
+      state.isSuccess = true;
+    },
+    [playQuiz.pending]: (state) => {
+      state.isFetching = true;
+    },
+    [playQuiz.rejected]: (state, { payload }) => {
       state.isFetching = false;
       state.isError = true;
       state.errorMessage = payload.error;

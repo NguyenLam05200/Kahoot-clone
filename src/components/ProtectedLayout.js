@@ -1,10 +1,6 @@
-import { useEffect, useState, useRef } from 'react'
-import { useTranslation, Trans } from "react-i18next";
-import { useSelector, useDispatch } from 'react-redux';
-import {
-  roomSelector,
-  getAllRoom
-} from '../features/roomKahut/roomSlice';
+import { useState } from 'react'
+import { useTranslation } from "react-i18next";
+import { useDispatch } from 'react-redux';
 
 import {
   Paper,
@@ -21,8 +17,6 @@ import {
   Tooltip,
   MenuItem,
   Button,
-  ToggleButton,
-  ToggleButtonGroup
 } from "@mui/material";
 import { Navigate, useOutlet } from "react-router-dom";
 import { parseJwt } from '../utils/axios';
@@ -30,44 +24,29 @@ import { parseJwt } from '../utils/axios';
 import MenuIcon from '@mui/icons-material/Menu';
 import AdbIcon from '@mui/icons-material/Adb';
 import AddIcon from '@mui/icons-material/Add';
-import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import ViewInArIcon from '@mui/icons-material/ViewInAr';
-import { green } from '@mui/material/colors';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+
+
+import {
+  logout,
+} from '../features/roomKahut/roomSlice';
 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 const pagesLeft = ['Home', 'Discover', 'Library', 'Reports'];
-const pagesRight = ['Profile', 'Notification'];
-
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 
 export const ProtectedLayout = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { listRoom } = useSelector(
-    roomSelector
-  );
-
-  // if (!listRoom) {
-  //   dispatch(getAllRoom())
-  // }
-
-  // useEffect(() => {
-  //   if (!listRoom ) {
-  //     dispatch(getAllRoom())
-  //   }
-  // }, []);
-
-
   const tempURL = window.location.href.split('/');
   const curPage = tempURL[tempURL.indexOf('user') + 1];
 
   const [anchorElNav, setAnchorElNav] = useState(null);
-  const [anchorElUser, setAnchorElUser] = useState(null);
+  // const [anchorElUser, setAnchorElUser] = useState(null);
 
   // hook for Create menu
   const [anchorElCreate, setAnchorElCreate] = useState(null);
@@ -81,17 +60,17 @@ export const ProtectedLayout = () => {
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
+  // const handleOpenUserMenu = (event) => {
+  //   setAnchorElUser(event.currentTarget);
+  // };
 
   const handleCloseNavMenu = (event, value) => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
+  // const handleCloseUserMenu = () => {
+  //   setAnchorElUser(null);
+  // };
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -101,14 +80,13 @@ export const ProtectedLayout = () => {
     setAnchorEl(null);
   };
   const handleClickAccountSetting = (event, newValue) => {
-    console.log(event.target.id);
-    console.log(newValue);
   }
 
 
   const navigate = useNavigate();
   const handleClickLogout = () => {
     delete localStorage.kahut_app_accessToken;
+    dispatch(logout())
     navigate('/login');
   }
   const outlet = useOutlet();
@@ -186,7 +164,10 @@ export const ProtectedLayout = () => {
                 }}
               >
                 {pagesLeft.map((page) => (
-                  <MenuItem key={page} onClick={handleCloseNavMenu}>
+                  <MenuItem
+                    component={Link}
+                    to={'/user/' + page.toLowerCase().replace(/\s/g, "")}
+                    key={page} onClick={handleCloseNavMenu}>
                     <Typography textAlign="center">{t(page)}</Typography>
                   </MenuItem>
                 ))}
@@ -220,7 +201,7 @@ export const ProtectedLayout = () => {
                   component={Link}
                   to={'/user/' + page.toLowerCase().replace(/\s/g, "")}
                   // variant='text'
-                  color={curPage.toUpperCase() == page.toUpperCase() ? 'secondary' : 'inherit'}
+                  color={curPage.toUpperCase() === page.toUpperCase() ? 'secondary' : 'inherit'}
                 >
                   {t(page)}
                 </Button>

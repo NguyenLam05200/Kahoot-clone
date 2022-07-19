@@ -96,7 +96,7 @@ const generateMedal = (rating) => {
   )
 }
 
-const Sumary = ({ }) => {
+const Sumary = () => {
   const { name, score, rating } = useSelector(
     playerSelector
   );

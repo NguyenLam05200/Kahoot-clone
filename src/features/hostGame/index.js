@@ -12,7 +12,8 @@ import {
     readQuestion,
     sendAnswer,
     getScoreBoard,
-    prepareSumary
+    prepareSumary,
+    addNewReport
 } from './gameSlice';
 import socket from '../../utils/socket';
 
@@ -32,7 +33,7 @@ import { Navigate, useParams } from "react-router-dom";
 import { parseJwt } from '../../utils/axios';
 
 const GameHost = () => {
-    const { status } = useSelector(
+    const { status, curRoom } = useSelector(
         gameSelector
     );
     const dispatch = useDispatch();
@@ -45,6 +46,21 @@ const GameHost = () => {
     };
 
     const roomID = useParams().roomID
+
+    const getReportOnEmit = (reportDataAnalyst) => {
+        dispatch(prepareSumary(reportDataAnalyst))
+        const newReport = {
+            quizID: roomID,
+            percentRightTotal: reportDataAnalyst.percentRightTotal,
+            players: reportDataAnalyst.players,
+            timeStart: reportDataAnalyst.timeStart,
+            timeEnd: reportDataAnalyst.timeEnd,
+            analysisResults: reportDataAnalyst.reportData,
+            listCountChooseAns: reportDataAnalyst.listCountChooseAns,
+        }
+        dispatch(addNewReport(newReport))
+    }
+
     useEffect(() => {
         window.setTimeout(function () {
             dispatch(getRoomByID(roomID))
@@ -59,10 +75,11 @@ const GameHost = () => {
         socket.on('READ_QUESTION', (msg) => dispatch(readQuestion(msg)))
         socket.on('SEND_ANSWER', (ans) => dispatch(sendAnswer(ans)))
         socket.on('SCORE_BOARD', (listScoreBoard) => dispatch(getScoreBoard(listScoreBoard)))
-        socket.on('PREPARE_SUMARY', (reportDataAnalyst) => dispatch(prepareSumary(reportDataAnalyst)))
+        socket.on('PREPARE_SUMARY', (reportDataAnalyst) => getReportOnEmit(reportDataAnalyst))
 
         return () => {
             socket.off('CREATE_PIN', getPinOnEmit);
+            socket.off('PREPARE_SUMARY', getReportOnEmit)
         };
     }, []);
 

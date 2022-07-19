@@ -5,7 +5,6 @@ import { PlayerPage } from "../../features/player/index";
 
 import Dashboard from "../../features/roomKahut/Dashboard";
 import { HomePage } from "../landingPages/HomePage";
-// import ListKahootRoom from "../../features/roomKahut/ListKahootRoom";
 
 import { Routes, Route } from "react-router-dom";
 import { Container, Paper } from "@mui/material";
@@ -20,6 +19,7 @@ import CreateKahut from "../../features/roomKahut/CreateKahut";
 import Details from "../../features/roomKahut/Details";
 import Edit from "../../features/roomKahut/Edit";
 import { NotFound } from "../../components/NotFound";
+import ReportDetails from "../../features/roomKahut/ReportDetails";
 function App() {
   return (
     <Paper
@@ -33,7 +33,8 @@ function App() {
           <Route path="" element={<Dashboard />} />
           <Route path="home" element={<Dashboard />} />
           <Route path="library" element={<Library />} />
-          {/* <Route path="reports" element={<Report />} /> */}
+          <Route path="reports" element={<Report />} />
+          <Route path="reports/:reportID" element={<ReportDetails />} />
           {/* <Route path="discover" element={<Discover />} /> */}
           <Route path="details/:roomID" element={<Details />} />
           <Route path="edit/:roomID" element={<Edit />} />

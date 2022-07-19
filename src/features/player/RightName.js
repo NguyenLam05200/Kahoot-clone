@@ -1,9 +1,8 @@
 import { Box, Stack } from '@mui/material'
-import { useSelector, useDispatch } from "react-redux";
-import { playerSelector, ready } from './playerSlice';
-import { useEffect } from 'react';
+import { useSelector } from "react-redux";
+import { playerSelector } from './playerSlice';
 
-const RightName = ({ }) => {
+const RightName = () => {
   const { name } = useSelector(
     playerSelector
   );

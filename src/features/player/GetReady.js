@@ -1,7 +1,7 @@
 import { Box, Stack, CircularProgress, Typography } from '@mui/material'
 import { useEffect, useState } from 'react';
 
-const GetReady = ({ }) => {
+const GetReady = () => {
   const [count, setCount] = useState(0);
   useEffect(() => {
     const interval = setInterval(() => {

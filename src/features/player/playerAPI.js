@@ -1,5 +1,3 @@
-import { instance } from "../../utils/axios";
-
 export function handlePIN(pin) {
   // call api || websocket
   const QuestionFake = {

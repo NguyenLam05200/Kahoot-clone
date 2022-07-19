@@ -1,11 +1,10 @@
-import { Box, Stack, Paper, Grid, Typography, Button, CircularProgress } from '@mui/material'
+import { Box, Stack, Typography, Button } from '@mui/material'
 
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { playerSelector } from './playerSlice';
-import { useState, useEffect } from 'react';
 import DangerousIcon from '@mui/icons-material/Dangerous';
 
-const TimeUp = ({ }) => {
+const TimeUp = () => {
   const { name, questions, curQuestion, score } = useSelector(
     playerSelector
   );

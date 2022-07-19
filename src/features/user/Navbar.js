@@ -73,8 +73,6 @@ const Navbar = () => {
     setAnchorEl(null);
   };
   const handleClickAccountSetting = (event, newValue) => {
-    console.log(event.target.id);
-    console.log(newValue);
   }
 
 

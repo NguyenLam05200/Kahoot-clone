@@ -3,7 +3,6 @@ import {
   Box,
   Stack,
   Grid,
-  Paper,
   Button,
   Typography,
   Divider,
@@ -11,55 +10,32 @@ import {
   ListItem,
   ListItemAvatar,
   Avatar,
-  ListItemText,
   List,
   Collapse,
-  ListItemButton,
-  ListItemIcon,
   Backdrop,
-  CircularProgress,
-} from "@mui/material";
-import Navbar from "../user/Navbar";
-import AddIcon from "@mui/icons-material/Add";
-import { useState } from "react";
-import PropTypes from "prop-types";
-import { styled, useTheme } from "@mui/material/styles";
-import Stepper from "@mui/material/Stepper";
-import Step from "@mui/material/Step";
-import StepLabel from "@mui/material/StepLabel";
-import Check from "@mui/icons-material/Check";
-import SettingsIcon from "@mui/icons-material/Settings";
-import GroupAddIcon from "@mui/icons-material/GroupAdd";
-import VideoLabelIcon from "@mui/icons-material/VideoLabel";
-import StepConnector, {
-  stepConnectorClasses,
-} from "@mui/material/StepConnector";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import IconButton from "@mui/material/IconButton";
-import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import SkipNextIcon from "@mui/icons-material/SkipNext";
-import EditIcon from "@mui/icons-material/Edit";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+  CircularProgress
+} from '@mui/material'
+import {
+  useState
+} from 'react';
+import IconButton from '@mui/material/IconButton';
+import EditIcon from '@mui/icons-material/Edit';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import DeleteIcon from '@mui/icons-material/Delete';
+import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 
-import QuizIcon from "@mui/icons-material/Quiz";
-import PhonelinkEraseIcon from "@mui/icons-material/PhonelinkErase";
-import DynamicFeedIcon from "@mui/icons-material/DynamicFeed";
 import CloseIcon from "@mui/icons-material/Close";
 import DoneIcon from "@mui/icons-material/Done";
 import { Link } from "react-router-dom";
 import { parseJwt } from "../../utils/axios";
 
-import { useNavigate, Navigate } from "react-router-dom";
+import { useNavigate, } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  getAllRoom,
   clearState,
   getRoomByID,
   roomSelector,
@@ -71,26 +47,59 @@ import { useEffect } from "react";
 import { answerUI2 } from "../../components/AnswerUI";
 import DeleteDialog from "./DeleteDialog";
 
-const cssIcon = {
-  color: "#18bd80",
-  fontSize: 25,
-  fontWeight: "bold",
-};
 
-const optionsQuestionType = [
-  { text: "Quiz", icon: <QuizIcon sx={cssIcon} /> },
-  {
-    text: "True or False",
-    icon: <PhonelinkEraseIcon sx={cssIcon} />,
-  },
-  { text: "Multi selections", icon: <DynamicFeedIcon sx={cssIcon} /> },
-];
+import {
+  optionsPoints,
+  optionsQuestionType,
+} from '../../utils/utilities'
 
-const optionsPoints = ["No points", "Standard points", "Double points"];
+import { useTranslation, } from "react-i18next";
+
+
+
+function stringToColor(string) {
+  let hash = 0;
+  let i;
+
+  /* eslint-disable no-bitwise */
+  for (i = 0; i < string.length; i += 1) {
+    hash = string.charCodeAt(i) + ((hash << 5) - hash);
+  }
+
+  let color = '#';
+
+  for (i = 0; i < 3; i += 1) {
+    const value = (hash >> (i * 8)) & 0xff;
+    color += `00${value.toString(16)}`.slice(-2);
+  }
+  /* eslint-enable no-bitwise */
+
+  return color;
+}
+
+function stringAvatar(name) {
+  return {
+    sx: {
+      bgcolor: stringToColor(name),
+    },
+    children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+  };
+}
 
 function NestedList(props) {
-  const open = props.isShowAnswer;
+  const { t, i18n } = useTranslation();
   const listQuestion = props.listQuestion;
+
+  const [open, setOpen] = useState(new Array(listQuestion.length).fill(false));
+
+  useEffect(() => {
+    setOpen(new Array(listQuestion.length).fill(props.isShowAnswer))
+  }, [props.isShowAnswer])
+  // setOpen()
+  const handleClick = (event, index) => {
+    open[index] = !open[index]
+    setOpen([...open]);
+  };
 
   return (
     <List
@@ -108,11 +117,10 @@ function NestedList(props) {
         return (
           <Box key={index} sx={{ boxShadow: 5, backgroundColor: "white" }}>
             <ListItem
-              alignItems="flex-start"
-              key={index}
+              alignItems='flex-start'
               sx={{
                 p: 1,
-                height: 120,
+                height: 140,
                 my: 2,
                 bgcolor: "white",
                 borderRadius: 0.5,
@@ -131,13 +139,9 @@ function NestedList(props) {
                   <Typography
                     sx={{
                       fontSize: 13,
-                      color: "grey",
-                    }}
-                  >
-                    {index +
-                      1 +
-                      ". " +
-                      optionsQuestionType[eachQuestion.type].text}
+                      color: 'grey',
+                    }}>
+                    {index + 1} .  {optionsQuestionType[eachQuestion.type].text}
                   </Typography>
                   <Typography
                     sx={{ fontSize: 18, color: "black", fontWeight: "bold" }}
@@ -154,21 +158,9 @@ function NestedList(props) {
                     alignItems: "flex-end",
                   }}
                 >
-                  <Stack spacing={1} direction="row" sx={{ width: "50%" }}>
-                    <Chip
-                      label={eachQuestion.time + " seconds"}
-                      variant="outlined"
-                      size="small"
-                      color="info"
-                      sx={{ fontWeight: "bold", fontSize: 14 }}
-                    />
-                    <Chip
-                      label={optionsPoints[eachQuestion.points]}
-                      variant="outlined"
-                      size="small"
-                      color="secondary"
-                      sx={{ fontWeight: "bold", fontSize: 14 }}
-                    />
+                  <Stack spacing={1} direction='row' sx={{ width: '50%' }}>
+                    <Chip key='chip1' label={eachQuestion.time + " seconds"} variant='outlined' size="small" color="info" sx={{ fontWeight: 'bold', fontSize: 14 }} />
+                    <Chip key='chip2' label={optionsPoints[eachQuestion.points].text} variant='outlined' size="small" color="secondary" sx={{ fontWeight: 'bold', fontSize: 14 }} />
                   </Stack>
                   <Stack
                     textAlign="center"
@@ -180,26 +172,26 @@ function NestedList(props) {
                     }}
                   >
                     <Typography
+                      onClick={(event) => handleClick(event, index)}
                       sx={{
                         display: "flex",
                         alignItems: "center",
                         fontSize: 15,
-                        cursor: "pointer",
-                      }}
-                    >
+                        cursor: 'pointer'
+                      }}>
                       {t("List answers")}
-                      {open ? <ExpandMore /> : <ExpandLess />}
+                      {open[index] ? <ExpandLess /> : < ExpandMore />}
                     </Typography>
                   </Stack>
                 </Box>
-              </Box>
-            </ListItem>
-            <Collapse in={open} timeout="auto" unmountOnExit>
+              </Box >
+            </ListItem >
+            <Collapse in={open[index]} timeout="auto" unmountOnExit>
               <List component="div" disablePadding sx={{ mx: 1 }}>
-                {eachQuestion.ans.map((eachAns, index) => (
+                {eachQuestion.ans.map((eachAns, i) => (
                   <Stack
-                    key={"ans " + index}
-                    direction="row"
+                    key={'ans ' + i}
+                    direction='row'
                     spacing={1}
                     alignItems="center"
                     sx={{
@@ -207,45 +199,36 @@ function NestedList(props) {
                       py: 2,
                       px: 1,
                       borderRadius: 1,
-                      backgroundColor: answerUI2[index].bgColor,
+                      backgroundColor: answerUI2[i].bgColor,
                       boxShadow: 2,
                       width: "100%",
                       color: "white",
                     }}
                   >
-                    {answerUI2[index].icon}
-                    <Typography sx={{ flexGrow: 1, px: 1, fontSize: 18 }}>
-                      {eachAns.text}
-                    </Typography>
-                    <Box
-                      sx={{
-                        backgroundColor: "white",
-                        borderRadius: 1,
-                        width: "30px",
-                        height: "30px",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      {eachAns.isRight ? (
-                        <DoneIcon
-                          sx={{ fontSize: 28, color: "green", stroke: "green" }}
-                        />
-                      ) : (
-                        <CloseIcon
-                          sx={{ fontSize: 28, color: "red", stroke: "red" }}
-                        />
-                      )}
+                    {answerUI2[i].icon}
+                    <Typography sx={{ flexGrow: 1, px: 1, fontSize: 18 }}>{eachAns.text}</Typography>
+                    <Box sx={{
+                      backgroundColor: 'white',
+                      borderRadius: 1,
+                      width: '30px',
+                      height: '30px',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center'
+                    }}>
+                      {eachAns.isRight ?
+                        <DoneIcon sx={{ fontSize: 28, color: 'green', stroke: 'green' }} /> :
+                        <CloseIcon sx={{ fontSize: 28, color: 'red', stroke: 'red' }} />}
                     </Box>
                   </Stack>
-                ))}
-              </List>
-            </Collapse>
-          </Box>
+                ))
+                }
+              </List >
+            </Collapse >
+          </Box >
         );
       })}
-    </List>
+    </List >
   );
 }
 
@@ -255,6 +238,7 @@ const Details = () => {
 
   const roomID = useParams().roomID;
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
 
   const [isShowAnswer, setIsShowAnswer] = useState(false);
 
@@ -293,13 +277,10 @@ const Details = () => {
     }
   }, [isError, isSuccess, status]);
 
+  const userName = parseJwt(localStorage.kahut_app_accessToken).name;
   return (
-    <Grid
-      rowSpacing={2}
-      columnSpacing={0}
-      container
-      my={1}
-      sx={{ backgroundColor: "#fafafa" }}
+    <Grid rowSpacing={2} columnSpacing={0} container my={1}
+      sx={{ backgroundColor: '#fafafa', minHeight: 'calc(100% - 78px)' }}
     >
       {curRoom && <DeleteDialog />}
       <Backdrop
@@ -355,7 +336,9 @@ const Details = () => {
                 >
                   <Tooltip title="Edit this quiz" placement="top">
                     <IconButton
-                      style={{ outline: "none" }}
+                      component={Link}
+                      to={`/user/edit/${curRoom._id}`}
+                      style={{ outline: 'none' }}
                       sx={{
                         mx: 0.5,
                         "&:hover": {
@@ -389,7 +372,8 @@ const Details = () => {
 
               <Stack spacing={1} direction="row" sx={{ mt: 3 }}>
                 <Button
-                  style={{ outline: "none", color: "white" }}
+                  startIcon={<PlayCircleOutlineIcon />}
+                  style={{ outline: 'none', color: 'white', textTransform: 'none' }}
                   component={Link}
                   to={`/user/gameHost/${curRoom._id}`}
                   target="_blank"
@@ -399,7 +383,8 @@ const Details = () => {
                   {t("Play")}
                 </Button>
                 <Button
-                  style={{ outline: "none", color: "white" }}
+                  startIcon={<EditIcon />}
+                  style={{ outline: 'none', color: 'white', textTransform: 'none' }}
                   component={Link}
                   to={`/user/edit/${curRoom._id}`}
                   variant="contained"
@@ -408,7 +393,8 @@ const Details = () => {
                   {t("Edit")}
                 </Button>
                 <Button
-                  style={{ outline: "none" }}
+                  startIcon={<DeleteIcon />}
+                  style={{ outline: 'none', textTransform: 'none' }}
                   onClick={() => dispatch(setIsShowDeleteDialog(true))}
                   variant="contained"
                   color="error"
@@ -421,23 +407,18 @@ const Details = () => {
                 <Typography>{t("A private kahut")}</Typography>
               </Stack>
               <Divider />
-
-              <Stack spacing={2} direction="row">
-                <Avatar
-                  alt="Cindy Baker"
-                  src="https://lh3.googleusercontent.com/pw/AM-JKLU1gx79R5oazQQnu0gGe0bzEFnKdSltimeJHOKpScR3hB0qIloTbwe4Ou2ygtKEP_SDr-LZgg3HeK3_a_J-Kzim-99-xqyP9vfAt_Ai9pYz5JfRCx0IOMNNMXlG0eijUCn-I8ZJFq_Gu5v7E93F5K9G=w876-h657-no"
-                />
+              <Stack spacing={2} direction='row'>
+                {userName.split(' ').length > 1 ?
+                  <Avatar {...stringAvatar(userName)} /> :
+                  <Avatar sx={{ bgcolor: '#FF5722' }}>{userName.split(' ')[0][0]}</Avatar>
+                }
                 <Box>
-                  <Typography>
-                    {parseJwt(localStorage.kahut_app_accessToken).name}
-                  </Typography>
-                  <Typography color="text.secondary">
-                    {t("Updated 6 hours ago")}
-                  </Typography>
+                  <Typography>{userName}</Typography>
+                  <Typography color="text.secondary"> {t("Updated 6 hours ago")}</Typography>
                 </Box>
               </Stack>
             </Stack>
-          </Grid>
+          </Grid >
           <Grid item xs={8}>
             <Box
               sx={{
@@ -479,18 +460,18 @@ const Details = () => {
                   variant="contained"
                   color="secondary"
                 >
-                  {isShowAnswer ? "Hide anwer" : "Show answer"}
-                </Button>
-              </Box>
-            </Box>
+                  {isShowAnswer ? 'Hide all anwer' : 'Show all answer'}
+                </Button >
+              </Box >
+            </Box >
             <NestedList
               listQuestion={curRoom.questions}
               isShowAnswer={isShowAnswer}
             />
-          </Grid>
+          </Grid >
         </>
       )}
-    </Grid>
+    </Grid >
   );
 };
 

@@ -1,8 +1,4 @@
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react'
-import { TextField, Box, Stack, Grid, Paper, Divider, Typography, Container, Button } from '@mui/material'
-import { purple } from '@mui/material/colors';
+import { Box } from '@mui/material'
 
 import Idle from './Idle';
 import RightPin from './RightPin';
@@ -10,7 +6,7 @@ import RightPin from './RightPin';
 import { useSelector } from "react-redux";
 import { playerSelector } from './playerSlice';
 
-const Join = ({ }) => {
+const Join = () => {
   const { status } = useSelector(
     playerSelector
   );

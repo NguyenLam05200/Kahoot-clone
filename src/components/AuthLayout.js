@@ -1,16 +1,10 @@
 import * as React from "react";
-import { useTranslation, Trans } from "react-i18next";
+import { useTranslation } from "react-i18next";
 
 import {
   Box,
   Typography,
-  IconButton,
   Fab,
-  TextField,
-  Stack,
-  Link,
-  Button,
-  Divider,
   Menu,
   MenuItem,
 } from "@mui/material";
@@ -22,12 +16,20 @@ import { parseJwt } from "../utils/axios";
 const options = ["Vietnamese", "English"];
 
 export const AuthLayout = () => {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const outlet = useOutlet();
   const navigate = useNavigate();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [selectedIndex, setSelectedIndex] = React.useState(1);
+
+  React.useEffect(() => {
+    if (i18n.language === 'Vietnamese') {
+      setSelectedIndex(0)
+    } else if (i18n.language === 'English') {
+      setSelectedIndex(1)
+    }
+  }, [i18n])
 
   const token = localStorage.kahut_app_accessToken;
 

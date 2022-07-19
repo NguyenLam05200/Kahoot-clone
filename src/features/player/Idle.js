@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { Tooltip, TextField, Box, Stack, Backdrop, CircularProgress, Alert, Button, Typography } from '@mui/material'
 import { playerSelector, sendPin, clearState } from './playerSlice';
 
-const Idle = ({ }) => {
+const Idle = () => {
   const [pin, setPin] = useState(null);
   const dispatch = useDispatch();
   const { isFetching, isError, errorMessage } = useSelector(

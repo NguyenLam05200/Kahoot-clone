@@ -1,10 +1,9 @@
-import { Box, Stack, Paper, Grid, Typography, Button, CircularProgress } from '@mui/material'
+import { Box, Stack, Typography, Button, CircularProgress } from '@mui/material'
 
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { playerSelector } from './playerSlice';
-import { useState, useEffect } from 'react';
 
-const WaitResult = ({ }) => {
+const WaitResult = () => {
   const { name, questions, curQuestion, score } = useSelector(
     playerSelector
   );

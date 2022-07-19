@@ -1,5 +1,4 @@
 import {
-  Chip,
   Box,
   Stack,
   Grid,
@@ -7,10 +6,6 @@ import {
   Button,
   Typography,
   Divider,
-  Tooltip,
-  ListItem,
-  ListItemAvatar,
-  Avatar,
   ListItemText,
   List,
   Collapse,
@@ -19,21 +14,11 @@ import {
   Backdrop,
   CircularProgress,
   MenuItem,
-  CardActionArea,
   IconButton,
-  Card,
-  CardHeader,
-  CardContent,
-  CardActions,
-  CardMedia,
   TextField,
-  Container,
   InputBase,
-  Checkbox,
   Fab,
   Menu,
-  FormControl,
-  Popover,
   Alert,
   Dialog,
   DialogTitle,
@@ -42,21 +27,15 @@ import {
   DialogActions,
 } from "@mui/material";
 
-import QuizIcon from "@mui/icons-material/Quiz";
-import PhonelinkEraseIcon from "@mui/icons-material/PhonelinkErase";
-import DynamicFeedIcon from "@mui/icons-material/DynamicFeed";
 import DoneIcon from "@mui/icons-material/Done";
 
-import { useNavigate, Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  getAllRoom,
   clearState,
   getRoomByID,
   roomSelector,
   setInitCurRoom,
-  setIsShowDeleteDialog,
-  setCurRoom,
   updateRoomByID,
 } from "./roomSlice";
 import {
@@ -70,12 +49,8 @@ import {
 import { useParams } from "react-router-dom";
 
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
-import CloseIcon from "@mui/icons-material/Close";
 
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
-
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -88,13 +63,10 @@ import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import AccessAlarmsIcon from "@mui/icons-material/AccessAlarms";
 
 import AssistantIcon from "@mui/icons-material/Assistant";
-import LocationDisabledIcon from "@mui/icons-material/LocationDisabled";
-import GpsFixedIcon from "@mui/icons-material/GpsFixed";
-import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import { useSnackbar } from "notistack";
 
 import { answerUI2 } from "../../components/AnswerUI";
-import { useTranslation, Trans } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import { styled } from "@mui/material/styles";
 const Input = styled("input")({
   display: "none",
@@ -934,7 +906,7 @@ const Edit = () => {
                     )}
                   </Box>
                   {listQuestion[curQuestion].img &&
-                  listQuestion[curQuestion].img.name ? (
+                    listQuestion[curQuestion].img.name ? (
                     <Typography>
                       <u>File name:</u> {listQuestion[curQuestion].img.name}
                     </Typography>
@@ -1231,10 +1203,10 @@ const Edit = () => {
                     <Typography noWrap sx={{ px: 1 }}>
                       {listQuestion[curQuestion].time / 60 >= 2 &&
                         Math.floor(listQuestion[curQuestion].time / 60) +
-                          t(" minutes ")}
+                        t(" minutes ")}
                       {listQuestion[curQuestion].time / 60 === 1 &&
                         Math.floor(listQuestion[curQuestion].time / 60) +
-                          t(" minute ")}
+                        t(" minute ")}
                       {listQuestion[curQuestion].time % 60 >= 1 &&
                         (listQuestion[curQuestion].time % 60) + t(" seconds")}
                     </Typography>

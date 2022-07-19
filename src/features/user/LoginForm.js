@@ -3,15 +3,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { loginUser, userSelector, clearState } from './userSlice';
 import { useTranslation, initReactI18next } from "react-i18next";
 import {
-  Snackbar,
   Alert,
   Backdrop,
   CircularProgress,
   Box,
-  Stack, IconButton, Avatar, Button, Divider, Link, Typography,
+  Stack, IconButton, Button, Divider, Link, Typography,
   Collapse
 } from '@mui/material';
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useNavigate } from 'react-router-dom';
 
 
@@ -22,13 +20,13 @@ import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import LoadingButton from '@mui/lab/LoadingButton';
-import SaveIcon from '@mui/icons-material/Save';
 
 import { ReactComponent as Logo } from "../../assets/images/icons/social-google.svg";
 import { SvgIcon } from '@mui/material';
 import { Link as LinkRoute } from 'react-router-dom';
-const LoginForm = ({ }) => {
+
+
+const LoginForm = () => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
 
@@ -93,10 +91,6 @@ const LoginForm = ({ }) => {
       navigate(-1);
     }
   }, [isError, isSuccess]);
-
-  const handleClose = () => {
-    setOpen(false)
-  }
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });

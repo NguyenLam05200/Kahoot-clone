@@ -3,30 +3,24 @@ import {
   Stack,
   Slide,
   Typography,
-  Grow,
-  Zoom,
   IconButton,
   Button,
   Fab,
   ListItem,
   Link,
-  Chip
 } from '@mui/material'
-import CircularProgress, {
-  circularProgressClasses,
-} from '@mui/material/CircularProgress';
+import CircularProgress from '@mui/material/CircularProgress';
 import { useNavigate } from 'react-router-dom';
 
 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 
-import { useEffect, useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import {
   gameSelector,
   setFullScreen,
-  showResult,
   sumary,
   playAgain,
   clearState
@@ -34,27 +28,14 @@ import {
 
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
-
-import VolumeUpIcon from '@mui/icons-material/VolumeUp';
-import VolumeOffIcon from '@mui/icons-material/VolumeOff';
-import { requestFullScreen } from '../../utils/utilities';
-
 import ContactMailIcon from '@mui/icons-material/ContactMail';
 import FiberNewIcon from '@mui/icons-material/FiberNew';
 
 
-import ListSubheader from '@mui/material/ListSubheader';
 import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import DraftsIcon from '@mui/icons-material/Drafts';
-import SendIcon from '@mui/icons-material/Send';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import StarBorder from '@mui/icons-material/StarBorder';
 
 
 import ListItemAvatar from '@mui/material/ListItemAvatar';
@@ -164,7 +145,6 @@ function NestedList(props) {
     open[index] = !open[index]
     setOpen([...open]);
   };
-  console.log('open: ', open);
   return (
     <List
       sx={{
@@ -305,10 +285,10 @@ function NestedList(props) {
   );
 }
 
-const Report = ({ }) => {
+const Report = () => {
   const containerRef = useRef(null);
   const dispatch = useDispatch();
-  const { isFullScreen, percentRightTotal, reportData } = useSelector(
+  const { isFullScreen, percentRightTotal, reportData, reportID } = useSelector(
     gameSelector
   );
 
@@ -565,7 +545,7 @@ const Report = ({ }) => {
             >
               <Link
                 component={LinkRoute}
-                to="/user/reports"
+                to={`/user/reports/${reportID}`}
                 target="_blank"
                 underline="always"
                 color="inherit"

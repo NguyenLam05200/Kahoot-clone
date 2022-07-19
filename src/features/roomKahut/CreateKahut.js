@@ -1,12 +1,6 @@
 import {
   MenuItem,
-  CardActionArea,
   IconButton,
-  Card,
-  CardHeader,
-  CardContent,
-  CardActions,
-  CardMedia,
   TextField,
   Box,
   Stack,
@@ -14,16 +8,12 @@ import {
   Paper,
   Divider,
   Typography,
-  Container,
   Button,
   InputBase,
-  Checkbox,
   Fab,
   Menu,
   ListItemIcon,
   ListItemText,
-  FormControl,
-  Popover,
   Collapse,
   Alert,
   Backdrop,
@@ -35,18 +25,15 @@ import {
   DialogActions,
 } from "@mui/material";
 
-import { useTranslation, Trans } from "react-i18next";
+import { useTranslation, } from "react-i18next";
 import { useSelector, useDispatch } from "react-redux";
 import { roomSelector, createNewRoom, clearState } from "./roomSlice";
 import { useNavigate } from "react-router-dom";
 
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
-import CloseIcon from "@mui/icons-material/Close";
 
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, } from "react";
 
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -56,9 +43,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import PhotoSizeSelectActualIcon from "@mui/icons-material/PhotoSizeSelectActual";
 import DoneIcon from "@mui/icons-material/Done";
 import MergeTypeIcon from "@mui/icons-material/MergeType";
-import QuizIcon from "@mui/icons-material/Quiz";
-import PhonelinkEraseIcon from "@mui/icons-material/PhonelinkErase";
-import DynamicFeedIcon from "@mui/icons-material/DynamicFeed";
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
@@ -66,9 +50,6 @@ import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import AccessAlarmsIcon from "@mui/icons-material/AccessAlarms";
 
 import AssistantIcon from "@mui/icons-material/Assistant";
-import LocationDisabledIcon from "@mui/icons-material/LocationDisabled";
-import GpsFixedIcon from "@mui/icons-material/GpsFixed";
-import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import { useSnackbar } from "notistack";
 
 import { answerUI2 } from "../../components/AnswerUI";
@@ -91,12 +72,14 @@ const CreateKahut = () => {
   const dispatch = useDispatch();
   const { t, i18n } = useTranslation();
 
-  const { isFetching, isSuccess, isError, errorMessage } =
-    useSelector(roomSelector);
+  const { isFetching, isSuccess, isError, status } = useSelector(
+    roomSelector
+  );
 
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   useEffect(() => {
+
     return () => {
       dispatch(clearState());
     };
@@ -115,9 +98,12 @@ const CreateKahut = () => {
 
     if (isSuccess) {
       dispatch(clearState());
-      navigate("/user/library");
     }
-  }, [isError, isSuccess]);
+
+    if (status === 'create') {
+      navigate('/user/library')
+    }
+  }, [isError, isSuccess, status]);
 
   const [listQuestion, setListQuestion] = useState([
     JSON.parse(JSON.stringify(schemaQuiz)),
@@ -399,7 +385,7 @@ const CreateKahut = () => {
               onChange={handleChangeRoomTitle}
               margin="dense"
               id="name"
-              label= {t("Kahut title")}
+              label={t("Kahut title")}
               type="text"
               fullWidth
               variant="standard"
@@ -718,7 +704,6 @@ const CreateKahut = () => {
             anchorEl={anchorElAddQuestion}
             open={openAddQuestion}
             onClose={handleCloseAddQuestion}
-            getContentAnchorEl={null}
             anchorOrigin={{
               vertical: "center",
               horizontal: "right",
@@ -790,8 +775,9 @@ const CreateKahut = () => {
           }}
         >
           <InputBase
-            multiline
-            maxRows={2}
+            multiline={true}
+            // maxRows={2}
+            rows={2}
             value={listQuestion[curQuestion].text}
             onChange={handleChangeQuestionTitle}
             sx={{
@@ -936,10 +922,12 @@ const CreateKahut = () => {
               <InputBase
                 readOnly={listQuestion[curQuestion].type === 1}
                 multiline
-                maxRows={1}
+                // maxRows={2}
+                rows={1}
                 value={eachAns.text}
                 onChange={(event) => handleChangeAns(event, index)}
                 sx={{
+                  maxHeight: '100%',
                   flexGrow: 1,
                   // width: '100%',
                   mx: 1,
