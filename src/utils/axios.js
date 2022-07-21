@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const instanceAuth = axios.create({
-    baseURL: process.env.REACT_APP_BACK_END_AUTH,
+    baseURL: `http:${process.env.REACT_APP_BACK_END_AUTH}`,
     timeout: 5000,
 });
 
