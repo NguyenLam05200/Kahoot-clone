@@ -16,6 +16,8 @@ export const getRoomByID = createAsyncThunk(
           return eachQuestion.type = 'True or False'
         } else if (eachQuestion.type === 2) {
           return eachQuestion.type = 'Multi selections'
+        } else {
+          return eachQuestion.type = 'Quiz';
         }
       })
 

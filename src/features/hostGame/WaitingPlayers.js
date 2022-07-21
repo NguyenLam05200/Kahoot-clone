@@ -3,12 +3,10 @@ import { useState, useEffect } from 'react';
 import { gameSelector, setBlockJoin, startGame, playQuiz } from './gameSlice';
 import { useSelector, useDispatch } from "react-redux";
 
-import { Box, Typography, Stack, IconButton, Zoom, Button, Divider, Grid, Paper } from '@mui/material'
+import { Box, Typography, Stack, IconButton, Button, Divider, Grid } from '@mui/material'
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import LockIcon from '@mui/icons-material/Lock';
-import PropTypes from 'prop-types';
 import PersonIcon from '@mui/icons-material/Person';
-import styled from '@emotion/styled';
 
 import { useParams } from "react-router-dom";
 

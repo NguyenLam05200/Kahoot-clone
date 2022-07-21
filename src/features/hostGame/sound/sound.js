@@ -41,14 +41,22 @@ const changeVolume = (vol) => {
      */
 const playSound = (index) => {
     // playList[index].play();
-    playList.map((eachSound, i) => {
+    for (const [i, eachSound] of playList.entries()) {
         if (i === index) {
             eachSound.stop();
             eachSound.play();
         } else {
             eachSound.stop();
         }
-    })
+    }
+    // playList.map((eachSound, i) => {
+    //     if (i === index) {
+    //         eachSound.stop();
+    //         eachSound.play();
+    //     } else {
+    //         eachSound.stop();
+    //     }
+    // })
 }
 
 export { playSound, changeVolume }

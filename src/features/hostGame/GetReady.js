@@ -1,7 +1,7 @@
 import { Box, Stack, Slide, Typography } from '@mui/material'
 import { useEffect, useState } from 'react';
 
-const GetReady = ({ }) => {
+const GetReady = () => {
   const [count, setCount] = useState(0);
   const [checked, setChecked] = useState(false);
   const [checked2, setChecked2] = useState(true);
@@ -12,7 +12,7 @@ const GetReady = ({ }) => {
       setCount((count) => count + 1);
     }, 500);
     return () => clearInterval(interval);
-  });
+  }, [setChecked2, count]);
 
   return (
     <Box sx={{ height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

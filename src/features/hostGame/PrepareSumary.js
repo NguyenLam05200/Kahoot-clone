@@ -6,7 +6,7 @@ import {
   sumary
 } from './gameSlice';
 
-const PrepareSumary = ({ }) => {
+const PrepareSumary = () => {
   const containerRef = useRef(null);
 
   const [firstAnimate, setFirstAnimate] = useState(true);
@@ -22,7 +22,7 @@ const PrepareSumary = ({ }) => {
     window.setTimeout(function () {
       dispatch(sumary())
     }, 8000);
-  }, [])
+  }, [dispatch])
 
   return (
     <Box

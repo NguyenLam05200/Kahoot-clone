@@ -1,11 +1,10 @@
 import { Box } from '@mui/material'
-import { useEffect, useCallback, useState } from 'react';
+import { useEffect } from 'react';
 
 import { useSelector, useDispatch } from "react-redux";
 import {
     getRoomByID,
     gameSelector,
-    setStateLoadingPin,
     getPinSuccess,
     joinPlayer,
     leavePlayer,
@@ -33,35 +32,33 @@ import { Navigate, useParams } from "react-router-dom";
 import { parseJwt } from '../../utils/axios';
 
 const GameHost = () => {
-    const { status, curRoom } = useSelector(
+    const { status } = useSelector(
         gameSelector
     );
     const dispatch = useDispatch();
 
-
-    const getPinOnEmit = (newPin) => {
-        window.setTimeout(function () {
-            dispatch(getPinSuccess(newPin))
-        }, 3000);
-    };
-
     const roomID = useParams().roomID
 
-    const getReportOnEmit = (reportDataAnalyst) => {
-        dispatch(prepareSumary(reportDataAnalyst))
-        const newReport = {
-            quizID: roomID,
-            percentRightTotal: reportDataAnalyst.percentRightTotal,
-            players: reportDataAnalyst.players,
-            timeStart: reportDataAnalyst.timeStart,
-            timeEnd: reportDataAnalyst.timeEnd,
-            analysisResults: reportDataAnalyst.reportData,
-            listCountChooseAns: reportDataAnalyst.listCountChooseAns,
-        }
-        dispatch(addNewReport(newReport))
-    }
-
     useEffect(() => {
+        const getPinOnEmit = (newPin) => {
+            window.setTimeout(function () {
+                dispatch(getPinSuccess(newPin))
+            }, 3000);
+        };
+        const getReportOnEmit = (reportDataAnalyst) => {
+            dispatch(prepareSumary(reportDataAnalyst))
+            const newReport = {
+                quizID: roomID,
+                percentRightTotal: reportDataAnalyst.percentRightTotal,
+                players: reportDataAnalyst.players,
+                timeStart: reportDataAnalyst.timeStart,
+                timeEnd: reportDataAnalyst.timeEnd,
+                analysisResults: reportDataAnalyst.reportData,
+                listCountChooseAns: reportDataAnalyst.listCountChooseAns,
+            }
+            dispatch(addNewReport(newReport))
+        }
+
         window.setTimeout(function () {
             dispatch(getRoomByID(roomID))
         }, 3000);
@@ -81,7 +78,7 @@ const GameHost = () => {
             socket.off('CREATE_PIN', getPinOnEmit);
             socket.off('PREPARE_SUMARY', getReportOnEmit)
         };
-    }, []);
+    }, [dispatch, roomID]);
 
     const token = localStorage.kahut_app_accessToken
     if (token) {

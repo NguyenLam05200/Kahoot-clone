@@ -29,17 +29,17 @@ export const PlayerPage = () => {
 
     const dispatch = useDispatch();
 
-    const handlePinResult = (message) => {
-        window.setTimeout(function () {
-            dispatch(sendPinResult(message))
-        }, 500);
-    };
-
-    const startGame = () => {
-        dispatch(ready())
-    };
-
     useEffect(() => {
+        const handlePinResult = (message) => {
+            window.setTimeout(function () {
+                dispatch(sendPinResult(message))
+            }, 500);
+        };
+
+        const startGame = () => {
+            dispatch(ready())
+        };
+
         Socket.emit('HAND_SHAKE')
         Socket.on('ENTER_PIN', handlePinResult)
         Socket.on('START_GAME', startGame)
@@ -58,7 +58,7 @@ export const PlayerPage = () => {
             Socket.off('ENTER_PIN', handlePinResult);
             Socket.off('START_GAME', startGame)
         };
-    }, []);
+    }, [dispatch]);
 
     return (
         <Box height="100vh"  >

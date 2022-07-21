@@ -1,10 +1,10 @@
-import { Box, Stack, Paper, Grid, Typography, Button, CircularProgress } from '@mui/material'
+import { Box, Stack, Typography, Button } from '@mui/material'
 
 import { useSelector, useDispatch } from "react-redux";
 import { playerSelector, chooseAnswer } from './playerSlice';
 import { useState, useEffect } from 'react';
 
-const ReadQuestion = ({ }) => {
+const ReadQuestion = () => {
   const { name, questions, curQuestion, score, timeReadQuestion } = useSelector(
     playerSelector
   );

@@ -1,13 +1,12 @@
-import { Box, Stack, Paper, Grid, Typography, Button } from '@mui/material'
-import { experimentalStyled as styled } from '@mui/material/styles';
+import { Box, Typography, Button } from '@mui/material'
 
 import { useSelector, useDispatch } from "react-redux";
-import { playerSelector, timeUp, correctAns, incorrectAns, sendResult } from './playerSlice';
+import { playerSelector, timeUp, sendResult } from './playerSlice';
 
 import { useEffect, useState } from 'react';
 import { answerUI } from '../../components/AnswerUI';
 
-const ChooseAnswer = ({ }) => {
+const ChooseAnswer = () => {
   const { name, questions, curQuestion, score } = useSelector(
     playerSelector
   );

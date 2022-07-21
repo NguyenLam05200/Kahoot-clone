@@ -91,7 +91,7 @@ const generateMedal = (rating, point, correct, total) => {
   )
 }
 
-const Sumary = ({ }) => {
+const Sumary = () => {
   const containerRef = useRef(null);
   const dispatch = useDispatch();
   const { scoreBoard, curRoom } = useSelector(

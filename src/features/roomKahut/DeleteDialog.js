@@ -48,8 +48,8 @@ function stringAvatar(name) {
 
 
 const DeleteDialog = (props) => {
-    const { t, i18n } = useTranslation();
-    const { listRoom, curRoom, isShowDeleteDialog } = useSelector(
+    const { t } = useTranslation();
+    const { curRoom, isShowDeleteDialog } = useSelector(
         roomSelector
     );
     const dispatch = useDispatch();

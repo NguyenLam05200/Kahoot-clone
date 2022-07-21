@@ -7,14 +7,13 @@ import Dashboard from "../../features/roomKahut/Dashboard";
 import { HomePage } from "../landingPages/HomePage";
 
 import { Routes, Route } from "react-router-dom";
-import { Container, Paper } from "@mui/material";
+import { Paper } from "@mui/material";
 import Library from "../../features/roomKahut/Library";
 import GameHost from "../../features/hostGame/index";
 import { AuthLayout } from "../../components/AuthLayout";
 import LoginForm from "../../features/user/LoginForm";
 import SignupForm from "../../features/user/SignupForm";
 import Report from "../../features/roomKahut/Report";
-import Discover from "../../features/roomKahut/Discover";
 import CreateKahut from "../../features/roomKahut/CreateKahut";
 import Details from "../../features/roomKahut/Details";
 import Edit from "../../features/roomKahut/Edit";

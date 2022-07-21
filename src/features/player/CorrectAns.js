@@ -1,11 +1,10 @@
-import { Box, Stack, Paper, Grid, Typography, Button, CircularProgress } from '@mui/material'
+import { Box, Stack, Typography, Button } from '@mui/material'
 
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { playerSelector } from './playerSlice';
-import { useState, useEffect } from 'react';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
-const CorrectAns = ({ }) => {
+const CorrectAns = () => {
   const { name, questions, curQuestion, score, point } = useSelector(
     playerSelector
   );
