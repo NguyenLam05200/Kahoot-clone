@@ -90,7 +90,11 @@ export const userSlice = createSlice({
     [loginUser.rejected]: (state, { payload }) => {
       state.isFetching = false;
       state.isError = true;
-      state.errorMessage = payload.error;
+      if (payload.error) {
+        state.errorMessage = payload.error;
+      } else {
+        state.errorMessage = 'Connect server fail'
+      }
     },
     [loginUser.pending]: (state) => {
       state.isFetching = true;
