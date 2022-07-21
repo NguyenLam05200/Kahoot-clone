@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/Kahoot-frontend/static/css/main.e4737bc0.css",
+    "main.js": "/Kahoot-frontend/static/js/main.26f86b2f.js",
+    "static/js/787.cda612ba.chunk.js": "/Kahoot-frontend/static/js/787.cda612ba.chunk.js",
+    "static/media/showResultSound.mp3": "/Kahoot-frontend/static/media/showResultSound.a65da7fcc0c2a3890664.mp3",
+    "static/media/startGameSound.mp3": "/Kahoot-frontend/static/media/startGameSound.a154c54aaf6b62008879.mp3",
+    "static/media/scoreBoardSound.mp3": "/Kahoot-frontend/static/media/scoreBoardSound.ac4f9968bf4d00be6da4.mp3",
+    "static/media/readQuestionSound.mp3": "/Kahoot-frontend/static/media/readQuestionSound.69c4c3c812a28ea633dd.mp3",
+    "static/media/chooseAnswerSound.mp3": "/Kahoot-frontend/static/media/chooseAnswerSound.6c3aacb3458bea9dad67.mp3",
+    "static/media/sumarySound.mp3": "/Kahoot-frontend/static/media/sumarySound.0d25d3fc8a0a2c4f3ae3.mp3",
+    "index.html": "/Kahoot-frontend/index.html",
+    "static/media/social-google.svg": "/Kahoot-frontend/static/media/social-google.a57081bd95c2519caad91216a8dba3ad.svg",
+    "main.e4737bc0.css.map": "/Kahoot-frontend/static/css/main.e4737bc0.css.map",
+    "main.26f86b2f.js.map": "/Kahoot-frontend/static/js/main.26f86b2f.js.map",
+    "787.cda612ba.chunk.js.map": "/Kahoot-frontend/static/js/787.cda612ba.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e4737bc0.css",
+    "static/js/main.26f86b2f.js"
+  ]
+}
