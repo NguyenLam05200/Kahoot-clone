@@ -8,3 +8,14 @@ export function handleRegisterApi(dataInput) {
   return instanceAuth.post('register', dataInput);
 }
 
+export function handleRefreshTokenApi() {
+  return instanceAuth.post('keepalive',
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("kahut_app_accessToken")}`,
+        Accept: "application/json",
+      }
+    });
+}
+

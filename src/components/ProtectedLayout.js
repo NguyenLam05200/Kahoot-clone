@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from "react-i18next";
 import { useDispatch } from 'react-redux';
 
@@ -36,6 +36,7 @@ import {
 } from '../features/roomKahut/roomSlice';
 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { refreshToken } from '../features/user/userSlice';
 const pagesLeft = ['Home', 'Discover', 'Library', 'Reports'];
 
 
@@ -47,6 +48,14 @@ export const ProtectedLayout = () => {
 
   const [anchorElNav, setAnchorElNav] = useState(null);
   // const [anchorElUser, setAnchorElUser] = useState(null);
+
+  // refresh token
+  useEffect(() => {
+    const interval = setInterval(() => {
+      dispatch(refreshToken())
+    }, 300000);
+    return () => clearInterval(interval);
+  }, [dispatch])
 
   // hook for Create menu
   const [anchorElCreate, setAnchorElCreate] = useState(null);

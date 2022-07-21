@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { handleLoginApi, handleRegisterApi } from './userAPI';
+import { handleLoginApi, handleRegisterApi, handleRefreshTokenApi } from './userAPI';
 
 export const signupUser = createAsyncThunk(
   'users/signupUser',
@@ -29,6 +29,24 @@ export const loginUser = createAsyncThunk(
         return thunkAPI.rejectWithValue(response.data);
       }
     } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const refreshToken = createAsyncThunk(
+  'users/refreshToken',
+  async (thunkAPI) => {
+    try {
+      const response = await handleRefreshTokenApi()
+      if (response.status === 200) {
+        console.log('response data token: ', response.data.token);
+        return true;
+      } else {
+        return thunkAPI.rejectWithValue(response.data);
+      }
+    } catch (error) {
+      console.log('catch error: ', error);
       return thunkAPI.rejectWithValue(error.response.data);
     }
   }

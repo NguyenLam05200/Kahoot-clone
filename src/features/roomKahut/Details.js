@@ -87,14 +87,14 @@ function stringAvatar(name) {
 }
 
 function NestedList(props) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const listQuestion = props.listQuestion;
 
   const [open, setOpen] = useState(new Array(listQuestion.length).fill(false));
 
   useEffect(() => {
     setOpen(new Array(listQuestion.length).fill(props.isShowAnswer))
-  }, [props.isShowAnswer])
+  }, [props.isShowAnswer, listQuestion])
   // setOpen()
   const handleClick = (event, index) => {
     open[index] = !open[index]
@@ -115,7 +115,7 @@ function NestedList(props) {
     >
       {listQuestion.map((eachQuestion, index) => {
         return (
-          <Box key={index} sx={{ boxShadow: 5, backgroundColor: "white" }}>
+          <Box key={'question ' + index} sx={{ boxShadow: 5, backgroundColor: "white" }}>
             <ListItem
               alignItems='flex-start'
               sx={{
@@ -238,7 +238,7 @@ const Details = () => {
 
   const roomID = useParams().roomID;
   const navigate = useNavigate();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const [isShowAnswer, setIsShowAnswer] = useState(false);
 
@@ -247,12 +247,12 @@ const Details = () => {
   useEffect(() => {
     let isHaveRoom = false;
 
-    listRoom.map((eachRoom, index) => {
+    for (const [index, eachRoom] of listRoom.entries()) {
       if (eachRoom._id === roomID) {
         isHaveRoom = true;
         dispatch(setInitCurRoom(index));
       }
-    });
+    }
 
     if (!isHaveRoom) {
       dispatch(getRoomByID(roomID));
@@ -260,7 +260,7 @@ const Details = () => {
     return () => {
       dispatch(clearState());
     };
-  }, []);
+  }, [dispatch, listRoom, roomID]);
 
   useEffect(() => {
     if (isError) {
@@ -275,7 +275,7 @@ const Details = () => {
     if (status === "delete") {
       navigate("/user/library");
     }
-  }, [isError, isSuccess, status]);
+  }, [isError, isSuccess, status, dispatch, navigate]);
 
   const userName = parseJwt(localStorage.kahut_app_accessToken).name;
   return (

@@ -73,7 +73,7 @@ const Input = styled("input")({
 });
 
 const Edit = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { listRoom, curRoom, isError, isSuccess, isFetching, status } =
     useSelector(roomSelector);
 
@@ -84,12 +84,18 @@ const Edit = () => {
   useEffect(() => {
     let isHaveRoom = false;
 
-    listRoom.map((eachRoom, index) => {
+    for (const [index, eachRoom] of listRoom.entries()) {
       if (eachRoom._id === roomID) {
         isHaveRoom = true;
         dispatch(setInitCurRoom(index));
       }
-    });
+    }
+    // listRoom.map((eachRoom, index) => {
+    //   if (eachRoom._id === roomID) {
+    //     isHaveRoom = true;
+    //     dispatch(setInitCurRoom(index));
+    //   }
+    // });
 
     if (!isHaveRoom) {
       dispatch(getRoomByID(roomID));
@@ -97,7 +103,7 @@ const Edit = () => {
     return () => {
       dispatch(clearState());
     };
-  }, []);
+  }, [dispatch, listRoom, roomID]);
 
   useEffect(() => {
     if (isError) {
@@ -112,7 +118,7 @@ const Edit = () => {
     if (status === "edit") {
       navigate("/user/library");
     }
-  }, [isError, isSuccess, status]);
+  }, [isError, isSuccess, status, dispatch, navigate]);
 
   const [listQuestion, setListQuestion] = useState([]);
 
@@ -120,6 +126,7 @@ const Edit = () => {
   const [roomImage, setRoomImage] = useState("");
   const [isAddMore, setIsAddMore] = useState(null);
 
+  const [curQuestion, setCurQuestion] = useState(0);
   useEffect(() => {
     if (listQuestion.length === 0 && curRoom) {
       setListQuestion(JSON.parse(JSON.stringify(curRoom.questions)));
@@ -136,10 +143,9 @@ const Edit = () => {
     if (!isAddMore && curRoom) {
       setIsAddMore(curRoom.questions[curQuestion].ans.length <= 4);
     }
-  }, [curRoom]);
+  }, [curRoom, listQuestion, curQuestion, isAddMore, roomImage, roomTitle]);
 
   // Left side:
-  const [curQuestion, setCurQuestion] = useState(0);
   const [curHover, setCurHover] = useState(-1);
   const [curHoverAnscheck, setCurHoverAnscheck] = useState(-1);
 
@@ -186,7 +192,8 @@ const Edit = () => {
   const handleClickSaveKahut = () => {
     let isOK = true;
 
-    listQuestion.map((eachQuestion, index) => {
+    for (const [index, eachQuestion] of listQuestion.entries()) {
+      // listQuestion.map((eachQuestion, index) => {
       if (!eachQuestion.text) {
         isOK = false;
         enqueueSnackbar(
@@ -198,7 +205,7 @@ const Edit = () => {
       let isChooseAnswerCorrect = false;
       let isErrorAddanswer = false;
       // let msgError = '';
-      eachQuestion.ans.map((eachAns, i) => {
+      eachQuestion.ans.forEach(eachAns => {
         if (!eachAns.text) {
           // msgError += ' ' + i + ',';
           isErrorAddanswer = true;
@@ -220,7 +227,7 @@ const Edit = () => {
           { variant: "error" }
         );
       }
-    });
+    };
     if (isOK) {
       setOpenDialogSave(true);
     }
@@ -286,14 +293,14 @@ const Edit = () => {
     if (QuestionPersist.type !== 1) {
       QuestionPersist.ans[value].isRight = !QuestionPersist.ans[value].isRight;
       let i = 0;
-      QuestionPersist.ans.map((eachAns) => {
+      QuestionPersist.ans.forEach(eachAns => {
         eachAns.isRight && i++;
       });
       if (i > 1) QuestionPersist.type = 2;
       else if (i === 1) QuestionPersist.type = 0;
       if (i === 1 && QuestionPersist.ans.length === 2) QuestionPersist.type = 1;
     } else {
-      QuestionPersist.ans.map((eachAns, i) => {
+      QuestionPersist.ans.forEach(eachAns => {
         eachAns.isRight = !eachAns.isRight;
       });
     }
@@ -376,7 +383,7 @@ const Edit = () => {
     if (listQuestion.length !== 0) {
       setIsAddMore(listQuestion[curQuestion].ans.length <= 4);
     }
-  }, [curQuestion]);
+  }, [curQuestion, listQuestion]);
 
   const handleClickAddMoreAnswer = () => {
     if (isAddMore) {

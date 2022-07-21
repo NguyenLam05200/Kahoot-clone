@@ -126,9 +126,8 @@ const ScoreBoard = () => {
                         }}>Every one have been 0 points</Typography>
                         :
                         scoreBoard.map((eachResult, index) => (
-
                             <Stack
-                                key={index}
+                                key={'reuslt' + index}
                                 direction='row'
                                 sx={{
                                     width: '100%',

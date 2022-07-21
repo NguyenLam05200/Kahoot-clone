@@ -159,7 +159,7 @@ function NestedList(props) {
     >
       {reportDataAnalyst.map((eachReport, index) => {
         return (
-          <Box key={index} sx={{ boxShadow: 5, backgroundColor: 'white', px: 1 }}>
+          <Box key={eachReport._id} sx={{ boxShadow: 5, backgroundColor: 'white', px: 1 }}>
             <ListItem
               alignItems='flex-start'
               key={index}

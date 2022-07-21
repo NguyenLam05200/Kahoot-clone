@@ -176,7 +176,7 @@ function NestedList(props) {
         >
             {reportDataAnalyst.map((eachReport, index) => {
                 return (
-                    <Box key={index} sx={{ boxShadow: 5, backgroundColor: 'white' }}>
+                    <Box key={'eachReport' + index} sx={{ boxShadow: 5, backgroundColor: 'white' }}>
                         {
                             curRoom ?
                                 <React.Fragment>

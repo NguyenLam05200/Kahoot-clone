@@ -172,7 +172,7 @@ const ChooseAns = () => {
             >
                 {question.ans.map((eachAns, index) => (
                     <Box
-                        key={index}
+                        key={eachAns.id}
                         sx={{
                             backgroundColor: answerUI[index].bgColor,
                             color: 'white',

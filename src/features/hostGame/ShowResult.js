@@ -1,5 +1,5 @@
-import { Box, Typography, Stack, IconButton, Dialog, Button, DialogContent, Slide } from '@mui/material'
-import { useState, useEffect, forwardRef } from 'react';
+import { Box, Typography, Stack, Dialog, Button, DialogContent, Slide } from '@mui/material'
+import { useState, forwardRef } from 'react';
 
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -92,7 +92,7 @@ const ShowResult = () => {
                 <Stack spacing={2} direction='row' sx={{ height: '100%', alignItems: 'flex-end', py: 2 }}>
                     {countEachAns.map((total, index) => (
                         <Box
-                            key={index}
+                            key={'total' + index}
                             sx={{
                                 width: '12vw',
                                 height: total / Math.max(...countEachAns) * (92 / 100),
@@ -170,7 +170,7 @@ const ShowResult = () => {
             >
                 {question.ans.map((eachAns, index) => (
                     <Box
-                        key={index}
+                        key={'ans' + index}
                         sx={{
                             backgroundColor: answerUI[index].bgColor,
                             color: 'white',

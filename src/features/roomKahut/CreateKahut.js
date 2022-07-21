@@ -70,7 +70,7 @@ const Input = styled("input")({
 
 const CreateKahut = () => {
   const dispatch = useDispatch();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const { isFetching, isSuccess, isError, status } = useSelector(
     roomSelector
@@ -83,7 +83,7 @@ const CreateKahut = () => {
     return () => {
       dispatch(clearState());
     };
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (isError) {
@@ -103,7 +103,7 @@ const CreateKahut = () => {
     if (status === 'create') {
       navigate('/user/library')
     }
-  }, [isError, isSuccess, status]);
+  }, [isError, isSuccess, status, dispatch, navigate, open]);
 
   const [listQuestion, setListQuestion] = useState([
     JSON.parse(JSON.stringify(schemaQuiz)),
@@ -143,16 +143,17 @@ const CreateKahut = () => {
     if (QuestionPersist.type !== 1) {
       QuestionPersist.ans[value].isRight = !QuestionPersist.ans[value].isRight;
       let i = 0;
-      QuestionPersist.ans.map((eachAns) => {
-        eachAns.isRight && i++;
-      });
+      QuestionPersist.ans.forEach(eachAns => { eachAns.isRight && i++; })
+
       if (i > 1) QuestionPersist.type = 2;
       else if (i === 1) QuestionPersist.type = 0;
       if (i === 1 && QuestionPersist.ans.length === 2) QuestionPersist.type = 1;
     } else {
-      QuestionPersist.ans.map((eachAns, i) => {
-        eachAns.isRight = !eachAns.isRight;
-      });
+      QuestionPersist.ans.forEach(eachAns => { eachAns.isRight = !eachAns.isRight; })
+
+      // QuestionPersist.ans.map((eachAns, i) => {
+      //   eachAns.isRight = !eachAns.isRight;
+      // });
     }
     setListQuestion([...listQuestion]);
   };
@@ -162,7 +163,7 @@ const CreateKahut = () => {
   );
   useEffect(() => {
     setIsAddMore(listQuestion[curQuestion].ans.length <= 4);
-  }, [curQuestion]);
+  }, [curQuestion, listQuestion]);
 
   const handleClickAddMoreAnswer = () => {
     if (isAddMore) {
@@ -292,7 +293,8 @@ const CreateKahut = () => {
 
   const handleClickSaveKahut = () => {
     let isOK = true;
-    listQuestion.map((eachQuestion, index) => {
+    for (const [index, eachQuestion] of listQuestion.entries()) {
+      // listQuestion.map((eachQuestion, index) => {
       if (!eachQuestion.text) {
         isOK = false;
         enqueueSnackbar(
@@ -304,7 +306,7 @@ const CreateKahut = () => {
       let isChooseAnswerCorrect = false;
       let isErrorAddanswer = false;
       // let msgError = '';
-      eachQuestion.ans.map((eachAns, i) => {
+      eachQuestion.ans.forEach(eachAns => {
         if (!eachAns.text) {
           // msgError += ' ' + i + ',';
           isErrorAddanswer = true;
@@ -313,6 +315,7 @@ const CreateKahut = () => {
           isChooseAnswerCorrect = true;
         }
       });
+
       if (isErrorAddanswer) {
         isOK = false;
         enqueueSnackbar("Quiz " + (index + 1) + " : Please add all answer", {
@@ -326,7 +329,8 @@ const CreateKahut = () => {
           { variant: "error" }
         );
       }
-    });
+    };
+
     if (isOK) {
       setOpenDialogSave(true);
     }
@@ -864,7 +868,7 @@ const CreateKahut = () => {
                   }}
                 >
                   {listQuestion[curQuestion].img
-                    ? t("hange image")
+                    ? t("Change image")
                     : t("Upload image")}
                 </Button>
               </label>

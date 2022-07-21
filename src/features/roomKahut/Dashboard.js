@@ -1,6 +1,7 @@
+import React from 'react';
 import { Chip, Box, Stack, Grid, Button, Typography, Link, Divider } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add';
-import { useTranslation,  } from "react-i18next";
+import { useTranslation, } from "react-i18next";
 import {
   useEffect,
 } from 'react';
@@ -239,7 +240,7 @@ const itemData2 = [
 ]
 
 const Dashboard = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { listRoom } = useSelector(
     roomSelector
   );
@@ -256,7 +257,7 @@ const Dashboard = () => {
     return () => {
       dispatch(clearState());
     };
-  }, [])
+  }, [dispatch, listRoom])
 
   return (
     <Grid rowSpacing={2} columnSpacing={0} container my={1}
@@ -295,7 +296,7 @@ const Dashboard = () => {
             color: '#6e6e83',
           }}>
             <Typography variant="subtitle2" sx={{ width: '50%', py: 1 }}>
-            {t("Plan")}:
+              {t("Plan")}:
             </Typography>
 
             <Link
@@ -372,7 +373,7 @@ const Dashboard = () => {
           }}
         >
           <Typography variant="subtitle1" sx={{ py: 1, fontWeight: 'bold' }}>
-           {t(" My kahuts")}
+            {t(" My kahuts")}
           </Typography>
           <Divider />
           {listRoom.map((eachRoom, index) => {
@@ -380,7 +381,8 @@ const Dashboard = () => {
               return (
                 <Box
                   onClick={() => navigate(`/user/details/${eachRoom._id}`)}
-                  key={index} sx={{
+                  key={eachRoom._id}
+                  sx={{
                     width: '100%',
                     height: '6rem',
                     border: '1px solid grey',
@@ -418,6 +420,7 @@ const Dashboard = () => {
                 </Box>
               )
             }
+            return (<React.Fragment key={eachRoom._id} ></React.Fragment>)
           })}
           <Box textAlign='center' mt={2}>
             <Link
@@ -466,7 +469,7 @@ const Dashboard = () => {
             </Stepper>
           </Stack>
         </Box>
-        <Box p={3} bgcolor='#c9c493'
+        <Box p={3} bgcolor='#097da5'
           sx={{
             m: 2,
             boxShadow: 3,
@@ -478,7 +481,7 @@ const Dashboard = () => {
           <Box bgColor='success' width='50%' marginRight={2}>
             <Stack spacing={2} >
               {itemData.map((item, index) => (
-                <Card key={index} sx={{ display: 'flex', backgroundImage: 'linear-gradient(90deg, rgba(181,222,231,1) 0%, rgba(2,0,36,1) 100%)' }}>
+                <Card key={index} sx={{ display: 'flex', backgroundImage: 'linear-gradient(to right, #ffffff 0%, #ff99cc 100%)' }}>
                   <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
                     <CardContent sx={{ flex: '1 0 auto' }}>
                       <Typography component="div" variant="h5">
@@ -513,7 +516,7 @@ const Dashboard = () => {
           <Box width='50%'>
             <Stack spacing={2} >
               {itemData2.map((item, index) => (
-                <Card key={index} sx={{ display: 'flex', backgroundImage: 'linear-gradient(90deg, rgba(181,222,231,1) 0%, rgba(2,0,36,1) 100%)' }}>
+                <Card key={index} sx={{ display: 'flex', backgroundImage: 'linear-gradient(to right, #ffffff 0%, #ccff99 100%)' }}>
                   <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
                     <CardContent sx={{ flex: '1 0 auto' }}>
                       <Typography component="div" variant="h5">
