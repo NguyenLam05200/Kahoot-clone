@@ -298,12 +298,10 @@ const Edit = () => {
   };
 
   const handleChangeCorrectAns = (event, value) => {
-    console.log('VALUE: ', value);
     let QuestionPersist = listQuestion[curQuestion];
 
     if (QuestionPersist.type !== 1) { // NOT TRUE OR FALSE
       // change correct ans
-      console.log('here');
       QuestionPersist.ans[value].isRight = !QuestionPersist.ans[value].isRight;
 
       // change type question
