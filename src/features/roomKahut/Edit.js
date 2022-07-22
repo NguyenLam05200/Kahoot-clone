@@ -167,14 +167,24 @@ const Edit = () => {
   const openAddQuestion = Boolean(anchorElAddQuestion);
   const handleMenuItemClickAddQuestion = (event, type) => {
     if (type === 0) {
+      let newQuestionSchema = JSON.parse(JSON.stringify(schemaQuiz))
+      newQuestionSchema.id = '1' + (listQuestion.length + 1);
+      for (const [indexEachAns, eachAns] of newQuestionSchema.ans.entries()) {
+        eachAns.id = newQuestionSchema.id + '' + (indexEachAns + 1)
+      }
       setListQuestion([
         ...listQuestion,
-        JSON.parse(JSON.stringify(schemaQuiz)),
+        newQuestionSchema,
       ]);
     } else if (type === 1) {
+      let newQuestionSchema = JSON.parse(JSON.stringify(schemaTrueOrFalse))
+      newQuestionSchema.id = '1' + (listQuestion.length + 1);
+      for (const [indexEachAns, eachAns] of newQuestionSchema.ans.entries()) {
+        eachAns.id = newQuestionSchema.id + '' + (indexEachAns + 1)
+      }
       setListQuestion([
         ...listQuestion,
-        JSON.parse(JSON.stringify(schemaTrueOrFalse)),
+        newQuestionSchema,
       ]);
     }
     setCurQuestion(listQuestion.length);
@@ -288,10 +298,15 @@ const Edit = () => {
   };
 
   const handleChangeCorrectAns = (event, value) => {
+    console.log('VALUE: ', value);
     let QuestionPersist = listQuestion[curQuestion];
 
-    if (QuestionPersist.type !== 1) {
+    if (QuestionPersist.type !== 1) { // NOT TRUE OR FALSE
+      // change correct ans
+      console.log('here');
       QuestionPersist.ans[value].isRight = !QuestionPersist.ans[value].isRight;
+
+      // change type question
       let i = 0;
       QuestionPersist.ans.forEach(eachAns => {
         eachAns.isRight && i++;

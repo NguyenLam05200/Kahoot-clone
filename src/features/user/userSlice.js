@@ -40,13 +40,12 @@ export const refreshToken = createAsyncThunk(
     try {
       const response = await handleRefreshTokenApi()
       if (response.status === 200) {
-        console.log('response data token: ', response.data.token);
+        localStorage.setItem("kahut_app_accessToken", response.data.token);
         return true;
       } else {
         return thunkAPI.rejectWithValue(response.data);
       }
     } catch (error) {
-      console.log('catch error: ', error);
       return thunkAPI.rejectWithValue(error.response.data);
     }
   }
