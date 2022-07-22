@@ -51,7 +51,16 @@ export async function formatInputCreate(dataInput) {
 }
 
 export async function handleCreate(newKahutRoom) {
-  return instance.post('quiz', newKahutRoom)
+  return axios.post(`${process.env.REACT_APP_BACK_END_OTHER}quiz`,
+    newKahutRoom,
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("kahut_app_accessToken")}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      }
+    })
+  // return instance.post('quiz', newKahutRoom)
 }
 
 export function handleGetAllRoom() {

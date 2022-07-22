@@ -55,7 +55,7 @@ const ReadQuestion = () => {
           justifyContent: 'center',
           display: 'flex',
         }}>
-          {curQuestion !== null ? questions[curQuestion].type : 'Type of question'}
+          {curQuestion !== null ? questions[curQuestion].type : questions[questions.length - 1].type}
         </Typography>
       </Box>
       <Box
